@@ -1,10 +1,10 @@
-package com.TTT_backend;
+package com.ttt.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TttBackendApplicationTests {
+class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
