@@ -7,31 +7,21 @@ function Navbar() {
       <Link className="navbar-brand" to="/">
         Home
       </Link>
-
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item active"></li>
-          <li className="nav-item"></li>
-          <li className="nav-item dropdown">
-            <div
-              className="dropdown-menu"
-              aria-labelledby="navbarDropdown"
-            ></div>
-          </li>
-          <li className="nav-item"></li>
-        </ul>
-        <button
+      <div className="ml-auto">
+        <Link
           className="btn btn-outline-dark my-2 my-sm-0 mx-2"
           type="submit"
+          to="/signUp"
         >
           Sing up
-        </button>
-        <button
-          className="btn btn-outline-dark my-2 my-sm-0 mx-2"
+        </Link>
+        <Link
+          className="btn btn-outline-dark my-2 my-sm-0 mx-2 justify-content-end"
           type="submit"
+          to="/signIn"
         >
           Sign in
-        </button>
+        </Link>
       </div>
     </nav>
   );
