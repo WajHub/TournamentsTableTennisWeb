@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class RefreshTokenService {
+
     @Value("${security.refresh_jwt.expiration-time}")
     private Long refreshTokenDurationMs;
 
@@ -29,7 +30,8 @@ public class RefreshTokenService {
     }
 
     public RefreshToken createRefreshToken(Long userId) {
-        RefreshToken refreshToken = new RefreshToken();
+        RefreshToken refreshToken = refreshTokenRepository.findByUser(userRepository.findById(userId).get())
+                .orElse(new RefreshToken());
 
         refreshToken.setUser(userRepository.findById(userId).get());
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
