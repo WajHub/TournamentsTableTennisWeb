@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("http://localhost:3000/")
 public class TestController {
 
-    @GetMapping("/test")
+    @GetMapping("/api/admin/test")
     String getHome(){
         return "Hello from backend";
+    }
+    @GetMapping("/user")
+    String getHome2(){
+        return "Hello for User";
     }
 }
