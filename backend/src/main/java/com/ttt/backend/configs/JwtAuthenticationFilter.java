@@ -42,9 +42,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+        String jwt = null;
+        String userEmail;
         try {
-            String jwt = getJwt(request);
-            String userEmail = jwtService.extractUsername(jwt);
+            jwt = getJwt(request);
+            userEmail = jwtService.extractUsername(jwt);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (userEmail != null && authentication == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
@@ -62,6 +64,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
+//            if(jwt != null && jwtService.isTokenExpired(jwt)){
+//                throw new
+//            }
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }
         filterChain.doFilter(request, response);
@@ -69,10 +74,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String getJwt(  @NonNull HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                String accessToken = cookie.getValue();
-                return accessToken;
+        if(cookies != null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    return cookie.getValue();
+                }
             }
         }
         return null;

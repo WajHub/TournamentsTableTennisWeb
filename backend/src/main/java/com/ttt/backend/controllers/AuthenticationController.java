@@ -4,30 +4,29 @@ package com.ttt.backend.controllers;
 import com.ttt.backend.dto.LoginUserDto;
 import com.ttt.backend.dto.RegisterUserDto;
 import com.ttt.backend.exception.TokenRefreshException;
+import com.ttt.backend.exception.UserNotFoundException;
 import com.ttt.backend.models.RefreshToken;
 import com.ttt.backend.models.User;
 import com.ttt.backend.payload.request.TokenRefreshRequest;
 import com.ttt.backend.payload.response.JwtResponse;
-import com.ttt.backend.payload.response.MessageResponse;
 import com.ttt.backend.payload.response.TokenRefreshResponse;
 import com.ttt.backend.services.AuthenticationService;
 import com.ttt.backend.services.JwtService;
 import com.ttt.backend.services.RefreshTokenService;
+import com.ttt.backend.services.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("http://localhost:3000")
 @RequestMapping("/auth")
@@ -39,13 +38,16 @@ public class AuthenticationController {
 
     private final RefreshTokenService refreshTokenService;
 
+    private final UserService userService;
+
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
-    
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, RefreshTokenService refreshTokenService) {
+
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, RefreshTokenService refreshTokenService, UserService userService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
         this.refreshTokenService = refreshTokenService;
+        this.userService = userService;
     }
 
     @PostMapping("/signup")
@@ -91,6 +93,17 @@ public class AuthenticationController {
         response.addCookie(jwtCookie);
 
         return ResponseEntity.ok("Logged out successfully");
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<Object> getUserDetails(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String userEmail = userDetails.getUsername();
+        Optional<User> user= this.userService.getByEmail(userEmail);
+        if (!user.isPresent())
+            return new ResponseEntity<>(new UserNotFoundException("User not found"), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(userDetails, HttpStatus.OK) ;
     }
 
     @PostMapping("/refreshtoken")
