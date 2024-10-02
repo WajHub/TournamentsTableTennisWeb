@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
@@ -72,7 +72,7 @@ public class AuthenticationController {
 
         Cookie cookie = new Cookie("token", jwtToken);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+//        cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setMaxAge((int) (jwtExpiration/60));
 
@@ -83,41 +83,47 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signout")
-    public ResponseEntity<?> logoutUser(HttpServletResponse response, @CookieValue(value = "token", required = false) String token) {
-        Cookie jwtCookie = new Cookie("token", null);
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setSecure(true);
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(0);
+    public ResponseEntity<?> logoutUser(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", "NONE");
+        cookie.setHttpOnly(true);
+//        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
 
-        response.addCookie(jwtCookie);
-
-        return ResponseEntity.ok("Logged out successfully");
+        return ResponseEntity.ok(("Logged out successfully "+ cookie.getName()+ cookie.getValue()));
     }
 
     @GetMapping("/details")
-    public ResponseEntity<Object> getUserDetails(){
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-        String userEmail = userDetails.getUsername();
-        Optional<User> user= this.userService.getByEmail(userEmail);
-        if (!user.isPresent())
-            return new ResponseEntity<>(new UserNotFoundException("User not found"), HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(userDetails, HttpStatus.OK) ;
+    public ResponseEntity<?> getUserDetails() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String userEmail = ((UserDetails)principal).getUsername();
+            Optional<User> user = this.userService.getByEmail(userEmail);
+            return user.map(u -> new ResponseEntity<>(u, HttpStatus.OK))
+                    .orElseThrow(() -> new UserNotFoundException("User with email " + userEmail + " not found"));
+        } else {
+            return new ResponseEntity<>("User is not authenticated", HttpStatus.UNAUTHORIZED);
+        }
     }
 
-    @PostMapping("/refreshtoken")
-    public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
-        String requestRefreshToken = request.getRefreshToken();
 
-        return refreshTokenService.findByToken(requestRefreshToken)
-                .map(refreshTokenService::verifyExpiration)
-                .map(RefreshToken::getUser)
-                .map(user -> {
-                    String token = jwtService.generateToken(user);
-                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
-                })
-                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
-                        "Refresh token is not in database!"));
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String userEmail = ((UserDetails)principal).getUsername();
+            Optional<User> user = this.userService.getByEmail(userEmail);
+            if (user.isPresent()){
+                String requestRefreshToken = String.valueOf(refreshTokenService.findByUser(user.get()));
+                String newToken = jwtService.generateToken(user.get());
+                return ResponseEntity.ok(new TokenRefreshResponse(newToken, requestRefreshToken));
+            }
+            else{
+                throw new TokenRefreshException("Error", "");
+            }
+        } else {
+            return new ResponseEntity<>(principal.toString(), HttpStatus.UNAUTHORIZED);
+        }
     }
 }

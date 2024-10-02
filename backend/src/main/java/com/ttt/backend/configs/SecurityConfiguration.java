@@ -46,10 +46,10 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout((logout) ->
-                        logout.invalidateHttpSession(true)
+                        logout.logoutUrl("http://localhost:8080/auth/signouta")
+                                .invalidateHttpSession(true)
                                 .clearAuthentication(true)
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/api/admin/logout"))
-                                .logoutSuccessUrl("/api/teams")
+                                .logoutSuccessUrl("http://localhost:3000")
                                 .permitAll());
         return http.build();
     }
@@ -57,9 +57,10 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET","POST"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 

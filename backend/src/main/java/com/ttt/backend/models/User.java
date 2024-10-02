@@ -44,8 +44,6 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @Column
-    private Boolean approved = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -106,9 +104,7 @@ public class User implements UserDetails {
         this.updatedAt = updatedAt;
     }
 
-    public void setApproved(Boolean approved) {
-        this.approved = approved;
-    }
+
 
     public Long getId() {
         return id;
@@ -138,7 +134,4 @@ public class User implements UserDetails {
         return updatedAt;
     }
 
-    public Boolean getApproved() {
-        return approved;
-    }
 }

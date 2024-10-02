@@ -2,6 +2,7 @@ package com.ttt.backend.services;
 
 import com.ttt.backend.exception.TokenRefreshException;
 import com.ttt.backend.models.RefreshToken;
+import com.ttt.backend.models.User;
 import com.ttt.backend.repository.RefreshTokenRepository;
 import com.ttt.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByToken(token);
     }
 
+    public Optional<RefreshToken> findByUser(User user) {return refreshTokenRepository.findByUser(user);}
+
     public RefreshToken createRefreshToken(Long userId) {
         RefreshToken refreshToken = refreshTokenRepository.findByUser(userRepository.findById(userId).get())
                 .orElse(new RefreshToken());
@@ -48,6 +51,8 @@ public class RefreshTokenService {
 
         return token;
     }
+
+
 
     @Transactional
     public int deleteByUserId(Long userId) {

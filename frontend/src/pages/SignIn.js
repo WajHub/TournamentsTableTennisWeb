@@ -1,26 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../components/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import { isAuth } from "../components/AuthProvider";
 
 function SignIn() {
   let navigate = useNavigate();
+  const { user, handleSignIn, handleSignOut } = useAuth();
 
-  const [user, setUser] = useState({
+  const [userDto, setUser] = useState({
     email: "",
     password: "",
   });
 
-  const { email, password } = user;
+  const { email, password } = userDto;
 
   const onInputChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setUser({ ...userDto, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/auth/login", user);
-    navigate("/");
+    handleSignIn(userDto).then(navigate("/"));
   };
+
+  useEffect(() => {
+    if (isAuth(user)) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className="container">
