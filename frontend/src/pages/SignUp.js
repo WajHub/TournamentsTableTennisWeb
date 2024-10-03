@@ -26,14 +26,17 @@ function SignUp() {
         .post("http://localhost:8080/auth/signup", user)
         .then((response) => {
           console.log(response);
-          if (response.ok) {
+          if (response.status == 200) {
             setAlertData({ content: "Success!", typeMessage: "success" });
+            setUser({ email: "", fullName: "", password: "" });
           } else {
-            setAlertData({ content: { response }, typeMessage: "danger" });
+            setAlertData({ content: "ERROR!", typeMessage: "danger" });
+            setUser({ email: "", fullName: "", password: "" });
           }
         });
     } catch (error) {
       setAlertData({ content: error.response.data, typeMessage: "danger" });
+      setUser({ email: "", fullName: "", password: "" });
     }
   };
 
