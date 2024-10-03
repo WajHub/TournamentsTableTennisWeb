@@ -79,7 +79,7 @@ public class AuthenticationController {
         response.addCookie(cookie);
 
         return ResponseEntity.ok(new JwtResponse(jwtToken, refreshToken.getToken(), authenticatedUser.getId(),
-                authenticatedUser.getUsername(), authenticatedUser.getEmail(), roles));
+                authenticatedUser.getFullName(), authenticatedUser.getEmail(), roles));
     }
 
     @PostMapping("/signout")

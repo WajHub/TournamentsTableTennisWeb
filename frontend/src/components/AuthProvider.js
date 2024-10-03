@@ -9,11 +9,13 @@ import axios from "axios";
 
 import React from "react";
 
-const AuthContext = createContext({
-  user: null,
-  handleSignIn: null,
-  handleSignOut: null,
-});
+const AuthContext = createContext(
+  {
+    user: null,
+    handleSignIn: null,
+    handleSignOut: null,
+  } | undefined
+);
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -26,8 +28,8 @@ function AuthProvider({ children }) {
             withCredentials: true,
           })
           .then(function (response) {
-            const { email, roles } = response.data;
-            setUser({ email, roles });
+            const { username, email, roles } = response.data;
+            setUser({ username, email, roles });
           })
           .catch(function (error) {
             if (error.response) {
@@ -44,14 +46,13 @@ function AuthProvider({ children }) {
 
   async function handleSignIn(dtoUser) {
     try {
-      console.log(dtoUser);
       await axios
         .post("http://localhost:8080/auth/signin", dtoUser, {
           withCredentials: true,
         })
         .then(function (response) {
-          const { email, roles } = response.data;
-          setUser({ email, roles });
+          const { username, email, roles } = response.data;
+          setUser({ username, email, roles });
         })
         .catch(function (error) {});
     } catch {
@@ -98,7 +99,7 @@ export default AuthProvider;
 export function useAuth() {
   const context = useContext(AuthContext);
 
-  if (context === null) {
+  if (context === undefined) {
     throw new Error("useAuth must be used inside of a AuthProvider");
   }
 
@@ -106,6 +107,6 @@ export function useAuth() {
 }
 
 export function isAuth(user) {
-  if (user != null) return true;
+  if (user != null && user != undefined) return true;
   return false;
 }
