@@ -22,7 +22,7 @@ function About() {
                 </li>
                 <li className="list-group-item">
                   <b>Role: </b>
-                  {user.roles[0]}
+                  {user.roles ? user.roles[0] : ""}
                 </li>
               </ul>
             </div>

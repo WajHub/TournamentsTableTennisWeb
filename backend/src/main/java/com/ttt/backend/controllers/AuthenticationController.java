@@ -51,8 +51,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-        // TODO check if email is not used!
+    public ResponseEntity<?> register(@RequestBody RegisterUserDto registerUserDto) {
+        if(userService.existsWithEmail(registerUserDto.getEmail())) return new ResponseEntity<>("Email is already in use", HttpStatus.CONFLICT);
 
         User registeredUser = authenticationService.signup(registerUserDto);
 

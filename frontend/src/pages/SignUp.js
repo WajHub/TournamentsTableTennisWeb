@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Message from "./../components/Message.js";
 
 function SignUp() {
   let navigate = useNavigate();
@@ -10,6 +11,7 @@ function SignUp() {
     email: "",
     password: "",
   });
+  const [alertData, setAlertData] = useState(null);
 
   const { fullName, email, password } = user;
 
@@ -19,8 +21,20 @@ function SignUp() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/auth/signup", user);
-    navigate("/");
+    try {
+      await axios
+        .post("http://localhost:8080/auth/signup", user)
+        .then((response) => {
+          console.log(response);
+          if (response.ok) {
+            setAlertData({ content: "Success!", typeMessage: "success" });
+          } else {
+            setAlertData({ content: { response }, typeMessage: "danger" });
+          }
+        });
+    } catch (error) {
+      setAlertData({ content: error.response.data, typeMessage: "danger" });
+    }
   };
 
   return (
@@ -72,6 +86,11 @@ function SignUp() {
               Submit
             </button>
           </form>
+          {alertData != null ? (
+            <Message content={alertData.content} type={alertData.typeMessage} />
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
