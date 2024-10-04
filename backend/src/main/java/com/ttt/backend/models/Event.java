@@ -5,6 +5,7 @@ import com.ttt.backend.dto.EventDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 @Table(name = "events")
 @Getter
 @Setter
+@ToString
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +33,11 @@ public class Event {
 
     public Event (EventDto eventDto){
         setName(eventDto.getName());
-        setDate(null);
+        setDate(eventDto.getDate());
         setTournaments(new ArrayList<>());
     }
 
+    public Event() {
+
+    }
 }
