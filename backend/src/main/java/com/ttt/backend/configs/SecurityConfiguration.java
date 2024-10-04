@@ -1,5 +1,6 @@
 package com.ttt.backend.configs;
 
+import com.ttt.backend.models.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,7 +21,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private static final String[] BLACK_LIST_URL = {"api/admin/**"};
+    private static final String[] BLACK_LIST_URL = {"api/manage/**"};
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -38,7 +39,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(BLACK_LIST_URL)
-                                .authenticated()
+                                .hasAnyAuthority("ADMIN")
                                 .anyRequest()
                                 .permitAll()
                 )
