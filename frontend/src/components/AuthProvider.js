@@ -107,7 +107,7 @@ export function useAuth() {
 }
 
 export function isAuth(user) {
-  if (user != null && user != undefined) {
+  if (user !== null && user !== undefined) {
     return true;
   }
 
@@ -115,7 +115,7 @@ export function isAuth(user) {
 }
 
 export function isMod(user) {
-  if (user.roles != undefined) {
+  if (user.roles !== undefined) {
     if (user.roles[0] === "MODERATOR" || user.roles[0] === "ADMIN") return true;
   }
   return false;
