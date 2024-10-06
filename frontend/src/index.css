@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.event-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer; /* Makes the card clickable */
+}
+
+.event-card:hover {
+  transform: translateY(-10px); /* Lifts the card slightly */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+  background-color: #f8f9fa; /* Changes the background color */
+}
