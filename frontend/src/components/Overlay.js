@@ -5,7 +5,6 @@ function Overlay({ isDisplayed, setDisplay, children }) {
     <>
       {isDisplayed ? (
         <div className="overlay">
-          {children}
           <div className="container mt-4 bg-white rounded">
             <div className="row">
               <div className="col mx-center m-1">{children}</div>

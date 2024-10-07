@@ -22,21 +22,26 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     async function fetchUser() {
+      console.log("FETCH", user);
       try {
         axios
           .get("http://localhost:8080/auth/details", {
             withCredentials: true,
           })
           .then(function (response) {
-            const { username, email, roles } = response.data;
-            setUser({ username, email, roles });
+            console.log("RESPONSE", response);
+            const { username, email, role } = response.data;
+            setUser({ username, email, role });
+            console.log({ username, email, role });
           })
           .catch(function (error) {
             if (error.response) {
+              console.log("ERR");
               setUser(null);
             }
           });
       } catch {
+        console.log("ERR");
         setUser(null);
       }
     }
@@ -51,11 +56,12 @@ function AuthProvider({ children }) {
           withCredentials: true,
         })
         .then(function (response) {
-          const { username, email, roles } = response.data;
-          setUser({ username, email, roles });
+          const { username, email, role } = response.data;
+          setUser({ username, email, role });
         })
         .catch(function (error) {});
     } catch {
+      console.log("ERR");
       setUser(null);
     }
   }
@@ -115,8 +121,8 @@ export function isAuth(user) {
 }
 
 export function isMod(user) {
-  if (user.roles !== undefined) {
-    if (user.roles[0] === "MODERATOR" || user.roles[0] === "ADMIN") return true;
+  if (user.role !== undefined) {
+    if (user.role === "MODERATOR" || user.role === "ADMIN") return true;
   }
   return false;
 }
