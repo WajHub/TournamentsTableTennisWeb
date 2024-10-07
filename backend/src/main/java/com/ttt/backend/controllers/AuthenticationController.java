@@ -14,6 +14,7 @@ import com.ttt.backend.services.AuthenticationService;
 import com.ttt.backend.services.JwtService;
 import com.ttt.backend.services.RefreshTokenService;
 import com.ttt.backend.services.UserService;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,6 +44,7 @@ public class AuthenticationController {
 
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
+
 
     public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, RefreshTokenService refreshTokenService, UserService userService) {
         this.jwtService = jwtService;
@@ -94,6 +96,7 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(("Logged out successfully "+ cookie.getName()+ cookie.getValue()));
     }
+
 
     @GetMapping("/details")
     public ResponseEntity<?> getUserDetails() {

@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //            }
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }
-        filterChain.doFilter(request, response);
+
     }
 
     private String getJwt(  @NonNull HttpServletRequest request){
