@@ -68,7 +68,8 @@ public class AuthenticationController {
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
-        List<String> roles = authenticatedUser.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+        List<String> roles = authenticatedUser.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
                 .toList();
 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(authenticatedUser.getId());
@@ -81,8 +82,7 @@ public class AuthenticationController {
 
         response.addCookie(cookie);
 
-        return ResponseEntity.ok(new JwtResponse(jwtToken, refreshToken.getToken(), authenticatedUser.getId(),
-                authenticatedUser.getFullName(), authenticatedUser.getEmail(), roles));
+        return ResponseEntity.ok(new JwtResponse(jwtToken, refreshToken.getToken(),authenticatedUser));
     }
 
     @PostMapping("/signout")

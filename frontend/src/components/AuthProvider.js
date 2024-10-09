@@ -22,17 +22,14 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     async function fetchUser() {
-      console.log("FETCH", user);
       try {
         axios
           .get("http://localhost:8080/auth/details", {
             withCredentials: true,
           })
           .then(function (response) {
-            console.log("RESPONSE", response);
             const { username, email, role } = response.data;
             setUser({ username, email, role });
-            console.log({ username, email, role });
           })
           .catch(function (error) {
             if (error.response) {
@@ -56,7 +53,8 @@ function AuthProvider({ children }) {
           withCredentials: true,
         })
         .then(function (response) {
-          const { username, email, role } = response.data;
+          console.log(response.data);
+          const { username, email, role } = response.data.user;
           setUser({ username, email, role });
         })
         .catch(function (error) {});

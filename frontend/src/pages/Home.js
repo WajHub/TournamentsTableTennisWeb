@@ -28,13 +28,10 @@ function Home() {
         <div className="col-4">
           <AddEventCard hanldeClick={(e) => setDisplayFormEvent(true)} />
         </div>
-        <Overlay
-          isDisplayed={displayFormEvent}
-          setDisplay={setDisplayFormEvent}
-        >
-          <FormEvent />
-        </Overlay>
       </div>
+      <Overlay isDisplayed={displayFormEvent} setDisplay={setDisplayFormEvent}>
+        <FormEvent />
+      </Overlay>
     </div>
   );
 }

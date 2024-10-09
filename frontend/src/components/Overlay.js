@@ -5,18 +5,16 @@ function Overlay({ isDisplayed, setDisplay, children }) {
     <>
       {isDisplayed ? (
         <div className="overlay">
-          <div className="container mt-4 bg-white rounded">
-            <div className="row">
-              <div className="col mx-center m-1">{children}</div>
+          <div className="container align-middle my-center rounded">
+            <div className="row justify-content-md-center m-2">
+              <div className="col-md-auto bg-white ">{children}</div>
             </div>
-            <div className="row">
-              <div className="col mx-center m-1">
-                <div
-                  className="btn btn-danger m-1"
-                  onClick={(e) => setDisplay(false)}
-                >
-                  Cancel
-                </div>
+            <div className="row justify-content-md-center">
+              <div
+                className="btn btn-danger m-1"
+                onClick={(e) => setDisplay(false)}
+              >
+                Cancel
               </div>
             </div>
           </div>
