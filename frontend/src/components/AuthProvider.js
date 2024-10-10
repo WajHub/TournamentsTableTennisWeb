@@ -53,7 +53,6 @@ function AuthProvider({ children }) {
           withCredentials: true,
         })
         .then(function (response) {
-          console.log(response.data);
           const { username, email, role } = response.data.user;
           setUser({ username, email, role });
         })

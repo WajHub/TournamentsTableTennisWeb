@@ -5,9 +5,9 @@ function Overlay({ isDisplayed, setDisplay, children }) {
     <>
       {isDisplayed ? (
         <div className="overlay">
-          <div className="container align-middle my-center rounded">
+          <div className="container align-middle my-center ">
             <div className="row justify-content-md-center m-2">
-              <div className="col-md-auto bg-white ">{children}</div>
+              <div className="col-md-auto bg-white rounded">{children}</div>
             </div>
             <div className="row justify-content-md-center">
               <div

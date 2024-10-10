@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+@PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
 @RequestMapping("api/manage/event")
 @RestController
 public class EventController {
@@ -21,13 +21,14 @@ public class EventController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveNewEvent(@RequestBody EventDto eventDto){
-        return eventService.findByName(eventDto.getName())
-                .map(event ->  new ResponseEntity<>("Name "+event.getName()+" already exists!", HttpStatus.CONFLICT))
-                .orElseGet(() ->{
-                    Event event = new Event(eventDto);
-                    eventService.save(event);
-                    return ResponseEntity.ok(event.toString());
-                });
+    public ResponseEntity<?> save(@RequestBody EventDto eventDto){
+        System.out.println("TEST");
+        return ResponseEntity.ok(eventDto.toString());
+    }
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+    @PostMapping("/test")
+    public ResponseEntity<?> test(@RequestBody EventDto eventDto){
+        System.out.println("TEST");
+        return ResponseEntity.ok(eventDto.toString());
     }
 }

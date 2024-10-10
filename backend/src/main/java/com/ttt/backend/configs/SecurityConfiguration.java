@@ -21,7 +21,9 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private static final String[] BLACK_LIST_URL = {"api/manage/**"};
+    private static final String[] BLACK_LIST_URL = {"/api/manage/**", };
+
+    private static final String[] AUTHENTICATED_LIST = {"/auth/details"};
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -36,22 +38,23 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers(BLACK_LIST_URL)
-                                .hasAnyAuthority("ADMIN")
-                                .anyRequest()
-                                .permitAll()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout((logout) ->
-                        logout.logoutUrl("http://localhost:8080/auth/signouta")
-                                .invalidateHttpSession(true)
-                                .clearAuthentication(true)
-                                .logoutSuccessUrl("http://localhost:3000")
-                                .permitAll());
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(req ->
+                    req.requestMatchers(BLACK_LIST_URL)
+                            .hasAnyAuthority("ADMIN", "MODERATOR")
+                            .anyRequest()
+                            .permitAll()
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .logout((logout) ->
+                    logout.logoutUrl("http://localhost:8080/auth/signout")
+                            .invalidateHttpSession(true)
+                            .clearAuthentication(true)
+                            .logoutSuccessUrl("http://localhost:3000")
+                            .permitAll());
         return http.build();
     }
     @Bean
@@ -60,7 +63,7 @@ public class SecurityConfiguration {
 
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET","POST"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
