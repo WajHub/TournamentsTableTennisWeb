@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Message from "./../Message.js";
 
 function formatDate(date) {
   var d = new Date(date),
@@ -13,10 +14,10 @@ function formatDate(date) {
   return [year, month, day].join("-");
 }
 
-function FormEvent() {
+function FormEvent({ setDisplay, loadData }) {
   const [date, setDate] = useState(formatDate(new Date()));
-
   const [name, setName] = useState("");
+  const [alertData, setAlertData] = useState(null);
 
   const handleChangeName = async (e) => {
     setName((name) => e.target.value);
@@ -29,19 +30,6 @@ function FormEvent() {
     try {
       await axios
         .post(
-          "http://localhost:8080/api/manage/event/test",
-          {},
-          {
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          console.log(response);
-        });
-    } catch {}
-    try {
-      await axios
-        .post(
           "http://localhost:8080/api/manage/event/save",
           { name, date },
           {
@@ -49,9 +37,16 @@ function FormEvent() {
           }
         )
         .then((response) => {
-          console.log(response);
+          if (response.status === 200) {
+            setDisplay(false);
+            loadData();
+          } else {
+            setAlertData({ content: "Error", type: "danger" });
+          }
         });
-    } catch {}
+    } catch (error) {
+      setAlertData({ content: error.response.data, typeMessage: "danger" });
+    }
   };
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
@@ -92,6 +87,11 @@ function FormEvent() {
         <div className="row justify-content-center m-2">
           <button className="btn btn-success">Submit</button>
         </div>
+        {alertData != null ? (
+          <Message content={alertData.content} type={alertData.typeMessage} />
+        ) : (
+          ""
+        )}
       </div>
     </form>
   );

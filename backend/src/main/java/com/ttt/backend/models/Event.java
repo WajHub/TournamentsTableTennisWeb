@@ -1,21 +1,23 @@
 package com.ttt.backend.models;
 
-
 import com.ttt.backend.dto.EventDto;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Entity
 @Table(name = "events")
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,15 +31,8 @@ public class Event {
     private LocalDate date;
 
     @OneToMany(mappedBy = "event")
+    @ToString.Exclude
+    @HashCodeExclude
     private List<Tournament> tournaments;
 
-    public Event (EventDto eventDto){
-        setName(eventDto.getName());
-        setDate(eventDto.getDate());
-        setTournaments(new ArrayList<>());
-    }
-
-    public Event() {
-
-    }
 }

@@ -30,11 +30,12 @@ public class AuthenticationService {
     }
 
     public User signup(RegisterUserDto input) {
-        User user = new User();
-        user.setFullName(input.getFullName());
-        user.setEmail(input.getEmail());
-        user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setRole(Role.ADMIN);
+        User user = User.builder()
+                .fullName(input.getFullName())
+                .email(input.getEmail())
+                .password(passwordEncoder.encode(input.getPassword()))
+                .role(Role.ADMIN)
+                .build();
         return userRepository.save(user);
     }
 

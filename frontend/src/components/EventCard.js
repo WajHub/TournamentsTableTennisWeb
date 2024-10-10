@@ -1,12 +1,14 @@
 import React from "react";
 
-function EventCard() {
+function EventCard({ event }) {
   return (
     <div className="card event-card my-4">
       <div className="card-body">
-        <h5 className="card-title">Card title</h5>
+        <h5 className="card-title">{event.name}</h5>
         <p className="card-text">
-          <small className="text-muted">Last updated 3 mins ago</small>
+          <small className="text-muted">
+            {event.date != null ? event.date : ""}
+          </small>
         </p>
       </div>
     </div>

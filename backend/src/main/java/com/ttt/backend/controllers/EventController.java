@@ -1,6 +1,7 @@
 package com.ttt.backend.controllers;
 
 import com.ttt.backend.dto.EventDto;
+import com.ttt.backend.mapper.MapperStructImpl;
 import com.ttt.backend.models.Event;
 import com.ttt.backend.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,26 +10,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-@PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
-@RequestMapping("api/manage/event")
+@RequestMapping("api")
 @RestController
 public class EventController {
     private EventService eventService;
+    private MapperStructImpl mapperStruct;
     @Autowired
-    public EventController(EventService eventService){
+    public EventController(EventService eventService, MapperStructImpl mapperStruct){
         this.eventService = eventService;
+        this.mapperStruct = mapperStruct;
     }
 
-    @PostMapping("/save")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    @PostMapping("/manage/event/save")
     public ResponseEntity<?> save(@RequestBody EventDto eventDto){
-        System.out.println("TEST");
+        if (eventService.findByName(eventDto.getName()).isPresent())
+            return new ResponseEntity<>("Event name is already in use", HttpStatus.CONFLICT);
+        eventService.save(mapperStruct.createEvent(eventDto));
         return ResponseEntity.ok(eventDto.toString());
     }
-    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-    @PostMapping("/test")
-    public ResponseEntity<?> test(@RequestBody EventDto eventDto){
-        System.out.println("TEST");
-        return ResponseEntity.ok(eventDto.toString());
+
+    @GetMapping("/events")
+    public List<EventDto> getAllEvents(){
+        return eventService.findAll().stream().map((event) -> mapperStruct.eventToEventDto(event)).toList();
     }
+
+
 }
