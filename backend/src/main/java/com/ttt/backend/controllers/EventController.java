@@ -33,9 +33,16 @@ public class EventController {
         return ResponseEntity.ok(eventDto.toString());
     }
 
+    // TODO: Implement deleting event
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
+    @DeleteMapping("/manage/event/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        return ResponseEntity.ok("");
+    }
+
     @GetMapping("/events")
-    public List<EventDto> getAllEvents(){
-        return eventService.findAll().stream().map((event) -> mapperStruct.eventToEventDto(event)).toList();
+    public List<Event> getAllEvents(){
+        return eventService.findAll();
     }
 
 

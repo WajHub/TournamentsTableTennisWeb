@@ -28,15 +28,13 @@ function Home() {
   return (
     <div className="container">
       <div className="row">
+        <AddEventCard hanldeClick={(e) => setDisplayFormEvent(true)} />
+
         {events.map((e, index) => (
           <div className="col-4" key={index}>
             <EventCard event={e} />
           </div>
         ))}
-
-        <div className="col-4">
-          <AddEventCard hanldeClick={(e) => setDisplayFormEvent(true)} />
-        </div>
       </div>
       <Overlay isDisplayed={displayFormEvent} setDisplay={setDisplayFormEvent}>
         <FormEvent setDisplay={setDisplayFormEvent} loadData={loadEvents} />

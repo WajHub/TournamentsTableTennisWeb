@@ -34,7 +34,7 @@ public class AuthenticationService {
                 .fullName(input.getFullName())
                 .email(input.getEmail())
                 .password(passwordEncoder.encode(input.getPassword()))
-                .role(Role.ADMIN)
+                .role(Role.MODERATOR)
                 .build();
         return userRepository.save(user);
     }
