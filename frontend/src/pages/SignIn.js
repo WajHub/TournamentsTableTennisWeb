@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../components/AuthProvider";
+import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { isAuth } from "../components/AuthProvider";
+import { isAuth } from "../auth/AuthProvider";
 
 function SignIn() {
   let navigate = useNavigate();
@@ -21,7 +21,14 @@ function SignIn() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    handleSignIn(userDto).then(navigate("/"));
+
+    const result = await handleSignIn(userDto);
+    if (result) {
+      navigate("/");
+    } else {
+      // TODO: wyświetlić komunikat po błędnych danych
+      console.log("ERROR");
+    }
   };
 
   useEffect(() => {

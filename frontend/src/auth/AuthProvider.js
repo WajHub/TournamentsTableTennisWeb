@@ -48,18 +48,20 @@ function AuthProvider({ children }) {
 
   async function handleSignIn(dtoUser) {
     try {
-      await axios
-        .post("http://localhost:8080/auth/signin", dtoUser, {
+      const response = await axios.post(
+        "http://localhost:8080/auth/signin",
+        dtoUser,
+        {
           withCredentials: true,
-        })
-        .then(function (response) {
-          const { username, email, role } = response.data.user;
-          setUser({ username, email, role });
-        })
-        .catch(function (error) {});
-    } catch {
+        }
+      );
+      const { username, email, role } = response.data.user;
+      setUser({ username, email, role });
+      return true; // Zwróć true w przypadku sukcesu
+    } catch (error) {
       console.log("ERR");
       setUser(null);
+      return false; // Zwróć false w przypadku błędu
     }
   }
 

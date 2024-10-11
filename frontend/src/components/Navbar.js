@@ -1,15 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   let navigate = useNavigate();
-  const { user, handleSignIn, handleSignOut } = useAuth();
+  const { user, handleSignOut } = useAuth();
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
         Home
+      </Link>
+      <Link className="navbar-brand" to="/players">
+        Players
       </Link>
       {user ? (
         <div className="ml-auto">

@@ -5,7 +5,9 @@ import SignUp from "./pages/SignUp.js";
 import Navbar from "./components/Navbar.js";
 import SignIn from "./pages/SignIn.js";
 import About from "./pages/About.js";
-import ProtectedRoute from "./components/ProtectedRoute.js";
+import Event from "./pages/Event.js";
+import ProtectedRoute from "./auth/ProtectedRoute.js";
+import Players from "./pages/Players.js";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
+          <Route exatc path="/eventInfo/:id" element={<Event />}></Route>
+          <Route exatc path="/players" element={<Players />}></Route>
         </Routes>
       </Router>
     </div>

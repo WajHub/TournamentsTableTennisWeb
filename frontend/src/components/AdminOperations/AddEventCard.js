@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth, isAuth, isMod } from "../AuthProvider.js";
+import { useAuth, isAuth, isMod } from "../../auth/AuthProvider.js";
 function AddEventCard({ hanldeClick }) {
   const { user } = useAuth();
   return (

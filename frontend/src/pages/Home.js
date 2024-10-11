@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import EventCard from "../components/EventCard.js";
+import EventCard from "../components/home/EventCard.js";
 import AddEventCard from "../components/AdminOperations/AddEventCard.js";
 import Overlay from "../components/Overlay.js";
 import FormEvent from "../components/AdminOperations/FormEvent.js";
