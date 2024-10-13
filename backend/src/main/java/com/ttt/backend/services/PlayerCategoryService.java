@@ -29,4 +29,8 @@ public class PlayerCategoryService {
     public List<PlayerCategory> findAll(){
         return playerCategoryRepository.findAll();
     }
+
+    public List<PlayerCategory> findAllByPlayer(Player player){
+        return playerCategoryRepository.findAllByPlayer(player);
+    }
 }

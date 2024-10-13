@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Message from "./../Message.js";
+import Message from "../../Message.js";
 
 function formatDate(date) {
   var d = new Date(date),

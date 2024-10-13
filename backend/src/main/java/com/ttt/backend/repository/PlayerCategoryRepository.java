@@ -10,11 +10,6 @@ import java.util.List;
 public interface PlayerCategoryRepository extends JpaRepository<PlayerCategory, Long> {
     @Override
     PlayerCategory save(PlayerCategory playerCategory);
-
-//    List<Category> findAllByPlayer(Player player);
-//
-
-//    PlayerCategory findAllByPlayer(Long playerId);
-
     List<PlayerCategory> findAllBy();
+    List<PlayerCategory> findAllByPlayer(Player player);
 }

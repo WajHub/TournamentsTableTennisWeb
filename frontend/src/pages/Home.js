@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import EventCard from "../components/home/EventCard.js";
-import AddEventCard from "../components/AdminOperations/AddEventCard.js";
+import AddEventCard from "../components/Admin/AddEventCard.js";
 import Overlay from "../components/Overlay.js";
-import FormEvent from "../components/AdminOperations/FormEvent.js";
+import FormEvent from "../components/Admin/Forms/FormEvent.js";
 import axios from "axios";
 
 function Home() {

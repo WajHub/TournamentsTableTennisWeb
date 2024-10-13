@@ -43,9 +43,10 @@ public class PlayerController {
     @Transactional
     public ResponseEntity<?> save(@RequestBody PlayerDto playerDto){
         Player player = mapperStruct.createPlayer(playerDto);
-        List<Category> categoryList = categoryService.findAll().stream().filter((category ->
-                category.getGender().equals(player.getGender()) &&
-                category.getAgeLimit()>=player.getAge()
+        List<Category> categoryList = categoryService.findAll().stream()
+                .filter((category ->
+                    category.getGender().equals(player.getGender()) &&
+                    category.getAgeLimit()>=player.getAge()
                 )).toList();
         playerService.save(player);
 
@@ -54,7 +55,7 @@ public class PlayerController {
                     .category(category)
                     .player(player)
                     .points(0)
-                    .build();
+                .build();
             playerCategoryService.save(playerCategory);
         }));
         return ResponseEntity.ok(player);
@@ -63,16 +64,16 @@ public class PlayerController {
     @GetMapping("/players")
     public ResponseEntity<?> findAll(){
 
-        List<PlayerCategoryDto> playerCategoryDtoList =
-            playerCategoryService.findAll().stream()
-                .map(playerCategory ->
-                    mapperStruct.playerCategoryToPlayerCategoryDto(playerCategory)
-                )
-            .toList();
-
         List<PlayerDto> playerdtos =
             playerService.findAll().stream()
                 .map(player -> {
+                    List<PlayerCategoryDto> playerCategoryDtoList =
+                            playerCategoryService.findAllByPlayer(player).stream()
+                                .map(playerCategory ->
+                                        mapperStruct.playerCategoryToPlayerCategoryDto(playerCategory)
+                                )
+                            .toList();
+
                     PlayerDto playerdto = mapperStruct.playerToPlayerDto(player);
                     playerdto.setPlayerCategoryDtoList(playerCategoryDtoList);
                     return playerdto;
