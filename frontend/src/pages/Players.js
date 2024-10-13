@@ -14,6 +14,7 @@ function Players() {
       .get("http://localhost:8080/api/players")
       .then(function (response) {
         setPlayers(response.data);
+        console.log(players);
       });
   };
   return (
@@ -24,12 +25,18 @@ function Players() {
         <ul className="list-group list-group-flush">
           {players.map((player, index) => (
             <li key={player.id} className="list-group-item">
-              <b>Firstname: </b>
-              {player.firstname + " "}
-              <b>Lastname: </b>
-              {player.lastname + " "}
-              <b>Birthday: </b>
-              {player.birthday}
+              <b>Player: </b>
+              {player.firstname +
+                " " +
+                player.lastname +
+                " (" +
+                player.date +
+                ") "}
+              <b>Categories: </b>
+              <i>|</i>
+              {player.playerCategoryDtoList.map((category, index) => (
+                <i key={index}> {category.categoryDto.name + "|"} </i>
+              ))}
             </li>
           ))}
         </ul>

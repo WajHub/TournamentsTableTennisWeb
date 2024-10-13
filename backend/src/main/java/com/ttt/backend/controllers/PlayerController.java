@@ -66,17 +66,18 @@ public class PlayerController {
         List<PlayerCategoryDto> playerCategoryDtoList =
             playerCategoryService.findAll().stream()
                 .map(playerCategory ->
-                        mapperStruct.playerCategoryToPlayerCategoryDto(playerCategory)
+                    mapperStruct.playerCategoryToPlayerCategoryDto(playerCategory)
                 )
             .toList();
 
         List<PlayerDto> playerdtos =
-            playerService.findAll().stream().map((player -> {
+            playerService.findAll().stream()
+                .map(player -> {
                     PlayerDto playerdto = mapperStruct.playerToPlayerDto(player);
                     playerdto.setPlayerCategoryDtoList(playerCategoryDtoList);
                     return playerdto;
                 }
-            ))
+            )
             .toList();
         return ResponseEntity.ok(playerdtos);
     }
