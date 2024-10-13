@@ -1,5 +1,7 @@
 package com.ttt.backend.controllers;
 
+import com.ttt.backend.dto.CategoryDto;
+import com.ttt.backend.dto.PlayerCategoryDto;
 import com.ttt.backend.dto.PlayerDto;
 import com.ttt.backend.mapper.MapperStructImpl;
 import com.ttt.backend.models.Category;
@@ -14,7 +16,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -53,5 +58,26 @@ public class PlayerController {
             playerCategoryService.save(playerCategory);
         }));
         return ResponseEntity.ok(player);
+    }
+
+    @GetMapping("/players")
+    public ResponseEntity<?> findAll(){
+
+        List<PlayerCategoryDto> playerCategoryDtoList =
+            playerCategoryService.findAll().stream()
+                .map(playerCategory ->
+                        mapperStruct.playerCategoryToPlayerCategoryDto(playerCategory)
+                )
+            .toList();
+
+        List<PlayerDto> playerdtos =
+            playerService.findAll().stream().map((player -> {
+                    PlayerDto playerdto = mapperStruct.playerToPlayerDto(player);
+                    playerdto.setPlayerCategoryDtoList(playerCategoryDtoList);
+                    return playerdto;
+                }
+            ))
+            .toList();
+        return ResponseEntity.ok(playerdtos);
     }
 }

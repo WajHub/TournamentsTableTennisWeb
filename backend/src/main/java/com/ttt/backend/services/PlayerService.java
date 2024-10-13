@@ -5,6 +5,9 @@ import com.ttt.backend.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class PlayerService {
     private PlayerRepository playerRepository;
@@ -16,5 +19,13 @@ public class PlayerService {
 
     public Player save(Player player){
         return playerRepository.save(player);
+    }
+
+    public List<Player> findAll() {
+        return playerRepository.findAll();
+    }
+
+    public Optional<Player> findById(Long id){
+        return playerRepository.findById(id);
     }
 }

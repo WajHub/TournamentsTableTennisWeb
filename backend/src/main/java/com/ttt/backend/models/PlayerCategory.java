@@ -13,25 +13,24 @@ import org.hibernate.annotations.ColumnDefault;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class PlayerCategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "player_id")
     Player player;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @ToStringExclude
     @JsonBackReference
     Category category;
 
     @Column(name = "points")
     @ColumnDefault("0")
     private int points;
-
 
 }

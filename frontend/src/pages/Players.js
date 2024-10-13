@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import AddPlayerButton from "../components/AdminOperations/AddPlayerButton";
+import axios from "axios";
 
 function Players() {
+  const [players, setPlayers] = useState([]);
+
+  useEffect(() => {
+    loadPlayers();
+  }, []);
+
+  const loadPlayers = async () => {
+    const result = await axios
+      .get("http://localhost:8080/api/players")
+      .then(function (response) {
+        setPlayers(response.data);
+      });
+  };
   return (
     <div>
       <h3 className="h3">List of players</h3>
       <div className="container">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Morbi leo risus</li>
-          <li class="list-group-item">Porta ac consectetur ac</li>
-          <li class="list-group-item">Vestibulum at eros</li>
+        <AddPlayerButton />
+        <ul className="list-group list-group-flush">
+          {players.map((player, index) => (
+            <li key={player.id} className="list-group-item">
+              <b>Firstname: </b>
+              {player.firstname + " "}
+              <b>Lastname: </b>
+              {player.lastname + " "}
+              <b>Birthday: </b>
+              {player.birthday}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

@@ -14,7 +14,6 @@ import java.util.List;
 @Table(name = "categories")
 @Getter
 @Setter
-@ToString
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

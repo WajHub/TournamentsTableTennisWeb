@@ -17,7 +17,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Player {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
@@ -38,7 +37,6 @@ public class Player {
     private LocalDate birthday;
 
     @OneToMany(mappedBy = "player")
-    @ToStringExclude
     @JsonBackReference
     List<PlayerCategory> playerCategoryList;
 
