@@ -20,7 +20,7 @@ public class PlayerCategory {
     @Column(nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "player_id")
     Player player;
 

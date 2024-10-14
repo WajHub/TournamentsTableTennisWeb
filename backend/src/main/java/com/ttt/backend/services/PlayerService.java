@@ -28,4 +28,12 @@ public class PlayerService {
     public Optional<Player> findById(Long id){
         return playerRepository.findById(id);
     }
+
+    public boolean existById(Long id){
+        return playerRepository.existsById(id);
+    }
+
+    public void deleteById(Long id){
+        playerRepository.deleteById(id);
+    }
 }

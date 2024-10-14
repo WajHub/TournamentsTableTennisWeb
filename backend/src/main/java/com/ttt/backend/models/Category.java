@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -37,6 +38,6 @@ public class Category {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    List<PlayerCategory> playerCategoryList;
+    Set<PlayerCategory> playerCategoryList;
 
 }

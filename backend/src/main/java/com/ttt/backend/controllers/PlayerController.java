@@ -11,6 +11,7 @@ import com.ttt.backend.services.CategoryService;
 import com.ttt.backend.services.PlayerCategoryService;
 import com.ttt.backend.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,25 +62,34 @@ public class PlayerController {
         return ResponseEntity.ok(player);
     }
 
+    @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+    @DeleteMapping("manage/player/delete/{id}")
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+    public ResponseEntity<?> deletePlayerById(@PathVariable Long id){
+        if(!playerService.existById(id)) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        playerService.deleteById(id);
+        return ResponseEntity.ok("Player deleted!");
+    }
+
     @GetMapping("/players")
     public ResponseEntity<?> findAll(){
+        return ResponseEntity.ok(
+            playerService.findAll()
+            .stream()
+            .map(player -> {
+                List<PlayerCategoryDto> playerCategoryDtoList =
+                    playerCategoryService.findAllByPlayer(player)
+                        .stream()
+                        .map(playerCategory ->
+                            mapperStruct.playerCategoryToPlayerCategoryDto(playerCategory)
+                        )
+                        .toList();
 
-        List<PlayerDto> playerdtos =
-            playerService.findAll().stream()
-                .map(player -> {
-                    List<PlayerCategoryDto> playerCategoryDtoList =
-                            playerCategoryService.findAllByPlayer(player).stream()
-                                .map(playerCategory ->
-                                        mapperStruct.playerCategoryToPlayerCategoryDto(playerCategory)
-                                )
-                            .toList();
-
-                    PlayerDto playerdto = mapperStruct.playerToPlayerDto(player);
-                    playerdto.setPlayerCategoryDtoList(playerCategoryDtoList);
-                    return playerdto;
+                PlayerDto playerdto = mapperStruct.playerToPlayerDto(player);
+                playerdto.setPlayerCategoryDtoList(playerCategoryDtoList);
+                return playerdto;
                 }
             )
-            .toList();
-        return ResponseEntity.ok(playerdtos);
+        .toList());
     }
 }

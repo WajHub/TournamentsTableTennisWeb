@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringExclude;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "players")
@@ -36,9 +37,9 @@ public class Player {
     @Column(name = "birthday")
     private LocalDate birthday;
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player",orphanRemoval = true)
     @JsonBackReference
-    List<PlayerCategory> playerCategoryList;
+    Set<PlayerCategory> playerCategoryList;
 
     public int getAge(){
         long years = java.time.temporal.ChronoUnit.YEARS.between(birthday,  LocalDate.now() );
