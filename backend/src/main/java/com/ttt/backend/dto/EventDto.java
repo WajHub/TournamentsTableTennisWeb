@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @ToString
 @Builder
 public class EventDto {
+    private Long id;
     private String name;
 
     @JsonFormat(pattern="yyyy-MM-dd")

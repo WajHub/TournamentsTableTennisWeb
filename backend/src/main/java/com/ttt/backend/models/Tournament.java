@@ -1,8 +1,7 @@
 package com.ttt.backend.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 import java.time.LocalDate;
@@ -11,14 +10,17 @@ import java.time.LocalDate;
 @Table(name = "tournaments")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Tournament {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 
-    @Column(name = "numberOfTable")
-    private int numberOfTables;
+    @Column(name = "name")
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

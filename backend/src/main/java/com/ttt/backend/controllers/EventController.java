@@ -41,8 +41,17 @@ public class EventController {
     }
 
     @GetMapping("/events")
-    public List<Event> getAllEvents(){
-        return eventService.findAll();
+    public List<EventDto> getAllEvents(){
+        return eventService.findAll()
+                .stream()
+                .map((event) ->
+                        mapperStruct.eventToEventDto(event))
+                .toList();
+    }
+
+    @GetMapping("/event/{id}")
+    public EventDto getAllById(@PathVariable Long id){
+        return mapperStruct.eventToEventDto(eventService.findAllById(id));
     }
 
 

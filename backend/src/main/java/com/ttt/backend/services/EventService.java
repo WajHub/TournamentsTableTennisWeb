@@ -28,4 +28,8 @@ public class EventService {
 
     public List<Event> findAll() {return eventRepository.findAll();}
 
+    public Event findAllById(Long id){
+        return eventRepository.findAllById(id);
+    }
+
 }

@@ -1,13 +1,7 @@
 package com.ttt.backend.mapper;
 
-import com.ttt.backend.dto.CategoryDto;
-import com.ttt.backend.dto.EventDto;
-import com.ttt.backend.dto.PlayerCategoryDto;
-import com.ttt.backend.dto.PlayerDto;
-import com.ttt.backend.models.Category;
-import com.ttt.backend.models.Event;
-import com.ttt.backend.models.Player;
-import com.ttt.backend.models.PlayerCategory;
+import com.ttt.backend.dto.*;
+import com.ttt.backend.models.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,6 +16,15 @@ public class MapperStructImpl implements MapperStruct{
                 .name(eventDto.getName())
                 .date(eventDto.getDate())
                 .tournaments(new ArrayList<>())
+                .build();
+    }
+
+    @Override
+    public EventDto eventToEventDto(Event event) {
+        return EventDto.builder()
+                .id(event.getId())
+                .name(event.getName())
+                .date(event.getDate())
                 .build();
     }
 
@@ -68,6 +71,23 @@ public class MapperStructImpl implements MapperStruct{
                    .gender(player.getGender())
                    .date(player.getBirthday())
                .build();
+    }
+
+    @Override
+    public Tournament tournamentDtoToTournament(TournamentDto tournamentDto, Event event, Category category) {
+        return Tournament.builder()
+                .name(tournamentDto.getName())
+                .event(event)
+                .category(category)
+                .build();
+    }
+
+    @Override
+    public TournamentDto tournamentToTournamentDto(Tournament tournament) {
+        return TournamentDto.builder()
+                .name(tournament.getName())
+                .category(tournament.getCategory().getName())
+                .build();
     }
 
 }
