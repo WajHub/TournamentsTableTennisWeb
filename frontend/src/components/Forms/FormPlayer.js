@@ -1,17 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
-function formatDate(date) {
-  var d = new Date(date),
-    month = "" + (d.getMonth() + 1),
-    day = "" + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return [year, month, day].join("-");
-}
+import { formatDate } from "../../utils/date.js";
 
 function FormPlayer({ setDisplay, loadData }) {
   const [player, setPlayer] = useState({
@@ -122,7 +111,7 @@ function FormPlayer({ setDisplay, loadData }) {
                 <input
                   type="date"
                   id="date"
-                  value={player.date}
+                  name="date"
                   onChange={(e) => handleChange(e)}
                 ></input>
               </div>

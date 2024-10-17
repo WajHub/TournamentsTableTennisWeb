@@ -7,7 +7,7 @@ function Navbar() {
   let navigate = useNavigate();
   const { user, handleSignOut } = useAuth();
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light p-3">
       <Link className="navbar-brand" to="/">
         Events
       </Link>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import Message from "./../components/Message.js";
+import FormSingUp from "../components/Forms/FormSingUp.js";
 
 function SignUp() {
   let navigate = useNavigate();
@@ -11,41 +10,16 @@ function SignUp() {
     email: "",
     password: "",
   });
-  const [alertData, setAlertData] = useState(null);
-
   const { fullName, email, password } = user;
-
-  const onInputChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios
-        .post("http://localhost:8080/auth/signup", user)
-        .then((response) => {
-          console.log(response);
-          if (response.status == 200) {
-            setAlertData({ content: "Success!", typeMessage: "success" });
-            setUser({ email: "", fullName: "", password: "" });
-          } else {
-            setAlertData({ content: "ERROR!", typeMessage: "danger" });
-            setUser({ email: "", fullName: "", password: "" });
-          }
-        });
-    } catch (error) {
-      setAlertData({ content: error.response.data, typeMessage: "danger" });
-      setUser({ email: "", fullName: "", password: "" });
-    }
-  };
 
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
           <h3>Register</h3>
-          <form onSubmit={(e) => onSubmit(e)}>
+          <FormSingUp />
+
+          {/* <form onSubmit={(e) => onSubmit(e)}>
             <div className="form-group">
               <label htmlFor="fullnameInput">Full Name</label>
               <input
@@ -89,11 +63,12 @@ function SignUp() {
               Submit
             </button>
           </form>
+
           {alertData != null ? (
             <Message content={alertData.content} type={alertData.typeMessage} />
           ) : (
             ""
-          )}
+          )} */}
         </div>
       </div>
     </div>

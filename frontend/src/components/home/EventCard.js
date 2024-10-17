@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useAuth } from "./../../auth/AuthProvider.js";
+import { useAuth } from "../../auth/AuthProvider.js";
 function EventCard({ event }) {
   const { user } = useAuth();
   return (

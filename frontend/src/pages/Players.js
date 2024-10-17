@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import AddPlayerButton from "../components/Admin/AddPlayerButton";
-import DeletePlayerButton from "../components/Admin/DeletePlayerButton";
+import AddPlayerButton from "../components/AdminComponents/AddPlayerButton";
+
 import Overlay from "../components/Overlay";
-import FormPlayer from "../components/Admin/Forms/FormPlayer";
+import FormPlayer from "../components/Forms/FormPlayer";
+import Player from "../components/Players/Player";
 import axios from "axios";
 
 function Players() {
@@ -27,32 +28,7 @@ function Players() {
         <AddPlayerButton hanldeClick={setDisplayFormPlayer} />
         <ul className="list-group list-group-flush">
           {players.map((player, index) => (
-            <div key={player.id}>
-              <div className="list-group-item justify-content-center">
-                <li key={player.id} className="row align-items-center ">
-                  <div className="col-11">
-                    <b>Player: </b>
-                    {player.firstname +
-                      " " +
-                      player.lastname +
-                      " (" +
-                      player.date +
-                      ") "}
-                    <b>Categories: </b>
-                    <i>|</i>
-                    {player.playerCategoryDtoList.map((category, index) => (
-                      <i key={index}> {category.categoryDto.name + "|"} </i>
-                    ))}
-                  </div>
-                  <div className="col-1">
-                    <DeletePlayerButton
-                      idPlayer={player.id}
-                      loadPlayers={loadPlayers}
-                    />
-                  </div>
-                </li>
-              </div>
-            </div>
+            <Player player={player} key={index} loadPlayers={loadPlayers} />
           ))}
         </ul>
       </div>
