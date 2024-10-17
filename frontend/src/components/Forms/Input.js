@@ -1,15 +1,24 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Field, ErrorMessage } from "formik";
 
-function Input({ type, name, label, children }) {
+function Input({ type, name, value, label, children }) {
   return (
     <div className="form-group">
-      <label htmlFor={name} className="form-label">
+      <label
+        htmlFor={name}
+        className={type === "radio" ? "form-check-label" : "form-label"}
+      >
         {label}
       </label>
-      <Field type={type} className="form-control" id={name} name={name} />
+      <Field
+        type={type}
+        id={name}
+        name={name}
+        value={value}
+        className={type === "radio" ? "form-check" : "form-control"}
+      />
       <ErrorMessage name={name} component="div" className="text-danger" />
-      {/* {children} */}
+      {children}
     </div>
   );
 }

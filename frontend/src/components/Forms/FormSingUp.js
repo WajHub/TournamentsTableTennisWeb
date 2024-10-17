@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import Input from "./Input";
@@ -19,9 +19,11 @@ const SignUpForm = () => {
     fullName: Yup.string().required("fullName is required!"),
     email: Yup.string()
       .email("Invalid email format!")
+      .max(32, "Too Long!")
       .required("Email is required!"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters!")
+      .max(32, "Too Long!")
       .required("Password is required!"),
   });
 
@@ -55,19 +57,31 @@ const SignUpForm = () => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      <Form>
-        <Input type="text" name="fullName" label="Fullname"></Input>
-        <Input type="text" name="email" label="Email">
-          <small id="emailHelp" className="form-text text-muted">
-            We'll never share your email with anyone else.
-          </small>
-        </Input>
-        <Input type="password" name="password" label="Password"></Input>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-        <Message content={message.content} type={message.type} />
-      </Form>
+      {({ values }) => (
+        <Form>
+          <Input
+            type="text"
+            name="fullName"
+            label="Fullname"
+            value={values.fullName}
+          ></Input>
+          <Input type="text" name="email" label="Email" value={values.email}>
+            <small id="emailHelp" className="form-text text-muted">
+              We'll never share your email with anyone else.
+            </small>
+          </Input>
+          <Input
+            type="password"
+            name="password"
+            label="Password"
+            value={values.password}
+          ></Input>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+          <Message content={message.content} type={message.type} />
+        </Form>
+      )}
     </Formik>
   );
 };

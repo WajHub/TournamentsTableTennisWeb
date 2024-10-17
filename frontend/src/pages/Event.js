@@ -68,7 +68,10 @@ function Event() {
         isDisplayed={displayFormTournamen}
         setDisplay={setDisplayFormTournament}
       >
-        <FormTournament setDisplay={setDisplayFormTournament}></FormTournament>
+        <FormTournament
+          setDisplay={setDisplayFormTournament}
+          loadData={loadTournaments}
+        ></FormTournament>
       </Overlay>
     </div>
   );

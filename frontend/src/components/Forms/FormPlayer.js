@@ -1,26 +1,36 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { formatDate } from "../../utils/date.js";
+import { Formik, Form, Field } from "formik";
+import Input from "./Input";
+import * as Yup from "yup";
 
 function FormPlayer({ setDisplay, loadData }) {
-  const [player, setPlayer] = useState({
+  const initialValues = {
     firstname: "",
     lastname: "",
     gender: "MAN",
     date: formatDate(new Date()),
-  });
-  const { firstname, lastname, gender, date } = player;
-  const handleChange = async (e) => {
-    setPlayer({ ...player, [e.target.name]: e.target.value });
   };
+  const validationSchema = Yup.object().shape({
+    firstname: Yup.string().max(32, "Too Long!").required("Required!"),
+    lastname: Yup.string().max(32, "Too Long!").required("Required!"),
+    gender: Yup.string().required("Required!"),
+    date: Yup.date().required("Required!"),
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (values) => {
+    console.log(values);
     try {
       await axios
         .post(
           "http://localhost:8080/api/manage/player/save",
-          { firstname, lastname, gender, date },
+          {
+            firstname: values.firstname,
+            lastname: values.lastname,
+            gender: values.gender,
+            date: values.date,
+          },
           {
             withCredentials: true,
           }
@@ -32,97 +42,60 @@ function FormPlayer({ setDisplay, loadData }) {
           } else {
           }
         });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
-    <div>
-      {" "}
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div className="container-sm">
-          <div className="row justify-content-center m-2">
-            <div className="col">
-              <div className="row justify-content-center pt-1">
-                <label htmlFor="fname" className="m-2">
-                  Firstname of Player:
-                </label>
-              </div>
-              <div className="row justify-content-center pb-1">
-                <input
-                  required
-                  type="text"
-                  id="fname"
-                  placeholder="Enter firstname"
-                  value={player.firstname}
-                  name="firstname"
-                  onChange={(e) => handleChange(e)}
-                ></input>
-              </div>
-
-              <div className="row justify-content-center pt-1">
-                <label htmlFor="fname" className="m-2">
-                  Lastname of Player:
-                </label>
-              </div>
-              <div className="row justify-content-center pb-1">
-                <input
-                  required
-                  type="text"
-                  id="fname"
-                  placeholder="Enter lastname"
-                  value={player.lastname}
-                  name="lastname"
-                  onChange={(e) => handleChange(e)}
-                ></input>
-              </div>
-
-              <div className="row justify-content-center pt-1">
-                <label htmlFor="fname" className="m-2">
-                  Gender
-                </label>
-              </div>
-              <div
-                className="row justify-content-center pb-1"
-                onChange={(e) => handleChange(e)}
-              >
-                <input
-                  className="m-1"
-                  type="radio"
-                  name="gender"
-                  value="MAN"
-                  defaultChecked
-                ></input>
-                {"   "}
-                Male
-                <input
-                  className="m-1"
-                  type="radio"
-                  name="gender"
-                  value="WOMAN"
-                ></input>{" "}
-                Female
-              </div>
-
-              <div className="row justify-content-center pt-1">
-                <label htmlFor="date" className="m-2">
-                  Date:
-                </label>
-              </div>
-              <div className="row justify-content-center pb-1">
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  onChange={(e) => handleChange(e)}
-                ></input>
-              </div>
-            </div>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+      className="container mt-4"
+    >
+      {({ values }) => (
+        <Form className="row justify-content-center">
+          <div className="col-md-6 mb-3">
+            <Input
+              type="text"
+              name="firstname"
+              label="Firstname"
+              value={values.firstname}
+            />
           </div>
-          <div className="row justify-content-center mt-4">
-            <button className="btn btn-success">Submit</button>
+          <div className="col-md-6 mb-3">
+            {" "}
+            <Input
+              type="text"
+              name="lastname"
+              label="Lastname"
+              value={values.lastname}
+            />
           </div>
-        </div>
-      </form>
-    </div>
+
+          <div className="col-2 mb-3 d-flex align-items-center d-flex justify-content-end">
+            Gender
+          </div>
+
+          <div className="col-2 mb-3 d-flex align-items-center d-flex justify-content-end">
+            <Input type="radio" name="gender" label="Male" value="MAN" />
+          </div>
+          <div className="col-2 mb-3 d-flex align-items-center d-flex justify-content-start">
+            <Input type="radio" name="gender" label="Female" value="WOMAN" />
+          </div>
+
+          <div className="col-6 mb-3 ">
+            <Input type="date" name="date" label="Date:" value={values.date} />{" "}
+          </div>
+
+          <div className="col-md-4 text-center">
+            <button type="submit" className="btn btn-primary d-inline-block">
+              Submit
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 }
 

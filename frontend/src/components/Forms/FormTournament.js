@@ -1,92 +1,98 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { Formik, Form, Field } from "formik";
+import Input from "./Input";
+import * as Yup from "yup";
 
 function FormTournament({ setDisplay, loadData }) {
   const { id } = useParams();
-  const [tournament, setTournament] = useState({
+  const initialValues = {
     name: "",
-    category: "",
-    event_id: -1,
-  });
-  const { name, category, event_id } = tournament;
-  const [categories, setCategories] = useState([]);
-  const handleChange = (e) => {
-    setTournament({ ...tournament, [e.target.name]: e.target.value });
+    category: "Senior - man",
+    event_id: id,
   };
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().max(32, "Too Long!").required("Required!"),
+    category: Yup.string().required("Required!"),
+  });
+
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     loadCategories();
   }, []);
-  const loadCategories = async () => {
+
+  const loadCategories = async (setFieldValue) => {
     try {
       const result = await axios.get(`http://localhost:8080/api/categories`);
       setCategories(result.data);
-      setTournament({ ...tournament, ["category"]: result.data[0].name });
     } catch (err) {}
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (values) => {
+    console.log(values);
     try {
-      const result = await axios
+      await axios
         .post(
-          `http://localhost:8080/api/manage/save/tournament`,
-          { name, category, event_id },
-          { withCredentials: true }
+          "http://localhost:8080/api/manage/save/tournament",
+          {
+            name: values.name,
+            category: values.category,
+            event_id: values.event_id,
+          },
+          {
+            withCredentials: true,
+          }
         )
-        .then(setDisplay(false));
-    } catch (err) {
-      console.log(err);
+        .then((response) => {
+          if (response.status === 200) {
+            setDisplay(false);
+            loadData();
+          } else {
+          }
+        });
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
-    <div>
-      {" "}
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div className="container">
-          <div className="row m-2">
-            <h4>Tournament</h4>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+      className="container mt-4"
+    >
+      {({ values }) => (
+        <Form className="row ">
+          <div className="col-md-6 mb-3">
+            <Input type="text" name="name" label="Name" value={values.name} />
           </div>
-          <div className="row m-2">
-            <label htmlFor="tournament">Name: </label>
-          </div>
-          <div className="row m-2">
-            <div className="col fs-6">
-              <input
-                required
-                type="text"
-                id="fname"
-                placeholder="Enter name of tournament"
-                value={tournament.name}
-                name="name"
-                onChange={(e) => handleChange(e)}
-              ></input>
-            </div>
-          </div>
-          <div className="row m-2">
-            <label htmlFor="tournament">Choose category: </label>
-          </div>
-          <div className="row m-2">
-            <div className="col fs-6">
-              <select
-                name="category"
-                id="category"
-                onChange={(e) => handleChange(e)}
-                required
-              >
+
+          <div className="col-md-6 mb-3">
+            <div className="form-group">
+              <label htmlFor="category" className="form-label">
+                Choose a category:
+              </label>
+              <Field as="select" name="category" className="form-control">
                 {categories.map((category) => (
                   <option key={category.id} value={category.name}>
                     {category.name}
                   </option>
                 ))}
-              </select>
+              </Field>
             </div>
           </div>
-          <input className="btn btn-success" type="submit"></input>
-        </div>
-      </form>
-    </div>
+
+          <div className="col mb-3 text-center">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 }
 

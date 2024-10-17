@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth } from "../auth/AuthProvider";
 
 function About() {
-  const { user, handleSignIn, handleSignOut } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="container">

@@ -1,26 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import Input from "./Input.js";
 import axios from "axios";
-import Message from "../Message.js";
 import { formatDate } from "../../utils/date.js";
 
 function FormEvent({ setDisplay, loadData }) {
-  const [date, setDate] = useState(formatDate(new Date()));
-  const [name, setName] = useState("");
-  const [alertData, setAlertData] = useState(null);
+  const initialValues = {
+    name: "",
+    date: formatDate(new Date()),
+  };
 
-  const handleChangeName = async (e) => {
-    setName((name) => e.target.value);
-  };
-  const handleChangeDate = async (e) => {
-    setDate(e.target.value);
-  };
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(6, "Name must be at least 6 characters")
+      .required("Required"),
+  });
+
+  const onSubmit = async (values) => {
     try {
       await axios
         .post(
           "http://localhost:8080/api/manage/event/save",
-          { name, date },
+          { name: values.name, date: values.date },
           {
             withCredentials: true,
           }
@@ -30,51 +32,33 @@ function FormEvent({ setDisplay, loadData }) {
             setDisplay(false);
             loadData();
           } else {
-            setAlertData({ content: "Error", type: "danger" });
           }
         });
-    } catch (error) {
-      setAlertData({ content: error.response.data, typeMessage: "danger" });
-    }
+    } catch (error) {}
   };
   return (
-    <form onSubmit={(e) => onSubmit(e)}>
-      <div className="container-sm">
-        <div className="row justify-content-center m-2">
-          <div className="col">
-            <label htmlFor="fname" className="m-2">
-              Name of Event:
-            </label>
-
-            <input
-              required
-              type="text"
-              id="fname"
-              value={name}
-              placeholder="Enter name of event"
-              onChange={(e) => handleChangeName(e, name)}
-            ></input>
-
-            <label htmlFor="date" className="m-2">
-              Date:
-            </label>
-
-            <input
-              type="date"
-              id="date"
-              value={date}
-              onChange={(e) => handleChangeDate(e)}
-            ></input>
-          </div>
+    <Formik
+      className="container mt-4"
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      <Form className="row justify-content-center">
+        <div className="col-md-6 mb-3">
+          <Input type="text" name="name" label="Name of event" />
         </div>
 
-        <button className="btn btn-success">Submit</button>
+        <div className="col-md-6 mb-3">
+          <Input type="date" name="date" label="Date:" />
+        </div>
 
-        {alertData && (
-          <Message content={alertData.content} type={alertData.typeMessage} />
-        )}
-      </div>
-    </form>
+        <div className="col-md-6 mb-3 text-center">
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </div>
+      </Form>
+    </Formik>
   );
 }
 

@@ -20,7 +20,6 @@ function Home() {
         setEvents(response.data);
       })
       .catch(function (error) {
-        // handle error
         console.log(error);
       });
   };
@@ -28,14 +27,18 @@ function Home() {
   return (
     <div className="container">
       <div className="row">
+        {/* Button to add new event */}
         <AddEventCard hanldeClick={(e) => setDisplayFormEvent(true)} />
 
-        {events.map((e, index) => (
+        {/* Display events */}
+        {events.map((event, index) => (
           <div className="col-4" key={index}>
-            <EventCard event={e} />
+            <EventCard event={event} />
           </div>
         ))}
       </div>
+
+      {/* Overlay for the form */}
       <Overlay isDisplayed={displayFormEvent} setDisplay={setDisplayFormEvent}>
         <FormEvent setDisplay={setDisplayFormEvent} loadData={loadEvents} />
       </Overlay>
