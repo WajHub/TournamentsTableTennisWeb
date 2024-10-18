@@ -7,6 +7,8 @@ import axios from "axios";
 
 function Home() {
   const [events, setEvents] = useState([]);
+  const [eventSearch, setEventSearch] = useState("");
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [displayFormEvent, setDisplayFormEvent] = useState(false);
 
   useEffect(() => {
@@ -18,20 +20,43 @@ function Home() {
       .get("http://localhost:8080/api/events")
       .then(function (response) {
         setEvents(response.data);
+        setFilteredEvents(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
+  const handleInputChange = (e) => {
+    const newSearch = e.target.value;
+    setEventSearch(newSearch);
+
+    setFilteredEvents(
+      events.filter((eve) =>
+        eve.name.toLowerCase().includes(newSearch.toLowerCase())
+      )
+    );
+  };
+
   return (
     <div className="container">
+      <div className="row mt-3 justify-content-center">
+        <div className="col-4">
+          {" "}
+          <input
+            type="text"
+            value={eventSearch}
+            onChange={handleInputChange}
+            placeholder="Type to search"
+          />
+        </div>
+      </div>
       <div className="row">
         {/* Button to add new event */}
         <AddEventCard hanldeClick={(e) => setDisplayFormEvent(true)} />
 
         {/* Display events */}
-        {events.map((event, index) => (
+        {filteredEvents.map((event, index) => (
           <div className="col-4" key={index}>
             <EventCard event={event} />
           </div>

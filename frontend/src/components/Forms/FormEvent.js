@@ -13,7 +13,7 @@ function FormEvent({ setDisplay, loadData }) {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .min(6, "Name must be at least 6 characters")
+      .min(2, "Name must be at least 2 characters")
       .required("Required"),
   });
 

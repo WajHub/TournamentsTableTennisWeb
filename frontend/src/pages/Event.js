@@ -42,8 +42,12 @@ function Event() {
       <h3 className="h3">{eventData.name}</h3>
 
       <NavTabs>
-        {tournaments.map((tournament, index) => (
-          <TabTitle title={tournament.name} active={false} />
+        {tournaments.map((tournament) => (
+          <TabTitle
+            key={tournament.id}
+            title={tournament.name}
+            active={false}
+          />
         ))}
         {user ? (
           <TabButtonAdmin
