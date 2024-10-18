@@ -4,10 +4,11 @@ import AddEventCard from "../components/AdminComponents/AddEventCard.js";
 import Overlay from "../components/Overlay.js";
 import FormEvent from "../components/Forms/FormEvent.js";
 import axios from "axios";
+import Search from "../components/Search.js";
 
 function Home() {
   const [events, setEvents] = useState([]);
-  const [eventSearch, setEventSearch] = useState("");
+
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [displayFormEvent, setDisplayFormEvent] = useState(false);
 
@@ -27,30 +28,17 @@ function Home() {
       });
   };
 
-  const handleInputChange = (e) => {
-    const newSearch = e.target.value;
-    setEventSearch(newSearch);
-
-    setFilteredEvents(
-      events.filter((eve) =>
-        eve.name.toLowerCase().includes(newSearch.toLowerCase())
-      )
-    );
-  };
+  const filtering = (object, newSearch) =>
+    object.name.toLowerCase().includes(newSearch.toLowerCase());
 
   return (
     <div className="container">
-      <div className="row mt-3 justify-content-center">
-        <div className="col-4">
-          {" "}
-          <input
-            type="text"
-            value={eventSearch}
-            onChange={handleInputChange}
-            placeholder="Type to search"
-          />
-        </div>
-      </div>
+      <Search
+        apiSet={events}
+        setFilteredSet={setFilteredEvents}
+        filter={filtering}
+      />
+
       <div className="row">
         {/* Button to add new event */}
         <AddEventCard hanldeClick={(e) => setDisplayFormEvent(true)} />
