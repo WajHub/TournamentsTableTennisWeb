@@ -1,0 +1,58 @@
+import React from "react";
+import NavTabs from "../../components/Tabs/NavTabs";
+import TabTitle from "../../components/Tabs/TabTitle";
+import TabContent from "../../components/Tabs/TabContent";
+import { useAuth } from "../../auth/AuthProvider";
+
+function Tournament({ tournament }) {
+  const { user, handleSignOut } = useAuth();
+
+  return (
+    <div className="container mt-4 w-75">
+      {" "}
+      <NavTabs>
+        {/*TITLE TABS */}
+        <TabTitle
+          key={`${tournament.id}_1`}
+          title="player List"
+          id={`${tournament.id}_1`}
+          active={false}
+        />
+
+        {/*TITLE TAB FOR ADMIN */}
+        {user ? (
+          <TabTitle
+            key={`${tournament.id}_-1`}
+            title="manage"
+            id={`${tournament.id}_-1`}
+            active={false}
+          />
+        ) : (
+          ""
+        )}
+        {user ? (
+          <TabContent
+            key={`${tournament.id}_-1`}
+            id={`${tournament.id}_-1`}
+            active={false}
+          >
+            MANAGE {tournament.id}
+          </TabContent>
+        ) : (
+          ""
+        )}
+
+        {/*CONTENT TABS */}
+        <TabContent
+          key={`${tournament.id}_1`}
+          id={`${tournament.id}_1`}
+          active={false}
+        >
+          Player List {tournament.id}
+        </TabContent>
+      </NavTabs>
+    </div>
+  );
+}
+
+export default Tournament;

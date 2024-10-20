@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import EventCard from "../components/Home/EventCard.js";
+import EventCard from "../components/PageHome/EventCard.js";
 import AddEventCard from "../components/AdminComponents/AddEventCard.js";
-import Overlay from "../components/Overlay.js";
+import Overlay from "../components/Other/Overlay.js";
 import FormEvent from "../components/Forms/FormEvent.js";
 import axios from "axios";
-import Search from "../components/Search.js";
+import Search from "../components/Other/Search.js";
+import { loadEvents } from "../utils/api.js";
 
 function Home() {
   const [events, setEvents] = useState([]);
@@ -12,21 +13,16 @@ function Home() {
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [displayFormEvent, setDisplayFormEvent] = useState(false);
 
-  useEffect(() => {
-    loadEvents();
-  }, []);
-
-  const loadEvents = async () => {
-    await axios
-      .get("http://localhost:8080/api/events")
-      .then(function (response) {
-        setEvents(response.data);
-        setFilteredEvents(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const loadData = () => {
+    loadEvents().then((data) => {
+      setEvents(data);
+      setFilteredEvents(data);
+    });
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const filtering = (object, newSearch) =>
     object.name.toLowerCase().includes(newSearch.toLowerCase());
@@ -53,7 +49,7 @@ function Home() {
 
       {/* Overlay for the form */}
       <Overlay isDisplayed={displayFormEvent} setDisplay={setDisplayFormEvent}>
-        <FormEvent setDisplay={setDisplayFormEvent} loadData={loadEvents} />
+        <FormEvent setDisplay={setDisplayFormEvent} loadData={loadData} />
       </Overlay>
     </div>
   );

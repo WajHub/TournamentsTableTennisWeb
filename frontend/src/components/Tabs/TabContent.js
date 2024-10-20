@@ -1,12 +1,12 @@
 import React from "react";
 
-function TabContent({ title, active, children }) {
+function TabContent({ id, active, children }) {
   return (
     <div
       className={`tab-pane fade show ${active ? "active" : ""}`}
-      id={`${title}`}
+      id={`${id}`}
       role="tabpanel"
-      aria-labelledby={`${title}-tab`}
+      aria-labelledby={`${id}-tab`}
     >
       {children}
     </div>

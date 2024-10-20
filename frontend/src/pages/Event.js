@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import NavTabs from "../components/Tabs/NavTabs";
 import TabTitle from "../components/Tabs/TabTitle";
 import TabContent from "../components/Tabs/TabContent";
 import TabButtonAdmin from "../components/Tabs/TabButtonAdmin";
 import { useAuth } from "../auth/AuthProvider";
-import Overlay from "../components/Overlay";
+import Overlay from "../components/Other/Overlay";
 import FormTournament from "../components/Forms/FormTournament";
+import { loadEvent, loadTournaments } from "../utils/api";
+import Tournament from "../components/PageEvent/Tournament";
+
 function Event() {
   const { user, handleSignOut } = useAuth();
   const { id } = useParams();
@@ -16,39 +18,36 @@ function Event() {
     name: "",
   });
   const [tournaments, setTournaments] = useState([]);
+  const [selectedTabTournament, setSelectedTabTournament] = useState(null);
 
   useEffect(() => {
-    loadEvent();
-    loadTournaments();
-  }, []);
-  const loadEvent = async () => {
-    const result = await axios
-      .get(`http://localhost:8080/api/event/${id}`)
-      .then((response) => {
-        setEventData(response.data);
-      });
-  };
-  const loadTournaments = async () => {
-    const result = await axios
-      .get(`http://localhost:8080/api/tournaments/${id}`)
-      .then((response) => {
-        setTournaments(response.data);
-        console.log(response.data);
-      });
-  };
+    const fetchData = async () => {
+      const event = await loadEvent(id);
+      setEventData(event);
+
+      const tournaments = await loadTournaments(id);
+      setTournaments(tournaments);
+    };
+
+    fetchData();
+  }, [id]);
 
   return (
     <div>
       <h3 className="h3">{eventData.name}</h3>
 
       <NavTabs>
+        {/*TITLE TABS */}
         {tournaments.map((tournament) => (
           <TabTitle
             key={tournament.id}
             title={tournament.name}
+            id={tournament.id}
             active={false}
           />
         ))}
+
+        {/*TITLE TAB FOR ADMIN */}
         {user ? (
           <TabButtonAdmin
             className="h1"
@@ -58,23 +57,22 @@ function Event() {
           ""
         )}
 
-        {/* <TabTitle title="home" active={true} />
-        <TabTitle title="test" active={false} />
-        
-        <TabContent title="home" active={true}>
-          HOME
-        </TabContent>
-        <TabContent title="test" active={false}>
-          TEST
-        </TabContent> */}
+        {/*CONTENT TABS */}
+        {tournaments.map((tournament) => (
+          <TabContent key={tournament.id} id={tournament.id} active={false}>
+            <Tournament tournament={tournament} />
+          </TabContent>
+        ))}
       </NavTabs>
+
+      {/*FORM TOURNAMENT */}
       <Overlay
         isDisplayed={displayFormTournamen}
         setDisplay={setDisplayFormTournament}
       >
         <FormTournament
           setDisplay={setDisplayFormTournament}
-          loadData={loadTournaments}
+          loadData={() => loadTournaments(id).then(setTournaments)}
         ></FormTournament>
       </Overlay>
     </div>

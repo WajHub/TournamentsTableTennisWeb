@@ -3,7 +3,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import Input from "./Input";
-import Message from "../Message";
+import Message from "../Other/Message";
 const SignUpForm = () => {
   const [message, setMessage] = useState({
     content: "",

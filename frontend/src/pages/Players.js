@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AddPlayerButton from "../components/AdminComponents/AddPlayerButton";
 
-import Overlay from "../components/Overlay";
+import Overlay from "../components/Other/Overlay";
 import FormPlayer from "../components/Forms/FormPlayer";
-import Player from "../components/Players/Player";
+import Player from "../components/PagePlayers/Player";
 import axios from "axios";
 
 function Players() {
