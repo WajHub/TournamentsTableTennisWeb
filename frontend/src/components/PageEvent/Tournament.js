@@ -3,12 +3,13 @@ import NavTabs from "../../components/Tabs/NavTabs";
 import TabTitle from "../../components/Tabs/TabTitle";
 import TabContent from "../../components/Tabs/TabContent";
 import { useAuth } from "../../auth/AuthProvider";
+import ManageTournament from "../AdminComponents/ManageTournament";
 
 function Tournament({ tournament }) {
   const { user, handleSignOut } = useAuth();
 
   return (
-    <div className="container mt-4 w-75">
+    <div className="container border rounded p-4 mt-2 shadow w-75">
       {" "}
       <NavTabs>
         {/*TITLE TABS */}
@@ -37,6 +38,7 @@ function Tournament({ tournament }) {
             active={false}
           >
             MANAGE {tournament.id}
+            <ManageTournament />
           </TabContent>
         ) : (
           ""

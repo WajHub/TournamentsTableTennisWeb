@@ -40,3 +40,11 @@ export const loadTournamentById = async (id) => {
     throw error;
   }
 };
+export const loadPlayers = async () => {
+  try {
+    const result = await axios.get("http://localhost:8080/api/players");
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
