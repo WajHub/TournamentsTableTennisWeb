@@ -38,7 +38,7 @@ function Tournament({ tournament }) {
             active={false}
           >
             MANAGE {tournament.id}
-            <ManageTournament />
+            <ManageTournament idTournament={tournament.id} />
           </TabContent>
         ) : (
           ""

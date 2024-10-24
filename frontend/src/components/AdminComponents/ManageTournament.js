@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { loadEligiblePlayers } from "../../utils/api";
+import PlayerList from "../Other/PlayerList";
 
-function ManageTournament() {
+function ManageTournament({ idTournament }) {
+  const [players, setPlayers] = useState([]);
+
+  const fetchData = async (id) => {
+    await loadEligiblePlayers(id).then((res) => {
+      setPlayers(res);
+    });
+  };
+
   useEffect(() => {
-    loadPlayers();
+    fetchData(idTournament);
   }, []);
 
-  const loadPlayers = async () => {
-    // await axios
-    //   .get("http://localhost:8080/api/players")
-    //   .then(function (response) {
-    //     setPlayers(response.data);
-    //   });
-  };
-  return <div>...</div>;
+  return (
+    <div>
+      <PlayerList deletion={false} players={players} loadData={fetchData} />
+    </div>
+  );
 }
 
 export default ManageTournament;

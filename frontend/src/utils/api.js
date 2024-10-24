@@ -48,3 +48,14 @@ export const loadPlayers = async () => {
     throw error;
   }
 };
+
+export const loadEligiblePlayers = async (id) => {
+  try {
+    const result = await axios.get(
+      `http://localhost:8080/api/tournaments/player/eligible/${id}`
+    );
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
