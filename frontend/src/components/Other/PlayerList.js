@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Search from "./Search";
 import Player from "./Player";
 
-function PlayerList({ players, deletion, loadData }) {
+function PlayerList({ addingToTournament, players, deletion, loadData }) {
   const [filteredPlayers, setFilteredPlayers] = useState([]);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function PlayerList({ players, deletion, loadData }) {
         filter={filtering}
       />
       <ul className="list-group list-group-flush mt-2">
-        {players.map((player, index) => (
+        {filteredPlayers.map((player, index) => (
           <Player
             player={player}
             key={index}

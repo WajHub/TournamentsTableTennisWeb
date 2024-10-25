@@ -37,7 +37,6 @@ function Tournament({ tournament }) {
             id={`${tournament.id}_-1`}
             active={false}
           >
-            MANAGE {tournament.id}
             <ManageTournament idTournament={tournament.id} />
           </TabContent>
         ) : (

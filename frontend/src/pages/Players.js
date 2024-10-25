@@ -23,7 +23,12 @@ function Players() {
     <div>
       <h3 className="h3">List of players</h3>
       <AddPlayerButton hanldeClick={setDisplayFormPlayer} />
-      <PlayerList deletion={true} players={players} loadData={fetchData} />
+      <PlayerList
+        addingToTournament={false}
+        deletion={true}
+        players={players}
+        loadData={fetchData}
+      />
 
       <Overlay
         isDisplayed={displayFormPlayer}

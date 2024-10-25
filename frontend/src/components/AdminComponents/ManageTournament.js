@@ -17,7 +17,12 @@ function ManageTournament({ idTournament }) {
 
   return (
     <div>
-      <PlayerList deletion={false} players={players} loadData={fetchData} />
+      <PlayerList
+        addingToTournament={true}
+        deletion={false}
+        players={players}
+        loadData={fetchData}
+      />
     </div>
   );
 }
