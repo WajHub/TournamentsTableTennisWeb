@@ -1,13 +1,13 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home.js";
-import SignUp from "./pages/SignUp.js";
-import Navbar from "./components/Other/Navbar.js";
-import SignIn from "./pages/SignIn.js";
-import About from "./pages/About.js";
-import Event from "./pages/Event.js";
-import ProtectedRoute from "./auth/ProtectedRoute.js";
-import Players from "./pages/Players.js";
+import Home from "./pages/Home.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import Navbar from "./components/Other/Navbar.jsx";
+import SignIn from "./pages/SignIn.jsx";
+import About from "./pages/About.jsx";
+import Event from "./pages/Event.jsx";
+import ProtectedRoute from "./auth/ProtectedRoute.jsx";
+import Players from "./pages/Players.jsx";
 
 function App() {
   return (

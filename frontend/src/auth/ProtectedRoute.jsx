@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../auth/AuthProvider.js";
+import { useAuth } from "./AuthProvider.jsx";
 
 function ProtectedRoute({ allowedRoles, children }) {
   const { user } = useAuth();

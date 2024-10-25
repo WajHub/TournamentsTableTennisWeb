@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth, isAuth, isMod } from "../../auth/AuthProvider.js";
+import { useAuth, isAuth, isMod } from "../../auth/AuthProvider.jsx";
 import axios from "axios";
 
 function DeletePlayerButton({ idPlayer, loadData }) {

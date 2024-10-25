@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import Input from "./Input.js";
+import Input from "./Input.jsx";
 import axios from "axios";
 import { formatDate } from "../../utils/date.js";
 

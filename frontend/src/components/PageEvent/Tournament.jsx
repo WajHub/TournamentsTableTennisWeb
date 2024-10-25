@@ -1,7 +1,7 @@
 import React from "react";
-import NavTabs from "../../components/Tabs/NavTabs";
-import TabTitle from "../../components/Tabs/TabTitle";
-import TabContent from "../../components/Tabs/TabContent";
+import NavTabs from "../Tabs/NavTabs";
+import TabTitle from "../Tabs/TabTitle";
+import TabContent from "../Tabs/TabContent";
 import { useAuth } from "../../auth/AuthProvider";
 import ManageTournament from "../AdminComponents/ManageTournament";
 

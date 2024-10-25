@@ -1,6 +1,6 @@
 import React from "react";
 import {} from "react-router-dom";
-import FormSingUp from "../components/Forms/FormSingUp.js";
+import FormSingUp from "../components/Forms/FormSingUp.jsx";
 
 function SignUp() {
   return (

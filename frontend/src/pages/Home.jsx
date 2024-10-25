@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import EventCard from "../components/PageHome/EventCard.js";
-import AddEventCard from "../components/AdminComponents/AddEventCard.js";
-import Overlay from "../components/Other/Overlay.js";
-import FormEvent from "../components/Forms/FormEvent.js";
+import EventCard from "../components/PageHome/EventCard.jsx";
+import AddEventCard from "../components/AdminComponents/AddEventCard.jsx";
+import Overlay from "../components/Other/Overlay.jsx";
+import FormEvent from "../components/Forms/FormEvent.jsx";
 import axios from "axios";
-import Search from "../components/Other/Search.js";
+import Search from "../components/Other/Search.jsx";
 import { loadEvents } from "../utils/api.js";
 
 function Home() {

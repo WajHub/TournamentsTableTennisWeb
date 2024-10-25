@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { formatDate } from "../../utils/date.js";
 import { Formik, Form, Field } from "formik";
-import Input from "./Input";
+import Input from "./Input.jsx";
 import * as Yup from "yup";
 
 function FormPlayer({ setDisplay, loadData }) {
