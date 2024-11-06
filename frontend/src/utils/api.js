@@ -62,8 +62,9 @@ export const loadEligiblePlayers = async (id) => {
 
 export const addPlayerToTournament = async (playerId, tournamentId) => {
   try {
-    const reuslt = await axios.put(
+    await axios.put(
       `http://localhost:8080/api/manage/add/player/tournament?playerId=${playerId}&tournamentId=${tournamentId}`,
+      {},
       {
         withCredentials: true,
       }

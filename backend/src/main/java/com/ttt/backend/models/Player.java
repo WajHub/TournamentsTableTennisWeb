@@ -18,6 +18,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Player {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
@@ -39,7 +40,12 @@ public class Player {
 
     @OneToMany(mappedBy = "player",orphanRemoval = true)
     @JsonBackReference
+    @ToString.Exclude
     Set<PlayerCategory> playerCategoryList;
+
+    @ManyToMany(mappedBy = "playerList", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Tournament> tournamentList;
 
     public int getAge(){
         long years = java.time.temporal.ChronoUnit.YEARS.between(birthday,  LocalDate.now() );

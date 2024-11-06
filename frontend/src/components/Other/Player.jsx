@@ -4,7 +4,13 @@ import AddPlayerToTournamentButton from "../AdminComponents/AddPlayerToTournamen
 
 /* deletetion, addingToTournament - operation on player*/
 
-function Player({ player, deletion, loadData, addingToTournament }) {
+function Player({
+  player,
+  deletion,
+  loadData,
+  addingToTournament,
+  idTournament,
+}) {
   return (
     <div key={player.id}>
       <div className="list-group-item justify-content-center">
@@ -37,6 +43,7 @@ function Player({ player, deletion, loadData, addingToTournament }) {
               <AddPlayerToTournamentButton
                 idPlayer={player.id}
                 loadData={loadData}
+                idTournament={idTournament}
               />
             </div>
           )}

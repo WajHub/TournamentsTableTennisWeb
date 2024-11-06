@@ -1,5 +1,6 @@
 package com.ttt.backend.controllers;
 
+import com.ttt.backend.dto.CategoryDto;
 import com.ttt.backend.models.Category;
 import com.ttt.backend.models.Player;
 import com.ttt.backend.services.CategoryService;
@@ -30,16 +31,8 @@ public class CategoryController {
     }
 
     @GetMapping("/categories")
-    public List<Category> findAll(){
-        return categoryService.findAll();
+    public List<CategoryDto> findAllDto(){
+        return categoryService.findAllDtos();
     }
 
-    @GetMapping("/categoriesPlayer")
-    public List<Category> findByPlayerId(@RequestParam(name = "playerId") Long idPlayer){
-        Optional<Player> player = playerService.findById(idPlayer);
-        if(player.isEmpty()) return new ArrayList<>();
-        List<Category> list = playerCategoryService.findByPlayerId(player.get());
-//        System.out.println(list);
-        return null;
-    }
 }

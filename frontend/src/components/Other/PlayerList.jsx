@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import Search from "./Search";
 import Player from "./Player";
 
-function PlayerList({ addingToTournament, players, deletion, loadData }) {
+function PlayerList({
+  addingToTournament,
+  idTournament,
+  players,
+  deletion,
+  loadData,
+}) {
   const [filteredPlayers, setFilteredPlayers] = useState([]);
 
   useEffect(() => {
@@ -29,6 +35,7 @@ function PlayerList({ addingToTournament, players, deletion, loadData }) {
             loadData={loadData}
             deletion={deletion}
             addingToTournament={addingToTournament}
+            idTournament={idTournament}
           ></Player>
         ))}
       </ul>

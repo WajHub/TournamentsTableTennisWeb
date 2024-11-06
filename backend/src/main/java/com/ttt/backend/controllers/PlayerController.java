@@ -73,23 +73,6 @@ public class PlayerController {
 
     @GetMapping("/players")
     public ResponseEntity<?> findAll(){
-        return ResponseEntity.ok(
-            playerService.findAll()
-            .stream()
-            .map(player -> {
-                List<PlayerCategoryDto> playerCategoryDtoList =
-                    playerCategoryService.findAllByPlayer(player)
-                        .stream()
-                        .map(playerCategory ->
-                            mapperStruct.playerCategoryToPlayerCategoryDto(playerCategory)
-                        )
-                        .toList();
-
-                PlayerDto playerdto = mapperStruct.playerToPlayerDto(player);
-                playerdto.setPlayerCategoryDtoList(playerCategoryDtoList);
-                return playerdto;
-                }
-            )
-        .toList());
+        return ResponseEntity.ok(playerService.findAll());
     }
 }

@@ -9,13 +9,15 @@ import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "categories")
 @Getter
 @Setter
-public class Category {
+@ToString
+public class Category{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -40,4 +42,17 @@ public class Category {
     @JsonManagedReference
     Set<PlayerCategory> playerCategoryList;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Category category = (Category) o;
+
+        if (!Objects.equals(id, category.id)) return false;
+        if (!Objects.equals(name, category.name)) return false;
+        if (ageLimit != category.ageLimit) return false;
+        if (type != category.type) return false;
+        return gender == category.gender;
+    }
 }

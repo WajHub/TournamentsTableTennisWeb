@@ -17,11 +17,13 @@ function ManageTournament({ idTournament }) {
 
   return (
     <div>
+      List of players to Add:
       <PlayerList
         addingToTournament={true}
+        idTournament={idTournament}
         deletion={false}
         players={players}
-        loadData={fetchData}
+        loadData={() => fetchData(idTournament)}
       />
     </div>
   );

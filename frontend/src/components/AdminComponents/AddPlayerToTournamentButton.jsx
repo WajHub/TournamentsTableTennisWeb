@@ -3,24 +3,12 @@ import { useAuth, isAuth, isMod } from "../../auth/AuthProvider.jsx";
 import axios from "axios";
 import { addPlayerToTournament } from "../../utils/api.js";
 
-function AddPlayerToTournamentButton({ idPlayer, loadData }) {
+function AddPlayerToTournamentButton({ idPlayer, loadData, idTournament }) {
   const { user } = useAuth();
 
   const handleSubmit = async (e) => {
-    axios
-      .put(
-        `http://localhost:8080/api/manage/add/player/tournament?playerId=${idPlayer}&tournamentId=3`,
-        {},
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        loadData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    await addPlayerToTournament(idPlayer, idTournament);
+    loadData();
   };
   return (
     <>

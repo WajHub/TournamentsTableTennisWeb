@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -36,6 +37,7 @@ public class MapperStructImpl implements MapperStruct{
                 .gender(playerDto.getGender())
                 .birthday(playerDto.getDate())
                 .playerCategoryList(new HashSet<>())
+                .tournamentList((new ArrayList<>()))
                 .build();
     }
 
@@ -74,19 +76,35 @@ public class MapperStructImpl implements MapperStruct{
     }
 
     @Override
+    public PlayerDto playerToPlayerDto(Player player, List<PlayerCategoryDto> playerCategoryDtoList) {
+        PlayerDto playerDto = playerToPlayerDto(player);
+        playerDto.setPlayerCategoryDtoList(playerCategoryDtoList);
+        return playerDto;
+    }
+
+    @Override
     public Tournament tournamentDtoToTournament(TournamentDto tournamentDto, Event event, Category category) {
         return Tournament.builder()
                 .name(tournamentDto.getName())
                 .event(event)
                 .category(category)
+                .isRunning(tournamentDto.isRunning())
                 .build();
     }
 
     @Override
     public TournamentDto tournamentToTournamentDto(Tournament tournament) {
         return TournamentDto.builder()
+                .id(tournament.getId())
                 .name(tournament.getName())
                 .category(tournament.getCategory().getName())
+                .event_id(tournament.getEvent().getId())
+                .isRunning(tournament.isRunning())
+                .playerDtoList(
+                        tournament.getPlayerList().stream()
+                                .map(this::playerToPlayerDto)
+                            .toList()
+                )
                 .build();
     }
 

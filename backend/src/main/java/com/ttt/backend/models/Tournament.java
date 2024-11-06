@@ -2,9 +2,11 @@ package com.ttt.backend.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "tournaments")
@@ -22,6 +24,10 @@ public class Tournament {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "isRunning")
+    @ColumnDefault("false")
+    private boolean isRunning;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -29,5 +35,15 @@ public class Tournament {
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
+
+    @ManyToMany
+    @JoinTable(
+            name="tournament_player",
+            joinColumns = @JoinColumn(name = "tournament_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
+    private List<Player> playerList;
+
+
 
 }
