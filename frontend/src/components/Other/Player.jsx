@@ -1,7 +1,10 @@
 import React from "react";
 import DeletePlayerButton from "../AdminComponents/DeletePlayerButton";
+import AddPlayerToTournamentButton from "../AdminComponents/AddPlayerToTournamentButton.jsx";
 
-function Player({ player, deletion, loadData }) {
+/* deletetion, addingToTournament - operation on player*/
+
+function Player({ player, deletion, loadData, addingToTournament }) {
   return (
     <div key={player.id}>
       <div className="list-group-item justify-content-center">
@@ -14,15 +17,27 @@ function Player({ player, deletion, loadData }) {
               " (" +
               player.date +
               ") "}
-            <b>Categories: </b>
-            <i>|</i>
-            {player.playerCategoryDtoList.map((category, index) => (
-              <i key={index}> {category.categoryDto.name + "|"} </i>
-            ))}
+            {player.playerCategoryDtoList && (
+              <>
+                <b>Categories: </b>
+                <i>|</i>
+                {player.playerCategoryDtoList.map((category, index) => (
+                  <i key={index}> {category.categoryDto.name + "|"} </i>
+                ))}
+              </>
+            )}
           </div>
           {deletion && (
             <div className="col-1">
               <DeletePlayerButton idPlayer={player.id} loadData={loadData} />
+            </div>
+          )}
+          {addingToTournament && (
+            <div className="col-1">
+              <AddPlayerToTournamentButton
+                idPlayer={player.id}
+                loadData={loadData}
+              />
             </div>
           )}
         </li>

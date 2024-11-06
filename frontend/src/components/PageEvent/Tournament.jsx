@@ -4,6 +4,7 @@ import TabTitle from "../Tabs/TabTitle";
 import TabContent from "../Tabs/TabContent";
 import { useAuth } from "../../auth/AuthProvider";
 import ManageTournament from "../AdminComponents/ManageTournament";
+import PlayerList from "../Other/PlayerList";
 
 function Tournament({ tournament }) {
   const { user, handleSignOut } = useAuth();
@@ -50,6 +51,11 @@ function Tournament({ tournament }) {
           active={false}
         >
           Player List {tournament.id}
+          <PlayerList
+            players={tournament.playerDtoList}
+            deletion={false}
+            loadData={false}
+          />
         </TabContent>
       </NavTabs>
     </div>

@@ -59,3 +59,16 @@ export const loadEligiblePlayers = async (id) => {
     throw error;
   }
 };
+
+export const addPlayerToTournament = async (playerId, tournamentId) => {
+  try {
+    const reuslt = await axios.put(
+      `http://localhost:8080/api/manage/add/player/tournament?playerId=${playerId}&tournamentId=${tournamentId}`,
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    throw error;
+  }
+};

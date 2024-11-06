@@ -28,6 +28,7 @@ function PlayerList({ addingToTournament, players, deletion, loadData }) {
             key={index}
             loadData={loadData}
             deletion={deletion}
+            addingToTournament={addingToTournament}
           ></Player>
         ))}
       </ul>
