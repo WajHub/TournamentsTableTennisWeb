@@ -20,15 +20,15 @@ function Event() {
   const [tournaments, setTournaments] = useState([]);
   const [selectedTabTournament, setSelectedTabTournament] = useState(null);
 
+  const fetchData = async () => {
+    const event = await loadEvent(id);
+    setEventData(event);
+
+    const tournaments = await loadTournaments(id);
+    setTournaments(tournaments);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const event = await loadEvent(id);
-      setEventData(event);
-
-      const tournaments = await loadTournaments(id);
-      setTournaments(tournaments);
-    };
-
     fetchData();
   }, [id]);
 
@@ -60,7 +60,7 @@ function Event() {
         {/*CONTENT TABS */}
         {tournaments.map((tournament) => (
           <TabContent key={tournament.id} id={tournament.id} active={false}>
-            <Tournament tournament={tournament} />
+            <Tournament tournament={tournament} fetchData={fetchData} />
           </TabContent>
         ))}
       </NavTabs>

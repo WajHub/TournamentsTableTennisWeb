@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TournamentService {
@@ -50,6 +51,11 @@ public class TournamentService {
             )
         );
     }
+
+    public Optional<Tournament> findById(Long id){
+        return tournamentRepository.findById(id);
+    }
+
     public List<TournamentDto> findAllByIdEvent(Long id){
         return tournamentRepository
                 .findAllByEvent(eventRepository.findAllById(id))

@@ -36,6 +36,14 @@ public class Tournament {
     @JoinColumn(name = "event_id")
     private Event event;
 
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'SINGLE_ELIMINATION'")
+    private TournamentType tournamentType;
+
+    @JoinColumn(name = "numberOfRounds")
+    @ColumnDefault("0")
+    private int numberOfRounds;
+
     @ManyToMany
     @JoinTable(
             name="tournament_player",
@@ -43,7 +51,5 @@ public class Tournament {
             inverseJoinColumns = @JoinColumn(name = "player_id")
     )
     private List<Player> playerList;
-
-
 
 }

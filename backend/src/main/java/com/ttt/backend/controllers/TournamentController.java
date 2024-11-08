@@ -41,6 +41,12 @@ public class TournamentController {
     }
     @PutMapping("/manage/add/player/tournament")
     public ResponseEntity<?> addPlayer(@RequestParam Long playerId, @RequestParam Long tournamentId) {
+        tournamentService.findById(tournamentId).ifPresentOrElse(
+                ((tournament)-> {
+                    if(tournament.isRunning())
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tournament is already running!");
+                }),
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         try {
             tournamentService.addPlayerToTournament(playerId, tournamentId);
             return ResponseEntity.ok("OK");
@@ -59,6 +65,37 @@ public class TournamentController {
         } catch (Exception ex) {
             return new ResponseEntity<>(ex,HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PatchMapping("/manage/start/{tournamentId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void startTournament(@PathVariable Long tournamentId){
+        tournamentService.findById(tournamentId)
+                .ifPresentOrElse(
+                        (tournament -> {
+                            tournament.setRunning(true);
+                            tournamentService.save(tournament);
+                        }),
+                        () -> {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+                        }
+                );
+    }
+
+    /** Only develop usage **/
+    @PatchMapping("/manage/stop/{tournamentId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void stopTournament(@PathVariable Long tournamentId){
+        tournamentService.findById(tournamentId)
+                .ifPresentOrElse(
+                        (tournament -> {
+                            tournament.setRunning(false);
+                            tournamentService.save(tournament);
+                        }),
+                        () -> {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+                        }
+                );
     }
 
 }

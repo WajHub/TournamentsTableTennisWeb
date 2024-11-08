@@ -6,7 +6,7 @@ import { useAuth } from "../../auth/AuthProvider";
 import ManageTournament from "../AdminComponents/ManageTournament";
 import PlayerList from "../Other/PlayerList";
 
-function Tournament({ tournament }) {
+function Tournament({ tournament, fetchData }) {
   const { user, handleSignOut } = useAuth();
 
   return (
@@ -38,7 +38,10 @@ function Tournament({ tournament }) {
             id={`${tournament.id}_-1`}
             active={false}
           >
-            <ManageTournament idTournament={tournament.id} />
+            <ManageTournament
+              tournament={tournament}
+              fetchData_tournament={fetchData}
+            />
           </TabContent>
         ) : (
           ""

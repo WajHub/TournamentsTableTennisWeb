@@ -73,3 +73,18 @@ export const addPlayerToTournament = async (playerId, tournamentId) => {
     throw error;
   }
 };
+
+export const startTournament = (tournamentId) => {
+  try {
+    const result = axios.patch(
+      `http://localhost:8080/api/manage/start/${tournamentId}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
