@@ -5,6 +5,7 @@ import TabContent from "../Tabs/TabContent";
 import { useAuth } from "../../auth/AuthProvider";
 import ManageTournament from "../AdminComponents/ManageTournament";
 import PlayerList from "../Other/PlayerList";
+import Draw from "./Draw.jsx";
 
 function Tournament({ tournament, fetchData }) {
   const { user, handleSignOut } = useAuth();
@@ -18,6 +19,12 @@ function Tournament({ tournament, fetchData }) {
           key={`${tournament.id}_1`}
           title="player List"
           id={`${tournament.id}_1`}
+          active={false}
+        />
+        <TabTitle
+          key={`${tournament.id}_2`}
+          title="Draws"
+          id={`${tournament.id}_2`}
           active={false}
         />
 
@@ -59,6 +66,13 @@ function Tournament({ tournament, fetchData }) {
             deletion={false}
             loadData={false}
           />
+        </TabContent>
+        <TabContent
+          key={`${tournament.id}_2`}
+          id={`${tournament.id}_2`}
+          active={false}
+        >
+          <Draw />
         </TabContent>
       </NavTabs>
     </div>

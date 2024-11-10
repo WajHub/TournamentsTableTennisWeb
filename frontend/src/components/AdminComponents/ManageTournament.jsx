@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { loadEligiblePlayers } from "../../utils/api";
 import PlayerList from "../Other/PlayerList";
 import { startTournament } from "../../utils/api";
+import ManageRunningTournament from "./ManageRunningTournament";
 
 function ManageTournament({ tournament, fetchData_tournament }) {
   const [players, setPlayers] = useState([]);
@@ -23,7 +24,7 @@ function ManageTournament({ tournament, fetchData_tournament }) {
   };
 
   return tournament.running ? (
-    "Is Running"
+    <ManageRunningTournament />
   ) : (
     <div>
       List of players to Add:
@@ -32,7 +33,10 @@ function ManageTournament({ tournament, fetchData_tournament }) {
         idTournament={tournament.id}
         deletion={false}
         players={players}
-        loadData={() => fetchData(tournament.id)}
+        loadData={() => {
+          fetchData(tournament.id);
+          fetchData_tournament();
+        }}
       />
       <button
         className="btn btn-success mt-3"

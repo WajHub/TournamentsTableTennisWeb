@@ -1,7 +1,7 @@
 import React from "react";
 
 function ManageRunningTournament() {
-  return <div></div>;
+  return <div>"Is Running"</div>;
 }
 
 export default ManageRunningTournament;
