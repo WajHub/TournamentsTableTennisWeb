@@ -4,7 +4,7 @@ import PlayerList from "../Other/PlayerList";
 import { startTournament } from "../../utils/api";
 import ManageRunningTournament from "./ManageRunningTournament";
 
-function ManageTournament({ tournament, fetchData_tournament }) {
+function ManageTournament({ tournament }) {
   const [players, setPlayers] = useState([]);
 
   const fetchData = async (id) => {
@@ -18,9 +18,7 @@ function ManageTournament({ tournament, fetchData_tournament }) {
   }, []);
 
   const handleStartTournament = (id) => {
-    startTournament(id).then((response) => {
-      if (response.status == 201) fetchData_tournament();
-    });
+    startTournament(id);
   };
 
   return tournament.running ? (
@@ -35,7 +33,6 @@ function ManageTournament({ tournament, fetchData_tournament }) {
         players={players}
         loadData={() => {
           fetchData(tournament.id);
-          fetchData_tournament();
         }}
       />
       <button

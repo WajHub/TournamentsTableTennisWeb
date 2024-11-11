@@ -10,7 +10,7 @@ import java.util.List;
 public class GameDtoResponse {
     Long id;
     String name;
-    Long idNextMatch;
+    Long nextMatchId;
     String tournamentRoundText;
     String startTime;
     String state;

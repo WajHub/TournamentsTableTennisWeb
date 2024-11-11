@@ -31,6 +31,9 @@ function Event() {
   useEffect(() => {
     fetchData();
   }, [id]);
+  useEffect(() => {
+    fetchData();
+  }, [tournaments]);
 
   return (
     <div>
@@ -60,7 +63,7 @@ function Event() {
         {/*CONTENT TABS */}
         {tournaments.map((tournament) => (
           <TabContent key={tournament.id} id={tournament.id} active={false}>
-            <Tournament tournament={tournament} fetchData={fetchData} />
+            <Tournament tournament={tournament} />
           </TabContent>
         ))}
       </NavTabs>

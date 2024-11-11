@@ -1,8 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider.jsx";
-function EventCard({ event }) {
+import { deleteEvent } from "../../utils/api.js";
+function EventCard({ event, loadData }) {
   const { user } = useAuth();
+
+  const handleDeleteEvent = (id) => {
+    console.log("ID", event.id);
+    deleteEvent(id);
+    loadData();
+  };
+
   return (
     <Link
       className="card event-card my-4"
@@ -37,7 +45,7 @@ function EventCard({ event }) {
                   className="btn btn-danger"
                   onClick={(e) => {
                     e.preventDefault();
-                    console.log("DELETE");
+                    handleDeleteEvent(event.id);
                   }}
                 >
                   <i className="bi bi-trash"></i>

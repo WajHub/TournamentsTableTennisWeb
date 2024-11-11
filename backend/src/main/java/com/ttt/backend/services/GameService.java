@@ -1,6 +1,7 @@
 package com.ttt.backend.services;
 
 import com.ttt.backend.dto.request.GameDtoCreate;
+import com.ttt.backend.dto.response.GameDtoResponse;
 import com.ttt.backend.mapper.MapperStructImpl;
 import com.ttt.backend.models.Game;
 import com.ttt.backend.models.Tournament;
@@ -52,12 +53,8 @@ public class GameService {
     public void createAllGames(Long tournamentId) {
         tournamentRepository.findById(tournamentId).ifPresentOrElse(
                 (tournament) -> {
-                    if(tournament.isRunning()) {
-                        int numberOfRounds = calculateRounds(tournament.getPlayerList().size());
-                        createTree(0, tournament, numberOfRounds, null);
-
-                    }
-                    else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tournament has not started!");
+                    int numberOfRounds = calculateRounds(tournament.getPlayerList().size());
+                    createTree(0, tournament, numberOfRounds, null);
                 },
                 () ->{
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament doesn't exist");
@@ -89,4 +86,16 @@ public class GameService {
         }
         return (int) Math.ceil(Math.log(players) / Math.log(2));
     }
+
+    public List<GameDtoResponse> findByTournamentId(Long tournamentId) {
+        return tournamentRepository.findById(tournamentId)
+                .map(tournament ->
+                        gameRepository.findAllByTournament(tournament)
+                                .stream()
+                                .map(game -> mapperStruct.gameToGameDtoResponse(game))
+                                .toList()
+                )
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament not found!"));
+    }
+
 }

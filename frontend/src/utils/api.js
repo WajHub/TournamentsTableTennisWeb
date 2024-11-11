@@ -83,6 +83,39 @@ export const startTournament = (tournamentId) => {
         withCredentials: true,
       }
     );
+    axios.post(
+      `http://localhost:8080/api/manage/games/create/${tournamentId}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getGamesInTournament = async (tournamentId) => {
+  try {
+    const result = await axios.get(
+      `http://localhost:8080/api/games/${tournamentId}`
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteEvent = (id) => {
+  try {
+    const result = axios.delete(
+      `http://localhost:8080/api/manage/event/delete/${id}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
     return result;
   } catch (error) {
     throw error;

@@ -33,11 +33,10 @@ public class EventController {
         return ResponseEntity.ok(eventDto.toString());
     }
 
-    // TODO: Implement deleting event
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @DeleteMapping("/manage/event/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        return ResponseEntity.ok("");
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id){
+        eventService.deleteById(id);
     }
 
     @GetMapping("/events")

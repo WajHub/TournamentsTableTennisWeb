@@ -7,7 +7,7 @@ import ManageTournament from "../AdminComponents/ManageTournament";
 import PlayerList from "../Other/PlayerList";
 import Draw from "./Draw.jsx";
 
-function Tournament({ tournament, fetchData }) {
+function Tournament({ tournament }) {
   const { user, handleSignOut } = useAuth();
 
   return (
@@ -45,10 +45,7 @@ function Tournament({ tournament, fetchData }) {
             id={`${tournament.id}_-1`}
             active={false}
           >
-            <ManageTournament
-              tournament={tournament}
-              fetchData_tournament={fetchData}
-            />
+            <ManageTournament tournament={tournament} />
           </TabContent>
         ) : (
           ""
@@ -72,7 +69,7 @@ function Tournament({ tournament, fetchData }) {
           id={`${tournament.id}_2`}
           active={false}
         >
-          <Draw />
+          <Draw tournament={tournament} />
         </TabContent>
       </NavTabs>
     </div>

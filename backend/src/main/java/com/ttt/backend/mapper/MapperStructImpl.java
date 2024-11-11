@@ -137,7 +137,7 @@ public class MapperStructImpl implements MapperStruct{
         return GameDtoResponse.builder()
                 .id(game.getId())
                 .name("")
-                .idNextMatch(game.getNextMatchId())
+                .nextMatchId(game.getNextMatchId())
                 .tournamentRoundText(String.valueOf(game.getRound()))
                 .startTime("")
                 .state(game.getState())

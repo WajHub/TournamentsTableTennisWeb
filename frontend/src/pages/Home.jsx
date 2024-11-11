@@ -42,7 +42,7 @@ function Home() {
         {/* Display events */}
         {filteredEvents.map((event, index) => (
           <div className="col-4" key={index}>
-            <EventCard event={event} />
+            <EventCard event={event} loadData={loadData} />
           </div>
         ))}
       </div>

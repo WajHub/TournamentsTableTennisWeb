@@ -30,7 +30,7 @@ public class Event {
     @Column(name = "date")
     private LocalDate date;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", orphanRemoval = true)
     @ToString.Exclude
     @HashCodeExclude
     private List<Tournament> tournaments;
