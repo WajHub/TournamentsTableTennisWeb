@@ -1,6 +1,9 @@
 package com.ttt.backend.mapper;
 
 import com.ttt.backend.dto.*;
+import com.ttt.backend.dto.request.GameDtoCreate;
+import com.ttt.backend.dto.response.GameDtoResponse;
+import com.ttt.backend.dto.response.PlayerDtoResponseInGame;
 import com.ttt.backend.models.*;
 import org.springframework.stereotype.Component;
 
@@ -83,6 +86,12 @@ public class MapperStructImpl implements MapperStruct{
     }
 
     @Override
+    public PlayerDtoResponseInGame playerToPlayerDtoResponseInGame(Player player) {
+        return PlayerDtoResponseInGame.builder()
+                .build();
+    }
+
+    @Override
     public Tournament tournamentDtoToTournament(TournamentDto tournamentDto, Event event, Category category) {
         return Tournament.builder()
                 .name(tournamentDto.getName())
@@ -101,11 +110,42 @@ public class MapperStructImpl implements MapperStruct{
                 .event_id(tournament.getEvent().getId())
                 .isRunning(tournament.isRunning())
                 .playerDtoList(
-                        tournament.getPlayerList().stream()
+                        tournament.getPlayerList()
+                            .stream()
                                 .map(this::playerToPlayerDto)
                             .toList()
                 )
+                .games(tournament.getGames()
+                        .stream()
+                            .map(this::gameToGameDtoResponse)
+                        .toList())
                 .build();
     }
+
+    @Override
+    public Game createNewGame(GameDtoCreate gameDtoCreate, Tournament tournament, Long idNextMatch) {
+        return Game.builder()
+                .tournament(tournament)
+                .round(gameDtoCreate.getRound())
+                .state("SCHEDULED")
+                .nextMatchId(idNextMatch)
+                .build();
+    }
+
+    @Override
+    public GameDtoResponse gameToGameDtoResponse(Game game) {
+        return GameDtoResponse.builder()
+                .id(game.getId())
+                .name("")
+                .idNextMatch(game.getNextMatchId())
+                .tournamentRoundText(String.valueOf(game.getRound()))
+                .startTime("")
+                .state(game.getState())
+                .participants(
+                        new ArrayList<>()
+                )
+                .build();
+    }
+
 
 }

@@ -1,4 +1,4 @@
-package com.ttt.backend.payload.response;
+package com.ttt.backend.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

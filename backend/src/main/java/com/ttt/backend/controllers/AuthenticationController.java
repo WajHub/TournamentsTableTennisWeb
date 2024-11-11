@@ -7,27 +7,22 @@ import com.ttt.backend.exception.TokenRefreshException;
 import com.ttt.backend.exception.UserNotFoundException;
 import com.ttt.backend.models.RefreshToken;
 import com.ttt.backend.models.User;
-import com.ttt.backend.payload.request.TokenRefreshRequest;
-import com.ttt.backend.payload.response.JwtResponse;
-import com.ttt.backend.payload.response.TokenRefreshResponse;
+import com.ttt.backend.dto.response.JwtResponse;
+import com.ttt.backend.dto.response.TokenRefreshResponse;
 import com.ttt.backend.services.AuthenticationService;
 import com.ttt.backend.services.JwtService;
 import com.ttt.backend.services.RefreshTokenService;
 import com.ttt.backend.services.UserService;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")

@@ -1,4 +1,5 @@
 package com.ttt.backend.models;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,20 +19,25 @@ public class Game {
     @Column(nullable = false)
     private Long id;
 
-    @Column(name = "tournament_id", nullable = false)
-    private Long tournamentId;
+    @ManyToOne
+    @JoinColumn(name = "tournament-id")
+    @JsonBackReference
+    private Tournament tournament;
 
     @ManyToOne
-    @JoinColumn(name = "player_home_id", nullable = false)
+    @JoinColumn(name = "player_home_id")
     private Player playerHome;
 
     @ManyToOne
-    @JoinColumn(name = "player_away_id", nullable = false)
+    @JoinColumn(name = "player_away_id")
     private Player playerAway;
 
     @ManyToOne
     @JoinColumn(name = "player_winner_id")
     private Player playerWinner;
+
+    @Column(name = "next_match_id")
+    private Long nextMatchId;
 
     @Column(name = "sets_home")
     private int setsHome;
@@ -49,9 +55,9 @@ public class Game {
     @Column(name = "points_away")
     private List<Integer> pointsAway;
 
-    @Column(name = "is_finished")
-    private boolean isFinished;
-
     @Column(name = "round")
     private int round;
+
+    @Column(name = "state")
+    private String state;
 }

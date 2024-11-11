@@ -52,6 +52,10 @@ public class TournamentService {
         );
     }
 
+    public void delete(Tournament tournament){
+        tournamentRepository.delete(tournament);
+    }
+
     public Optional<Tournament> findById(Long id){
         return tournamentRepository.findById(id);
     }

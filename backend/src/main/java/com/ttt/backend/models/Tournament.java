@@ -6,6 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -51,5 +52,8 @@ public class Tournament {
             inverseJoinColumns = @JoinColumn(name = "player_id")
     )
     private List<Player> playerList;
+
+    @OneToMany(mappedBy = "tournament", orphanRemoval = true)
+    private List<Game> games = new ArrayList<>();
 
 }

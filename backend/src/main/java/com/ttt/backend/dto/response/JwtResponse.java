@@ -1,4 +1,4 @@
-package com.ttt.backend.payload.response;
+package com.ttt.backend.dto.response;
 
 
 import com.ttt.backend.models.User;

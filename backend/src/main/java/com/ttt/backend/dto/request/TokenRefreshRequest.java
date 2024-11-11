@@ -1,4 +1,4 @@
-package com.ttt.backend.payload.request;
+package com.ttt.backend.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 
