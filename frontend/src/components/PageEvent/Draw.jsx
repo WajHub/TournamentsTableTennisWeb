@@ -4,6 +4,8 @@ import {
   Match,
   SVGViewer,
 } from "react-tournament-brackets";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+
 import { getGamesInTournament } from "../../utils/api";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useState, useEffect } from "react";
@@ -11,7 +13,7 @@ import { useState, useEffect } from "react";
 function Draw({ tournament }) {
   const size = useWindowSize();
   const finalWidth = Math.max(size.width / 1.5, 500);
-  const finalHeight = Math.max(size.height / 1.25, 500);
+  const finalHeight = Math.max(size.height / 1.2, 500);
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,7 +31,8 @@ function Draw({ tournament }) {
 
   useEffect(() => {
     fetchData(tournament.id);
-  }, [tournament]);
+  }, []);
+
 
   if (!tournament.running) {
     return "Tournament has not started";
@@ -43,15 +46,29 @@ function Draw({ tournament }) {
   }
 
   return (
-    <SingleEliminationBracket
-      matches={matches}
-      matchComponent={Match}
-      svgWrapper={({ children, ...props }) => (
-        <SVGViewer width={finalWidth} height={finalHeight} {...props}>
-          {children}
-        </SVGViewer>
-      )}
-    />
+      <TransformWrapper
+          initialScale={1}
+          maxPositionY={2}
+          maxPositionX={2}
+          minScale={0.5}
+          maxScale={2}
+
+      >
+
+        <TransformComponent
+            wrapperStyle={{ maxHeight: `${finalHeight}px`, overflow: 'hidden' }}
+            contentStyle={{ maxHeight: '100%', overflowY: 'auto' }}
+        >
+          <SingleEliminationBracket
+              matches={matches}
+              matchComponent={Match}
+          />
+        </TransformComponent>
+      </TransformWrapper>
+
+
+
+
   );
 }
 
