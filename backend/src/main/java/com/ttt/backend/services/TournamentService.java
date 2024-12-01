@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -178,16 +179,31 @@ public class TournamentService {
                                     changeIntoBye(match.get(1), participantCount))
                     ))
                     .toList();
-            System.out.println(matches);
         }
 
         for (int i = 0; i < matches.size(); i++) {
+            Game game = games.get(i);
             Player home = getPlayerByIndex(matches.get(i).get(0), players);
             Player away = getPlayerByIndex(matches.get(i).get(1), players);
-            Game game = games.get(i);
+            if(home == null || away == null){
+                game.setState("WALK_OVER");
+                Player winner = home != null ? home : away;
+                Long nextGameId = game.getNextMatchId();
+                Game nextGame = nextGames.stream()
+                        .filter(g -> Objects.equals(g.getId(), nextGameId))
+                        .findFirst().get();
+                nextGame.setState("SCHEDULED");
+                if (nextGame.getPlayerAway() == null) {
+                    nextGame.setPlayerAway(winner);
+                } else {
+                    nextGame.setPlayerHome(winner);
+                }
+                gameRepository.save(nextGame);
+            }
 
             game.setPlayerHome(home);
             game.setPlayerAway(away);
+            game.setState("SCHEDULED");
             game.setNextMatchId(nextGames.get(i / 2).getId());
             gameRepository.save(game);
         }

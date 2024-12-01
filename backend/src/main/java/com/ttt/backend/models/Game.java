@@ -63,5 +63,6 @@ public class Game {
     private int round;
 
     @Column(name = "state")
+    /** CREATED, SCHEDULED, RUNNING, DONE, WALK_OVER **/
     private String state;
 }

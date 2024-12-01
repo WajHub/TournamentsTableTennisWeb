@@ -92,6 +92,7 @@ public class TournamentController {
     public void seedPlayers(@PathVariable Long tournamentId){
         tournamentService.findById(tournamentId).ifPresentOrElse(
                 (tournament -> {
+                    System.out.println("TEST");
                     tournamentService.snakeSeed(tournament);
                 }),
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament has not found!")

@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -33,6 +34,31 @@ public class GameService {
     public Optional<Game> findById(Long id){
         return gameRepository.findById(id);
     }
+
+    public List<GameDtoResponse> findByTournamentId(Long tournamentId, String status) {
+        if(status == null) {
+            return tournamentRepository.findById(tournamentId)
+                    .map(tournament ->
+                            gameRepository.findAllByTournament(tournament)
+                                    .stream()
+                                    .map(game -> mapperStruct.gameToGameDtoResponse(game))
+                                    .toList()
+                    )
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament not found!"));
+        }
+        else{
+            return tournamentRepository.findById(tournamentId)
+                    .map(tournament ->
+                            gameRepository.findAllByTournament(tournament)
+                                    .stream()
+                                    .map(game -> mapperStruct.gameToGameDtoResponse(game))
+                                    .filter((game) -> Objects.equals(game.getState(), status))
+                                    .toList()
+                    )
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament not found!"));
+        }
+    }
+
 
     public void deleteById(Long id){
         gameRepository.deleteById(id);
@@ -87,15 +113,5 @@ public class GameService {
         return (int) Math.ceil(Math.log(players) / Math.log(2));
     }
 
-    public List<GameDtoResponse> findByTournamentId(Long tournamentId) {
-        return tournamentRepository.findById(tournamentId)
-                .map(tournament ->
-                        gameRepository.findAllByTournament(tournament)
-                                .stream()
-                                .map(game -> mapperStruct.gameToGameDtoResponse(game))
-                                .toList()
-                )
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament not found!"));
-    }
 
 }

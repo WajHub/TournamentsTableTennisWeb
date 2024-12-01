@@ -49,7 +49,9 @@ public class GameController {
 
     @GetMapping("/games/{tournamentId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<GameDtoResponse> games(@PathVariable Long tournamentId){
-        return gameService.findByTournamentId(tournamentId);
+    public List<GameDtoResponse> games(@PathVariable Long tournamentId,
+                                       @RequestParam(required = false) String status){
+        return gameService.findByTournamentId(tournamentId, status);
     }
+
 }
