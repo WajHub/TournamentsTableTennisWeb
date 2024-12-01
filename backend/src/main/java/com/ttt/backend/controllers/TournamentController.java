@@ -3,6 +3,7 @@ package com.ttt.backend.controllers;
 import com.ttt.backend.dto.PlayerDto;
 import com.ttt.backend.dto.TournamentDto;
 import com.ttt.backend.exception.TournamentNotFoundException;
+import com.ttt.backend.mapper.MapperStruct;
 import com.ttt.backend.services.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,14 @@ import java.util.List;
 @RequestMapping("api")
 public class TournamentController {
 
+    private final MapperStruct mapperStruct;
     private TournamentService tournamentService;
 
 
     @Autowired
-    public TournamentController(TournamentService tournamentService) {
+    public TournamentController(TournamentService tournamentService, MapperStruct mapperStruct) {
         this.tournamentService = tournamentService;
+        this.mapperStruct = mapperStruct;
     }
 
     @PostMapping("/manage/save/tournament")
@@ -31,16 +34,25 @@ public class TournamentController {
         return ResponseEntity.ok(tournamentService.save(tournamentDto));
     }
 
-    @GetMapping("/tournaments/{id}")
+    @GetMapping("events/{id}/tournaments")
     public List<TournamentDto> findAllByEventId(@PathVariable Long id){
         return tournamentService.findAllByIdEvent(id);
     }
+
+
+    @GetMapping("tournaments/{id}")
+    public TournamentDto findAllById(@PathVariable Long id) {
+        return tournamentService.findById(id)
+                .map(mapperStruct::tournamentToTournamentDto)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament has not been found!"));
+    }
+
 
     @GetMapping("/tournaments/player/eligible/{id}")
     public List<PlayerDto> findAllPlayersEligible(@PathVariable Long id ){
         return tournamentService.findPlayersForTournament(id);
     }
-    @PutMapping("/manage/add/player/tournament")
+    @PutMapping("/manage/tournaments/add/player")
     public ResponseEntity<?> addPlayer(@RequestParam Long playerId, @RequestParam Long tournamentId) {
         tournamentService.findById(tournamentId).ifPresentOrElse(
                 ((tournament)-> {
@@ -58,7 +70,7 @@ public class TournamentController {
         }
     }
 
-    @PutMapping("/manage/remove/player/tournament")
+    @PutMapping("/manage/tournaments/remove/player")
     public ResponseEntity<?> removePlayer(@RequestParam Long playerId, @RequestParam Long tournamentId){
         try {
             tournamentService.removePlayerFromTournament(playerId, tournamentId);
@@ -71,16 +83,19 @@ public class TournamentController {
     @PatchMapping("/manage/start/{tournamentId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void startTournament(@PathVariable Long tournamentId){
-        tournamentService.findById(tournamentId)
-                .ifPresentOrElse(
-                        (tournament -> {
-                            tournament.setRunning(true);
-                            tournamentService.save(tournament);
-                        }),
-                        () -> {
-                            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-                        }
-                );
+        tournamentService.startTournament(tournamentId);
+    }
+
+    /** ADD players to matches in round 1 **/
+    @PatchMapping("/manage/tournaments/{tournamentId}/seed")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void seedPlayers(@PathVariable Long tournamentId){
+        tournamentService.findById(tournamentId).ifPresentOrElse(
+                (tournament -> {
+                    tournamentService.snakeSeed(tournament);
+                }),
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament has not found!")
+        );
     }
 
     /** Only develop usage **/

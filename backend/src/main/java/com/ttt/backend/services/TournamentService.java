@@ -4,22 +4,23 @@ import com.ttt.backend.dto.PlayerDto;
 import com.ttt.backend.dto.TournamentDto;
 import com.ttt.backend.exception.TournamentNotFoundException;
 import com.ttt.backend.mapper.MapperStructImpl;
+import com.ttt.backend.models.Game;
 import com.ttt.backend.models.Player;
 import com.ttt.backend.models.Tournament;
-import com.ttt.backend.repository.CategoryRepository;
-import com.ttt.backend.repository.EventRepository;
-import com.ttt.backend.repository.PlayerRepository;
-import com.ttt.backend.repository.TournamentRepository;
+import com.ttt.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class TournamentService {
+    private final GameRepository gameRepository;
     private TournamentRepository tournamentRepository;
     private EventRepository eventRepository;
     private CategoryRepository categoryRepository;
@@ -29,7 +30,7 @@ public class TournamentService {
     private MapperStructImpl mapperStruct;
 
     @Autowired
-    public TournamentService(TournamentRepository tournamentRepository, EventRepository eventRepository, CategoryRepository categoryRepository, PlayerCategoryService playerCategoryService, PlayerRepository playerRepository, PlayerService playerService, MapperStructImpl mapperStruct) {
+    public TournamentService(TournamentRepository tournamentRepository, EventRepository eventRepository, CategoryRepository categoryRepository, PlayerCategoryService playerCategoryService, PlayerRepository playerRepository, PlayerService playerService, MapperStructImpl mapperStruct, GameRepository gameRepository) {
         this.tournamentRepository = tournamentRepository;
         this.eventRepository = eventRepository;
         this.categoryRepository = categoryRepository;
@@ -37,11 +38,13 @@ public class TournamentService {
         this.playerRepository = playerRepository;
         this.playerService = playerService;
         this.mapperStruct = mapperStruct;
+        this.gameRepository = gameRepository;
     }
 
     public Tournament save (Tournament tournament){
         return tournamentRepository.save(tournament);
     }
+
     public Tournament save (TournamentDto tournamentDto){
         return tournamentRepository.save(
             mapperStruct.tournamentDtoToTournament(
@@ -101,6 +104,7 @@ public class TournamentService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player already in tournament");
         }
     }
+
     public void removePlayerFromTournament(Long playerId, Long tournamentId) {
         Tournament tournament = tournamentRepository.findById(tournamentId)
                 .orElseThrow(() -> new TournamentNotFoundException(tournamentId));
@@ -132,4 +136,69 @@ public class TournamentService {
                     });
                 });
     }
+
+    public void startTournament(Long tournamentId){
+        tournamentRepository.findById(tournamentId)
+                .ifPresentOrElse(
+                        (tournament -> {
+                            tournament.setRunning(true);
+                            snakeSeed(tournament);
+                            tournamentRepository.save(tournament);
+                        }),
+                        () -> {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+                        }
+                );
+    }
+
+    /** Algorithm to seed players; matches have indexes of players in List **/
+    public void snakeSeed(Tournament tournament) {
+        int numberOfRounds = GameService.calculateRounds(tournament.getPlayerList().size());
+        int participantCount = tournament.getPlayerList().size();
+
+        List<Game> games = tournament.getGames().stream()
+                .filter(game -> game.getRound() == numberOfRounds)
+                .toList();
+
+        List<Game> nextGames = tournament.getGames().stream()
+                .filter(game -> game.getRound() == numberOfRounds - 1)
+                .toList();
+
+        // TODO: Sort players by points in category
+        List<Player> players = tournament.getPlayerList();
+
+        List<List<Integer>> matches = List.of(List.of(1, 2));
+        for (int round = 1; round < numberOfRounds; round++) {
+            int sum = (int) (Math.pow(2, round + 1) + 1);
+            matches = matches.stream()
+                    .flatMap(match -> Stream.of(
+                            List.of(changeIntoBye(match.get(0), participantCount),
+                                    changeIntoBye(sum - match.get(0), participantCount)),
+                            List.of(changeIntoBye(sum - match.get(1), participantCount),
+                                    changeIntoBye(match.get(1), participantCount))
+                    ))
+                    .toList();
+            System.out.println(matches);
+        }
+
+        for (int i = 0; i < matches.size(); i++) {
+            Player home = getPlayerByIndex(matches.get(i).get(0), players);
+            Player away = getPlayerByIndex(matches.get(i).get(1), players);
+            Game game = games.get(i);
+
+            game.setPlayerHome(home);
+            game.setPlayerAway(away);
+            game.setNextMatchId(nextGames.get(i / 2).getId());
+            gameRepository.save(game);
+        }
+    }
+
+    private Player getPlayerByIndex(int index, List<Player> players) {
+        return index >= 0 ? players.get(index - 1) : null;
+    }
+
+    private int changeIntoBye(int seed, int participantsCount) {
+        return seed <= participantsCount ? seed : -1;
+    }
+
 }

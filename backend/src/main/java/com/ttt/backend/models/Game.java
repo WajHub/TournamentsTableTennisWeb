@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "game")
+@ToString
 @Getter
 @Setter
 @Builder
@@ -22,6 +23,7 @@ public class Game {
     @ManyToOne
     @JoinColumn(name = "tournament-id")
     @JsonBackReference
+    @ToString.Exclude
     private Tournament tournament;
 
     @ManyToOne
@@ -48,11 +50,13 @@ public class Game {
     @ElementCollection(targetClass = Integer.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "points_home", joinColumns = @JoinColumn(name = "points_home_id"))
     @Column(name = "points_home")
+    @ToString.Exclude
     private List<Integer> pointsHome;
 
     @ElementCollection(targetClass = Integer.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "points_away", joinColumns = @JoinColumn(name = "points_away_id"))
     @Column(name = "points_away")
+    @ToString.Exclude
     private List<Integer> pointsAway;
 
     @Column(name = "round")

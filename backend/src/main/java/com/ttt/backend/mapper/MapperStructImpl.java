@@ -88,6 +88,8 @@ public class MapperStructImpl implements MapperStruct{
     @Override
     public PlayerDtoResponseInGame playerToPlayerDtoResponseInGame(Player player) {
         return PlayerDtoResponseInGame.builder()
+                .id(player.getId())
+                .name(player.getFirstname()+" "+player.getLastname())
                 .build();
     }
 
@@ -134,6 +136,19 @@ public class MapperStructImpl implements MapperStruct{
 
     @Override
     public GameDtoResponse gameToGameDtoResponse(Game game) {
+        List<PlayerDtoResponseInGame> participants = new ArrayList<>();
+        if (game.getPlayerHome() != null) {
+            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerHome()));
+        } else {
+            participants.add(null);
+        }
+
+        if (game.getPlayerAway() != null) {
+            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerAway()));
+        } else {
+            participants.add(null);
+        }
+
         return GameDtoResponse.builder()
                 .id(game.getId())
                 .name("")
@@ -141,11 +156,11 @@ public class MapperStructImpl implements MapperStruct{
                 .tournamentRoundText(String.valueOf(game.getRound()))
                 .startTime("")
                 .state(game.getState())
-                .participants(
-                        new ArrayList<>()
-                )
+                .participants(participants)
                 .build();
     }
+
+
 
 
 }

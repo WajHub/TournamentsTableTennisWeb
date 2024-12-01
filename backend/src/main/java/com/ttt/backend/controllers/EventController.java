@@ -48,7 +48,7 @@ public class EventController {
                 .toList();
     }
 
-    @GetMapping("/event/{id}")
+    @GetMapping("/events/{id}")
     public EventDto getAllById(@PathVariable Long id){
         return mapperStruct.eventToEventDto(eventService.findAllById(id));
     }
