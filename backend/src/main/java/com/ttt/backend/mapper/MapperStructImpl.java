@@ -139,14 +139,10 @@ public class MapperStructImpl implements MapperStruct{
         List<PlayerDtoResponseInGame> participants = new ArrayList<>();
         if (game.getPlayerHome() != null) {
             participants.add(playerToPlayerDtoResponseInGame(game.getPlayerHome()));
-        } else {
-            participants.add(null);
         }
 
         if (game.getPlayerAway() != null) {
             participants.add(playerToPlayerDtoResponseInGame(game.getPlayerAway()));
-        } else {
-            participants.add(null);
         }
 
         return GameDtoResponse.builder()
