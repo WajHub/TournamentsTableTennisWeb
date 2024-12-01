@@ -52,9 +52,7 @@ function Draw({ tournament }) {
           maxPositionX={2}
           minScale={0.5}
           maxScale={2}
-
       >
-
         <TransformComponent
             wrapperStyle={{ maxHeight: `${finalHeight}px`, overflow: 'hidden' }}
             contentStyle={{ maxHeight: '100%', overflowY: 'auto' }}

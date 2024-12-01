@@ -21,6 +21,7 @@ function Event() {
   const [selectedTabTournament, setSelectedTabTournament] = useState(null);
 
   const fetchData = async () => {
+    console.log("TEST")
     const event = await loadEvent(id);
     setEventData(event);
 
@@ -30,10 +31,7 @@ function Event() {
 
   useEffect(() => {
     fetchData();
-  }, [id]);
-  useEffect(() => {
-    fetchData();
-  }, [tournaments]);
+  }, []);
 
   return (
     <div>
