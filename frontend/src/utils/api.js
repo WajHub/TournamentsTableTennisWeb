@@ -3,7 +3,7 @@ import axios from "axios";
 export const loadTournaments = async (id) => {
   try {
     const result = await axios.get(
-      `http://localhost:8080/api/tournaments/${id}`
+      `http://localhost:8080/api/events/${id}/tournaments`
     );
     return result.data;
   } catch (error) {
@@ -14,7 +14,7 @@ export const loadTournaments = async (id) => {
 
 export const loadEvent = async (id) => {
   try {
-    const result = await axios.get(`http://localhost:8080/api/event/${id}`);
+    const result = await axios.get(`http://localhost:8080/api/events/${id}`);
     return result.data;
   } catch (error) {
     console.error("Error loading event:", error);
@@ -40,6 +40,7 @@ export const loadTournamentById = async (id) => {
     throw error;
   }
 };
+
 export const loadPlayers = async () => {
   try {
     const result = await axios.get("http://localhost:8080/api/players");
@@ -63,7 +64,7 @@ export const loadEligiblePlayers = async (id) => {
 export const addPlayerToTournament = async (playerId, tournamentId) => {
   try {
     await axios.put(
-      `http://localhost:8080/api/manage/add/player/tournament?playerId=${playerId}&tournamentId=${tournamentId}`,
+      `http://localhost:8080/api/manage/tournaments/add/player?playerId=${playerId}&tournamentId=${tournamentId}`,
       {},
       {
         withCredentials: true,
