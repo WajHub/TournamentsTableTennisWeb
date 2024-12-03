@@ -152,6 +152,7 @@ public class TournamentService {
                 );
     }
 
+    // TODO: refactor
     /** Algorithm to seed players; matches have indexes of players in List **/
     public void snakeSeed(Tournament tournament) {
         int numberOfRounds = GameService.calculateRounds(tournament.getPlayerList().size());
@@ -185,6 +186,8 @@ public class TournamentService {
             Game game = games.get(i);
             Player home = getPlayerByIndex(matches.get(i).get(0), players);
             Player away = getPlayerByIndex(matches.get(i).get(1), players);
+            game.setState("SCHEDULED");
+            
             if(home == null || away == null){
                 game.setState("WALK_OVER");
                 Player winner = home != null ? home : away;
@@ -192,7 +195,7 @@ public class TournamentService {
                 Game nextGame = nextGames.stream()
                         .filter(g -> Objects.equals(g.getId(), nextGameId))
                         .findFirst().get();
-                nextGame.setState("SCHEDULED");
+                nextGame.setState("CREATED");
                 if (nextGame.getPlayerAway() == null) {
                     nextGame.setPlayerAway(winner);
                 } else {
@@ -203,7 +206,7 @@ public class TournamentService {
 
             game.setPlayerHome(home);
             game.setPlayerAway(away);
-            game.setState("SCHEDULED");
+
             game.setNextMatchId(nextGames.get(i / 2).getId());
             gameRepository.save(game);
         }

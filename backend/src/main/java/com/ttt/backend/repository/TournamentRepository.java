@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TournamentRepository extends JpaRepository<Tournament, Long> {
-    public Tournament save(Tournament tournament);
-    List<Tournament> findAllByEvent(Event event);
 
-    Optional<Tournament> findById(Long id);
+    public Tournament save(Tournament tournament);
+
+    List<Tournament> findAllByEvent(Event event);
 
 }

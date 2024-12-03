@@ -4,6 +4,7 @@ import com.ttt.backend.dto.PlayerDto;
 import com.ttt.backend.dto.TournamentDto;
 import com.ttt.backend.exception.TournamentNotFoundException;
 import com.ttt.backend.mapper.MapperStruct;
+import com.ttt.backend.services.GameService;
 import com.ttt.backend.services.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,12 +23,14 @@ public class TournamentController {
 
     private final MapperStruct mapperStruct;
     private TournamentService tournamentService;
+    private GameService gameService;
 
 
     @Autowired
-    public TournamentController(TournamentService tournamentService, MapperStruct mapperStruct) {
+    public TournamentController(TournamentService tournamentService, GameService gameService, MapperStruct mapperStruct) {
         this.tournamentService = tournamentService;
         this.mapperStruct = mapperStruct;
+        this.gameService = gameService;
     }
 
     @PostMapping("/manage/save/tournament")
@@ -83,6 +87,7 @@ public class TournamentController {
     @PatchMapping("/manage/start/{tournamentId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void startTournament(@PathVariable Long tournamentId){
+        gameService.createAllGames(tournamentId);
         tournamentService.startTournament(tournamentId);
     }
 
