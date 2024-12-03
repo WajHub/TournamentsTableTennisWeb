@@ -4,7 +4,7 @@ import PlayerList from "../Other/PlayerList";
 import { startTournament } from "../../utils/api";
 import ManageRunningTournament from "./ManageRunningTournament";
 
-function ManageTournament({ tournament }) {
+function ManageTournament({ tournament, refreshData }) {
   const [players, setPlayers] = useState([]);
 
   const fetchData = async (id) => {
@@ -12,13 +12,15 @@ function ManageTournament({ tournament }) {
       setPlayers(res);
     });
   };
-
   useEffect(() => {
-    fetchData(tournament.id);
-  }, []);
+    if(tournament.id) fetchData(tournament.id);
+  }, [tournament]);
 
   const handleStartTournament = (id) => {
-    startTournament(id);
+    startTournament(id).then(r => {
+        fetchData(id);
+        refreshData();
+    });
   };
 
   return tournament.running ? (

@@ -30,15 +30,16 @@ function Draw({ tournament }) {
   };
 
   useEffect(() => {
-    fetchData(tournament.id);
-  }, []);
+    if(tournament.id ) fetchData(tournament.id);
 
+  }, [tournament]);
+
+  if (isLoading || !tournament.id) {
+    return "Loading...";
+  }
 
   if (!tournament.running) {
     return "Tournament has not started";
-  }
-  if (isLoading) {
-    return "Loading...";
   }
 
   if (matches.length === 0) {

@@ -12,6 +12,18 @@ export const loadTournaments = async (id) => {
   }
 };
 
+export const loadTournament = async (id) => {
+  try {
+    const result = await axios.get(
+        `http://localhost:8080/api/tournaments/${id}`
+    );
+    return result.data;
+  } catch (error) {
+    console.error("Error loading tournament:", error);
+    throw error;
+  }
+}
+
 export const loadEvent = async (id) => {
   try {
     const result = await axios.get(`http://localhost:8080/api/events/${id}`);
@@ -75,7 +87,7 @@ export const addPlayerToTournament = async (playerId, tournamentId) => {
   }
 };
 
-export const startTournament = (tournamentId) => {
+export const startTournament = async (tournamentId) => {
   try {
     const result = axios.patch(
       `http://localhost:8080/api/manage/start/${tournamentId}`,
@@ -83,14 +95,7 @@ export const startTournament = (tournamentId) => {
       {
         withCredentials: true,
       }
-    );
-    axios.post(
-      `http://localhost:8080/api/manage/games/create/${tournamentId}`,
-      {},
-      {
-        withCredentials: true,
-      }
-    );
+    ).then();
     return result;
   } catch (error) {
     throw error;

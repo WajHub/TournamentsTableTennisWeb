@@ -21,7 +21,6 @@ function Event() {
   const [selectedTabTournament, setSelectedTabTournament] = useState(null);
 
   const fetchData = async () => {
-    console.log("TEST")
     const event = await loadEvent(id);
     setEventData(event);
 
@@ -61,7 +60,7 @@ function Event() {
         {/*CONTENT TABS */}
         {tournaments.map((tournament) => (
           <TabContent key={tournament.id} id={tournament.id} active={false}>
-            <Tournament tournament={tournament} />
+            <Tournament idTournament={tournament.id} />
           </TabContent>
         ))}
       </NavTabs>
