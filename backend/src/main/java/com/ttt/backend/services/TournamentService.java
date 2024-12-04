@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 @Service
 public class TournamentService {
+
     private final GameRepository gameRepository;
     private TournamentRepository tournamentRepository;
     private EventRepository eventRepository;

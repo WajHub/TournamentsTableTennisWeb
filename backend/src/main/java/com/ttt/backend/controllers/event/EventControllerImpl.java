@@ -1,8 +1,7 @@
-package com.ttt.backend.controllers;
+package com.ttt.backend.controllers.event;
 
 import com.ttt.backend.dto.EventDto;
 import com.ttt.backend.mapper.MapperStructImpl;
-import com.ttt.backend.models.Event;
 import com.ttt.backend.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,46 +11,41 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-@RequestMapping("api")
+
 @RestController
-public class EventController {
-    private EventService eventService;
-    private MapperStructImpl mapperStruct;
+public class EventControllerImpl implements EventController {
+    private final EventService eventService;
+    private final MapperStructImpl mapperStruct;
+
     @Autowired
-    public EventController(EventService eventService, MapperStructImpl mapperStruct){
+    public EventControllerImpl(EventService eventService, MapperStructImpl mapperStruct) {
         this.eventService = eventService;
         this.mapperStruct = mapperStruct;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
-    @PostMapping("/manage/event/save")
-    public ResponseEntity<?> save(@RequestBody EventDto eventDto){
+    @Override
+    public ResponseEntity<?> save(@RequestBody EventDto eventDto) {
         if (eventService.findByName(eventDto.getName()).isPresent())
             return new ResponseEntity<>("Event name is already in use", HttpStatus.CONFLICT);
         eventService.save(mapperStruct.createEvent(eventDto));
         return ResponseEntity.ok(eventDto.toString());
     }
 
-    @DeleteMapping("/manage/event/delete/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id){
+    @Override
+    public void delete(@PathVariable Long id) {
         eventService.deleteById(id);
     }
 
-    @GetMapping("/events")
-    public List<EventDto> getAllEvents(){
+    @Override
+    public List<EventDto> getAllEvents() {
         return eventService.findAll()
                 .stream()
-                .map((event) ->
-                        mapperStruct.eventToEventDto(event))
-                .toList();
+                .map(mapperStruct::eventToEventDto)
+            .toList();
     }
 
-    @GetMapping("/events/{id}")
-    public EventDto getAllById(@PathVariable Long id){
+    @Override
+    public EventDto getAllById(@PathVariable Long id) {
         return mapperStruct.eventToEventDto(eventService.findAllById(id));
     }
-
-
 }
