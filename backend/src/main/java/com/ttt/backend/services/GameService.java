@@ -4,6 +4,7 @@ import com.ttt.backend.dto.request.GameDtoCreate;
 import com.ttt.backend.dto.response.GameDtoResponse;
 import com.ttt.backend.mapper.MapperStructImpl;
 import com.ttt.backend.models.Game;
+import com.ttt.backend.models.GameState;
 import com.ttt.backend.models.Tournament;
 import com.ttt.backend.repository.GameRepository;
 import com.ttt.backend.repository.TournamentRepository;
@@ -113,5 +114,13 @@ public class GameService {
         return (int) Math.ceil(Math.log(players) / Math.log(2));
     }
 
-
+    public Game setState(Long gameId, GameState state) {
+        return gameRepository.findById(gameId)
+            .map((game -> {
+                game.setState(state);
+                gameRepository.save(game);
+                return game;
+            }))
+                .orElseThrow();
+    }
 }

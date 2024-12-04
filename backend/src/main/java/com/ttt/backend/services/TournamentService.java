@@ -5,6 +5,7 @@ import com.ttt.backend.dto.TournamentDto;
 import com.ttt.backend.exception.TournamentNotFoundException;
 import com.ttt.backend.mapper.MapperStructImpl;
 import com.ttt.backend.models.Game;
+import com.ttt.backend.models.GameState;
 import com.ttt.backend.models.Player;
 import com.ttt.backend.models.Tournament;
 import com.ttt.backend.repository.*;
@@ -186,16 +187,16 @@ public class TournamentService {
             Game game = games.get(i);
             Player home = getPlayerByIndex(matches.get(i).get(0), players);
             Player away = getPlayerByIndex(matches.get(i).get(1), players);
-            game.setState("SCHEDULED");
-            
+            game.setState(GameState.valueOf("SCHEDULED"));
+
             if(home == null || away == null){
-                game.setState("WALK_OVER");
+                game.setState(GameState.valueOf("WALK_OVER"));
                 Player winner = home != null ? home : away;
                 Long nextGameId = game.getNextMatchId();
                 Game nextGame = nextGames.stream()
                         .filter(g -> Objects.equals(g.getId(), nextGameId))
                         .findFirst().get();
-                nextGame.setState("CREATED");
+                nextGame.setState(GameState.valueOf("CREATED"));
                 if (nextGame.getPlayerAway() == null) {
                     nextGame.setPlayerAway(winner);
                 } else {

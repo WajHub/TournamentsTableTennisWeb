@@ -24,7 +24,7 @@ function ManageTournament({ tournament, refreshData }) {
   };
 
   return tournament.running ? (
-    <ManageRunningTournament />
+    <ManageRunningTournament tournament={tournament} refreshData={refreshData}/>
   ) : (
     <div>
       List of players to Add:

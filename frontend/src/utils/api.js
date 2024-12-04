@@ -1,29 +1,5 @@
 import axios from "axios";
 
-export const loadTournaments = async (id) => {
-  try {
-    const result = await axios.get(
-      `http://localhost:8080/api/events/${id}/tournaments`
-    );
-    return result.data;
-  } catch (error) {
-    console.error("Error loading tournaments:", error);
-    throw error;
-  }
-};
-
-export const loadTournament = async (id) => {
-  try {
-    const result = await axios.get(
-        `http://localhost:8080/api/tournaments/${id}`
-    );
-    return result.data;
-  } catch (error) {
-    console.error("Error loading tournament:", error);
-    throw error;
-  }
-}
-
 export const loadEvent = async (id) => {
   try {
     const result = await axios.get(`http://localhost:8080/api/events/${id}`);
@@ -43,6 +19,30 @@ export const loadEvents = async () => {
     throw error;
   }
 };
+
+export const loadTournaments = async (id) => {
+  try {
+    const result = await axios.get(
+        `http://localhost:8080/api/events/${id}/tournaments`
+    );
+    return result.data;
+  } catch (error) {
+    console.error("Error loading tournaments:", error);
+    throw error;
+  }
+};
+
+export const loadTournament = async (id) => {
+  try {
+    const result = await axios.get(
+        `http://localhost:8080/api/tournaments/${id}`
+    );
+    return result.data;
+  } catch (error) {
+    console.error("Error loading tournament:", error);
+    throw error;
+  }
+}
 
 export const loadTournamentById = async (id) => {
   try {
@@ -105,13 +105,33 @@ export const startTournament = async (tournamentId) => {
 export const getGamesInTournament = async (tournamentId) => {
   try {
     const result = await axios.get(
-      `http://localhost:8080/api/games/${tournamentId}`
+      `http://localhost:8080/api/games/tournaments/${tournamentId}`
     );
     return result;
   } catch (error) {
     throw error;
   }
 };
+
+export const loadScheduledMatches = async(tournamentId) => {
+  try {
+    return await axios.get(
+        `http://localhost:8080/api/games/tournaments/${tournamentId}?state=SCHEDULED`
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const loadRunningMatches = async (tournamentId) =>{
+  try {
+    return await axios.get(
+        `http://localhost:8080/api/games/tournaments/${tournamentId}?state=RUNNING`
+    );
+  } catch (error) {
+    throw error;
+  }
+}
 
 export const deleteEvent = (id) => {
   try {

@@ -62,7 +62,8 @@ public class Game {
     @Column(name = "round")
     private int round;
 
-    @Column(name = "state")
     /** CREATED, SCHEDULED, RUNNING, DONE, WALK_OVER **/
-    private String state;
+    @Column(name = "state")
+    @Enumerated(EnumType.STRING)
+    private GameState state;
 }

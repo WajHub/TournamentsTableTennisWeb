@@ -129,7 +129,7 @@ public class MapperStructImpl implements MapperStruct{
         return Game.builder()
                 .tournament(tournament)
                 .round(gameDtoCreate.getRound())
-                .state("CREATED")
+                .state(GameState.valueOf("CREATED"))
                 .nextMatchId(idNextMatch)
                 .build();
     }
@@ -151,7 +151,7 @@ public class MapperStructImpl implements MapperStruct{
                 .nextMatchId(game.getNextMatchId())
                 .tournamentRoundText(String.valueOf(game.getRound()))
                 .startTime("")
-                .state(game.getState())
+                .state(String.valueOf(game.getState()))
                 .participants(participants)
                 .build();
     }

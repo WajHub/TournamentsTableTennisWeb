@@ -2,6 +2,8 @@ package com.ttt.backend.controllers;
 
 import com.ttt.backend.dto.request.GameDtoCreate;
 import com.ttt.backend.dto.response.GameDtoResponse;
+import com.ttt.backend.models.Game;
+import com.ttt.backend.models.GameState;
 import com.ttt.backend.services.GameService;
 import com.ttt.backend.services.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +49,18 @@ public class GameController {
         gameService.createAllGames(tournamentId);
     }
 
-    @GetMapping("/games/{tournamentId}")
+    @GetMapping("/games/tournaments/{tournamentId}")
     @ResponseStatus(HttpStatus.OK)
     public List<GameDtoResponse> games(@PathVariable Long tournamentId,
-                                       @RequestParam(required = false) String status){
-        return gameService.findByTournamentId(tournamentId, status);
+                                       @RequestParam(required = false) String state){
+        return gameService.findByTournamentId(tournamentId, state);
+    }
+
+    @PatchMapping("/manage/games/{gameId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void setState(@PathVariable Long gameId,
+                         @RequestParam(name= "state") String state){
+        gameService.setState(gameId, GameState.valueOf(state.toUpperCase()));
     }
 
 }

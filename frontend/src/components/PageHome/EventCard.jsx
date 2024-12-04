@@ -35,6 +35,7 @@ function EventCard({ event, loadData }) {
                     e.preventDefault();
                     console.log("EDIT");
                   }}
+                  disabled
                 >
                   <i className="bi bi-pencil"></i>
                 </button>
@@ -47,6 +48,7 @@ function EventCard({ event, loadData }) {
                     e.preventDefault();
                     handleDeleteEvent(event.id);
                   }}
+                  disabled
                 >
                   <i className="bi bi-trash"></i>
                 </button>
