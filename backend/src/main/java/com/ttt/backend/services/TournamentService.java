@@ -77,9 +77,7 @@ public class TournamentService {
 
     /** Return all players who can be added to the tournament
      (Player is not already in tournament and player has properly category) **/
-    public List<PlayerDto> findPlayersForTournament(Long tournamentId){
-        Tournament tournament = tournamentRepository.findById(tournamentId)
-                .orElseThrow(() -> new TournamentNotFoundException(tournamentId));
+    public List<PlayerDto> findPlayersForTournament(Tournament tournament){
         return playerRepository.findAll().stream()
                 .filter((player) -> playerService.findAllCategories(player).contains(tournament.getCategory())&&
                                     !tournament.getPlayerList().contains(player))
@@ -140,18 +138,10 @@ public class TournamentService {
                 });
     }
 
-    public void startTournament(Long tournamentId){
-        tournamentRepository.findById(tournamentId)
-                .ifPresentOrElse(
-                        (tournament -> {
-                            tournament.setRunning(true);
-                            snakeSeed(tournament);
-                            tournamentRepository.save(tournament);
-                        }),
-                        () -> {
-                            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-                        }
-                );
+    public Tournament startTournament(Tournament tournament){
+        tournament.setRunning(true);
+        snakeSeed(tournament);
+        return tournamentRepository.save(tournament);
     }
 
     // TODO: refactor

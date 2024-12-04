@@ -43,7 +43,9 @@ public class TournamentControllerImpl implements TournamentController {
 
     @Override
     public List<PlayerDto> findAllPlayersEligible(@PathVariable Long id) {
-        return tournamentService.findPlayersForTournament(id);
+        return tournamentService.findById(id)
+                .map((tournamentService::findPlayersForTournament))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament has not been found!"));
     }
 
     @Override
@@ -82,7 +84,10 @@ public class TournamentControllerImpl implements TournamentController {
     @Override
     public void startTournament(@PathVariable Long tournamentId) {
         gameService.createAllGames(tournamentId);
-        tournamentService.startTournament(tournamentId);
+        tournamentService.findById(tournamentId)
+                .map(tournamentService::startTournament)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tournament has not been found!"));
+
     }
 
     @Override
