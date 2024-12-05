@@ -67,8 +67,8 @@ public class GameService {
 
     public void save(GameDtoCreate gameDtoCreate){
         tournamentRepository.findById(gameDtoCreate.getIdTournament()).ifPresentOrElse(
-                (value) -> {
-                    if(value.isRunning()) gameRepository.save(mapperStruct.createNewGame(gameDtoCreate, value, null));
+                (tournament) -> {
+                    if(tournament.isRunning()) gameRepository.save(mapperStruct.createNewGame(gameDtoCreate, tournament, null));
                     else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tournament has not started!");
                 },
                 () ->{
@@ -89,6 +89,7 @@ public class GameService {
         );
     }
 
+    /** Recursive algorithm to create all games in bracket **/
     private Game createTree(int depth, Tournament tournament, int numberOfRounds, Long nextMatchId){
         depth++;
         Game game = gameRepository.save(
