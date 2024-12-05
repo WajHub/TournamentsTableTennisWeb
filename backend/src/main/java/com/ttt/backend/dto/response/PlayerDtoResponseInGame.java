@@ -1,10 +1,11 @@
 package com.ttt.backend.dto.response;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.ToString;
 import lombok.Value;
 
-@Value
+@Data
 @Builder
 @ToString
 public class PlayerDtoResponseInGame {

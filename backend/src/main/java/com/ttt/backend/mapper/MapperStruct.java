@@ -23,7 +23,7 @@ public interface MapperStruct {
 
     PlayerDto playerToPlayerDto(Player player, List<PlayerCategoryDto> playerCategoryDtoList);
 
-    PlayerDtoResponseInGame playerToPlayerDtoResponseInGame(Player player);
+    PlayerDtoResponseInGame playerToPlayerDtoResponseInGame(Player player, boolean isWinner);
 
     Tournament tournamentDtoToTournament(TournamentDto tournamentDto, Event event, Category category);
 

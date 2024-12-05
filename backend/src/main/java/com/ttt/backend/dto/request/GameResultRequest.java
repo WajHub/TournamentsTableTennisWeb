@@ -1,10 +1,41 @@
 package com.ttt.backend.dto.request;
 
-import com.ttt.backend.models.Player;
 
+import lombok.*;
+
+import java.util.List;
+
+@Getter
+@Setter
+@ToString
+@Builder
 public class GameResultRequest {
-    private Long id;
-    private Long winnerId;
-    private int setsHome;
-    private int setsAway;
+    private Long homeId;
+    private Long awayId;
+    private List<Integer> pointsHome;
+    private List<Integer> pointsAway;
+
+    public Long idWinner(){
+        return (this.setsHome() > this.setsAway()) ? this.getHomeId() : this.getAwayId();
+    }
+
+    private int setsHome(){
+        int sets = 0;
+        for(int i=0; i< this.getPointsHome().size(); i++){
+            if(this.getPointsHome().get(i)>this.getPointsAway().get(i)){
+                sets++;
+            }
+        }
+        return sets;
+    }
+
+    private int setsAway(){
+        int sets = 0;
+        for(int i=0; i< this.getPointsHome().size(); i++){
+            if(this.getPointsHome().get(i)<this.getPointsAway().get(i)){
+                sets++;
+            }
+        }
+        return sets;
+    }
 }

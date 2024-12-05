@@ -1,12 +1,15 @@
 package com.ttt.backend.services;
 
 import com.ttt.backend.dto.request.GameDtoCreate;
+import com.ttt.backend.dto.request.GameResultRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
 import com.ttt.backend.mapper.MapperStructImpl;
 import com.ttt.backend.models.Game;
 import com.ttt.backend.models.GameState;
+import com.ttt.backend.models.Player;
 import com.ttt.backend.models.Tournament;
 import com.ttt.backend.repository.GameRepository;
+import com.ttt.backend.repository.PlayerRepository;
 import com.ttt.backend.repository.TournamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +26,14 @@ import java.util.stream.Stream;
 public class GameService {
     private GameRepository gameRepository;
     private TournamentRepository tournamentRepository;
+    private PlayerRepository playerRepository;
     private MapperStructImpl mapperStruct;
 
     @Autowired
-    public GameService(GameRepository gameRepository, TournamentRepository tournamentRepository, MapperStructImpl mapperStruct) {
+    public GameService(GameRepository gameRepository, TournamentRepository tournamentRepository,PlayerRepository playerRepository , MapperStructImpl mapperStruct) {
         this.gameRepository = gameRepository;
         this.tournamentRepository = tournamentRepository;
+        this.playerRepository = playerRepository;
         this.mapperStruct = mapperStruct;
     }
 
@@ -123,5 +128,20 @@ public class GameService {
                 return game;
             }))
                 .orElseThrow();
+    }
+
+    public void setResult(Game game, GameResultRequest gameResultRequest) {
+        Player winnerPlayer = playerRepository.findById(gameResultRequest.idWinner()).get();
+        game.setState(GameState.DONE);
+
+        game.setPointsHome(gameResultRequest.getPointsHome());
+        game.setPointsAway(gameResultRequest.getPointsAway());
+
+        game.setPointsHome(gameResultRequest.getPointsHome());
+        game.setPointsAway(gameResultRequest.getPointsAway());
+
+        game.setPlayerWinner(winnerPlayer);
+        gameRepository.save(game);
+        // TODO: handle next game
     }
 }

@@ -7,10 +7,7 @@ import com.ttt.backend.dto.response.PlayerDtoResponseInGame;
 import com.ttt.backend.models.*;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class MapperStructImpl implements MapperStruct{
@@ -86,10 +83,11 @@ public class MapperStructImpl implements MapperStruct{
     }
 
     @Override
-    public PlayerDtoResponseInGame playerToPlayerDtoResponseInGame(Player player) {
+    public PlayerDtoResponseInGame playerToPlayerDtoResponseInGame(Player player, boolean isWinner) {
         return PlayerDtoResponseInGame.builder()
                 .id(player.getId())
                 .name(player.getFirstname()+" "+player.getLastname())
+                .isWinner(isWinner)
                 .build();
     }
 
@@ -138,11 +136,15 @@ public class MapperStructImpl implements MapperStruct{
     public GameDtoResponse gameToGameDtoResponse(Game game) {
         List<PlayerDtoResponseInGame> participants = new ArrayList<>();
         if (game.getPlayerHome() != null) {
-            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerHome()));
+            boolean isWinner = false;
+            if(game.getPlayerWinner()!=null) isWinner = (Objects.equals(game.getPlayerWinner().getId(), game.getPlayerHome().getId()));
+            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerHome(), isWinner));
         }
 
         if (game.getPlayerAway() != null) {
-            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerAway()));
+            boolean isWinner = false;
+            if(game.getPlayerWinner()!=null) isWinner = (Objects.equals(game.getPlayerWinner().getId(), game.getPlayerAway().getId()));
+            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerAway(), isWinner));
         }
 
         return GameDtoResponse.builder()
