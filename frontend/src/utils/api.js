@@ -133,6 +133,18 @@ export const loadRunningMatches = async (tournamentId) =>{
   }
 }
 
+export const setStateGame = async (gameId, state) => {
+  try {
+    return await axios.patch(
+        `http://localhost:8080/api/manage/games/${gameId}?state=${state}`,{},{
+          withCredentials: true
+        }
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const deleteEvent = (id) => {
   try {
     const result = axios.delete(

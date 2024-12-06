@@ -13,7 +13,7 @@ import Tournament from "../components/PageEvent/Tournament";
 function Event() {
   const { user, handleSignOut } = useAuth();
   const { id } = useParams();
-  const [displayFormTournamen, setDisplayFormTournament] = useState(false);
+  const [displayFormTournament, setDisplayFormTournament] = useState(false);
   const [eventData, setEventData] = useState({
     name: "",
   });
@@ -67,7 +67,7 @@ function Event() {
 
       {/*FORM TOURNAMENT */}
       <Overlay
-        isDisplayed={displayFormTournamen}
+        isDisplayed={displayFormTournament}
         setDisplay={setDisplayFormTournament}
       >
         <FormTournament

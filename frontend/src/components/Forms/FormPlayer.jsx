@@ -20,7 +20,6 @@ function FormPlayer({ setDisplay, loadData }) {
   });
 
   const onSubmit = async (values) => {
-    console.log(values);
     try {
       await axios
         .post(

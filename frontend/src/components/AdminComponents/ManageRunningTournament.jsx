@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {loadRunningMatches, loadScheduledMatches} from "../../utils/api.js";
 import Player from "../Other/Player.jsx";
 import GameScheduled from "./Game/GameScheduled.jsx";
+import GameRunning from "./Game/GameRunning.jsx";
 
 
 function ManageRunningTournament({tournament, refreshData}) {
@@ -23,19 +24,20 @@ function ManageRunningTournament({tournament, refreshData}) {
 
   return (
       <div className="container">
-        <h3 className="h3">Scheduled Matches</h3>
-        <ul className="list-group list-group-flush mt-2">
-            {scheduledMatches.map((game) =>
-                (<GameScheduled key={game.id} game={game}/>)
-            )}
-        </ul>
+          <h3 className="h3 p-2">Scheduled Matches</h3>
+          <ul className="list-group list-group-flush mt-2 p-2">
+              {scheduledMatches.map((game) =>
+                  (<GameScheduled key={game.id} game={game} refreshData={refreshData}/>)
+              )}
+          </ul>
 
-        <h3 className="h3">Running Matches</h3>
-        {runningMatches.map((match) => {
-          return (<div>{match.id} </div>)
-        })}
+          <h3 className="h3 p-2">Running Matches</h3>
+          <ul className="list-group list-group-flush mt-2 p-2">
+              {runningMatches.map((game) =>
+                  (<GameRunning key={game.id} game={game} refreshData={refreshData}/>))}
+          </ul>
       </div>
-  );
+);
 }
 
 export default ManageRunningTournament;
