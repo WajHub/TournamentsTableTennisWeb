@@ -83,11 +83,12 @@ public class MapperStructImpl implements MapperStruct{
     }
 
     @Override
-    public PlayerDtoResponseInGame playerToPlayerDtoResponseInGame(Player player, boolean isWinner) {
+    public PlayerDtoResponseInGame playerToPlayerDtoResponseInGame(Player player, boolean isWinner, String resultText) {
         return PlayerDtoResponseInGame.builder()
                 .id(player.getId())
                 .name(player.getFirstname()+" "+player.getLastname())
-                .isWinner(isWinner)
+                .winner(isWinner)
+                .resultText(resultText)
                 .build();
     }
 
@@ -138,14 +139,17 @@ public class MapperStructImpl implements MapperStruct{
         if (game.getPlayerHome() != null) {
             boolean isWinner = false;
             if(game.getPlayerWinner()!=null) isWinner = (Objects.equals(game.getPlayerWinner().getId(), game.getPlayerHome().getId()));
-            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerHome(), isWinner));
+            String resultText = game.getState() == GameState.DONE ? String.valueOf(game.getSetsHome()) : "";
+            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerHome(), isWinner, resultText));
         }
 
         if (game.getPlayerAway() != null) {
             boolean isWinner = false;
             if(game.getPlayerWinner()!=null) isWinner = (Objects.equals(game.getPlayerWinner().getId(), game.getPlayerAway().getId()));
-            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerAway(), isWinner));
+            String resultText = game.getState() == GameState.DONE ? String.valueOf(game.getSetsAway()) : "";
+            participants.add(playerToPlayerDtoResponseInGame(game.getPlayerAway(), isWinner, resultText));
         }
+        System.out.println(participants);
 
         return GameDtoResponse.builder()
                 .id(game.getId())

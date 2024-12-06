@@ -19,7 +19,7 @@ public class GameResultRequest {
         return (this.setsHome() > this.setsAway()) ? this.getHomeId() : this.getAwayId();
     }
 
-    private int setsHome(){
+    public int setsHome(){
         int sets = 0;
         for(int i=0; i< this.getPointsHome().size(); i++){
             if(this.getPointsHome().get(i)>this.getPointsAway().get(i)){
@@ -29,7 +29,7 @@ public class GameResultRequest {
         return sets;
     }
 
-    private int setsAway(){
+    public int setsAway(){
         int sets = 0;
         for(int i=0; i< this.getPointsHome().size(); i++){
             if(this.getPointsHome().get(i)<this.getPointsAway().get(i)){

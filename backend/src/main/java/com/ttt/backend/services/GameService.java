@@ -137,11 +137,31 @@ public class GameService {
         game.setPointsHome(gameResultRequest.getPointsHome());
         game.setPointsAway(gameResultRequest.getPointsAway());
 
-        game.setPointsHome(gameResultRequest.getPointsHome());
-        game.setPointsAway(gameResultRequest.getPointsAway());
+        game.setSetsHome(gameResultRequest.setsHome());
+        game.setSetsAway(gameResultRequest.setsAway());
 
         game.setPlayerWinner(winnerPlayer);
+        handleNextGame(game.getNextMatchId(), winnerPlayer);
         gameRepository.save(game);
-        // TODO: handle next game
+    }
+
+    private void handleNextGame(Long gameId, Player winner) {
+        gameRepository.findById(gameId)
+            .ifPresentOrElse((game)->
+                {
+                    System.out.println(game);
+                    if(game.getPlayerHome()==null){
+                        game.setPlayerHome(winner);
+                    }
+                    else if(game.getPlayerAway()==null){
+                        game.setPlayerAway(winner);
+
+                    }
+                    if(game.getPlayerAway()!=null && game.getPlayerHome()!= null) game.setState(GameState.SCHEDULED);
+                    gameRepository.save(game);
+                },
+            ()-> {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            });
     }
 }
