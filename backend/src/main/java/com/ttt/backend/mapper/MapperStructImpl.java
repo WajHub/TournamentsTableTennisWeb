@@ -149,7 +149,7 @@ public class MapperStructImpl implements MapperStruct{
             String resultText = game.getState() == GameState.DONE ? String.valueOf(game.getSetsAway()) : "";
             participants.add(playerToPlayerDtoResponseInGame(game.getPlayerAway(), isWinner, resultText));
         }
-        System.out.println(participants);
+
 
         return GameDtoResponse.builder()
                 .id(game.getId())
@@ -161,8 +161,5 @@ public class MapperStructImpl implements MapperStruct{
                 .participants(participants)
                 .build();
     }
-
-
-
 
 }

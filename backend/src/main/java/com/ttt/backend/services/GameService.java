@@ -141,7 +141,10 @@ public class GameService {
         game.setSetsAway(gameResultRequest.setsAway());
 
         game.setPlayerWinner(winnerPlayer);
-        handleNextGame(game.getNextMatchId(), winnerPlayer);
+        if(game.getNextMatchId()!=null){
+            handleNextGame(game.getNextMatchId(), winnerPlayer);
+        }
+
         gameRepository.save(game);
     }
 
@@ -149,7 +152,7 @@ public class GameService {
         gameRepository.findById(gameId)
             .ifPresentOrElse((game)->
                 {
-                    System.out.println(game);
+//                    System.out.println(game);
                     if(game.getPlayerHome()==null){
                         game.setPlayerHome(winner);
                     }
