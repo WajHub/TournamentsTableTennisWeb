@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { isAuth, useAuth } from "../../auth/AuthProvider";
 import { Formik, Form } from "formik";
@@ -8,6 +8,7 @@ import * as Yup from "yup";
 function FormSingIn() {
   let navigate = useNavigate();
   const { user, handleSignIn } = useAuth();
+  const[error, setError] = useState(null);
 
   const initialValues = {
     email: "",
@@ -22,10 +23,10 @@ function FormSingIn() {
   const onSubmit = async (values) => {
     const result = await handleSignIn(values);
     if (result) {
+      setError(null);
       navigate("/");
     } else {
-      // TODO: wyświetlić komunikat po błędnych danych
-      console.log("ERROR");
+      setError("Invalid login credentials. Please try again.")
     }
   };
 
@@ -41,18 +42,21 @@ function FormSingIn() {
       validationSchema={validationSchema}
     >
       {({ values }) => (
-        <Form>
-          <Input type="text" name="email" label="Email" value={values.email} />
-          <Input
-            type="password"
-            name="password"
-            label="Password"
-            value={values.password}
-          />
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </Form>
+          <Form>
+            <Input type="text" name="email" label="Email" value={values.email}/>
+            <Input
+                type="password"
+                name="password"
+                label="Password"
+                value={values.password}
+            />
+            {error ? (<div className="alert alert-danger" role="alert">
+              {error}
+            </div>) : ""}
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </Form>
       )}
     </Formik>
   );
