@@ -3,12 +3,13 @@ import {formatDate} from "../../utils/date.js";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {array, number} from "yup";
+import {setResultGame} from "../../utils/api.js";
 
-function FormGameResult({setDisplay, homeId, awayId}) {
+function FormGameResult({setDisplay, refreshData, gameId, homeId, awayId}) {
 
     const initialValues = {
-        homeId: awayId,
-        awayId: homeId,
+        homeId: homeId,
+        awayId: awayId,
         pointsHome: [0, 0, 0],
         pointsAway: [0, 0, 0],
     };
@@ -59,11 +60,9 @@ function FormGameResult({setDisplay, homeId, awayId}) {
             }
             return true;
         }
-
     });
 
-    // TODO: call this func onBlur!
-    // Add set or remove
+
     const handleChangeResult = (values) => {
         const NUMBER_OF_SETS_TO_WIN = 3;
         let {pointsHome, pointsAway} = values;
@@ -71,22 +70,39 @@ function FormGameResult({setDisplay, homeId, awayId}) {
         let setsAway = 0;
         let length = pointsAway.length
 
-        for(let i=0; i<length; i++){
-            // count finished set
-            if(pointsHome[i] >= 11 || pointsAway >= 11){
+        for(let i= 0; i<length; i++){
+            if(pointsHome[i] >= 11 || pointsAway[i] >= 11){
                 if(pointsHome[i]>pointsAway[i]) setsHome++;
                 else setsAway++;
             }
         }
         let setsFinished =  setsHome + setsAway;
-        console.log("FINISHED", setsFinished);
-        console.log("HOME", setsHome);
-        console.log("AWAY", setsAway);
+
+        let requiredSets = (setsHome>setsAway) ?  NUMBER_OF_SETS_TO_WIN - setsHome  : NUMBER_OF_SETS_TO_WIN - setsAway;
+        let availableSets = length - setsFinished;
+
+        for(let i = availableSets; i<requiredSets; i++){
+            pointsHome.push(0);
+            pointsAway.push(0);
+        }
+
+        for(let i = requiredSets; i < availableSets; i++){
+            pointsHome.pop();
+            pointsAway.pop();
+        }
+
 
     }
 
-    const onSubmit = () =>{
-        console.log("FINISH");
+    const onSubmit = (values) =>{
+        console.log("FINISH", values);
+        setResultGame(gameId, values).then(r => {
+            if(r.status === 201){
+                setDisplay(false);
+                refreshData();
+            }
+        });
+
     }
 
     return (
@@ -104,23 +120,31 @@ function FormGameResult({setDisplay, homeId, awayId}) {
                                     <div className="col-auto">
                                         <Field style={{ width: "7vw" }} size="small" type="number" name={`pointsHome[${index}]`} value={values.pointsHome[index]}
                                                                 onChange={(e) => {
-                                                                    setFieldValue(`pointsHome[${index}]`, e.target.value).then(r => {});
-                                                                    handleChangeResult(values);
-                                                                }}/></div>
+                                                                    setFieldValue(`pointsHome[${index}]`, Number(e.target.value)).then(r => {});
+                                                                }}
+                                                               onBlur={(e) => {
+                                                                   setFieldValue(`pointsHome[${index}]`, Number(e.target.value)).then(r => {});
+                                                                   handleChangeResult(values)
+                                                               }}/></div>
                                     <div className="col-auto font-weight-bold">:</div>
                                     <div className="col-auto">
                                         <Field style={{ width: "7vw" }} type="number" name={`pointsAway[${index}]`} value={values.pointsAway[index]}
                                                                 onChange={(e) => {
-                                                                    setFieldValue(`pointsAway[${index}]`, e.target.value).then(r => {});
-                                                                    handleChangeResult(values);
+                                                                    setFieldValue(`pointsAway[${index}]`, Number(e.target.value)).then(r => {});
+
+
+                                                                }}
+                                                                onBlur={(e) => {
+                                                                    setFieldValue(`pointsAway[${index}]`, Number(e.target.value)).then(r => {});
+                                                                    handleChangeResult(values)
                                                                 }}/></div>
 
                                 </div>
                                 <ErrorMessage name={`pointsHome[${index}]`}>
-                                    {msg => <div className="mt-1 row alert alert-danger">{msg}</div>}
+                                    {msg => <div className="mt-1 row alert alert-danger">Invalid points Home. {msg}</div>}
                                 </ErrorMessage>
                                 <ErrorMessage name={`pointsAway[${index}]`}>
-                                    {msg => <div className="mt-1 row alert alert-danger">{msg}</div>}
+                                    {msg => <div className="mt-1 row alert alert-danger">Invalid points Away. {msg}</div>}
                                 </ErrorMessage>
                             </div>
                         )}

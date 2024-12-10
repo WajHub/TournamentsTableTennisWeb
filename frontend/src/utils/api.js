@@ -145,6 +145,18 @@ export const setStateGame = async (gameId, state) => {
   }
 }
 
+export const setResultGame = async(gameId, gameResultRequest) => {
+  try {
+    return await axios.patch(
+        `http://localhost:8080/api/manage/games/${gameId}/result`,gameResultRequest,{
+          withCredentials: true
+        }
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const deleteEvent = (id) => {
   try {
     const result = axios.delete(
