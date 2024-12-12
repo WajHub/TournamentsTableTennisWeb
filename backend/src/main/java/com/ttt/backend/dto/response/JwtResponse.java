@@ -1,11 +1,9 @@
 package com.ttt.backend.dto.response;
 
 
-import com.ttt.backend.models.User;
+import com.ttt.backend.entity.User;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter

@@ -8,6 +8,7 @@ function PlayerList({
   players,
   deletion,
   loadData,
+    refreshData
 }) {
   const [filteredPlayers, setFilteredPlayers] = useState([]);
 
@@ -33,6 +34,7 @@ function PlayerList({
             player={player}
             key={index}
             loadData={loadData}
+            refreshData={refreshData}
             deletion={deletion}
             addingToTournament={addingToTournament}
             idTournament={idTournament}

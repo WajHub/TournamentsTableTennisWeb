@@ -21,14 +21,14 @@ function FormEvent({ setDisplay, loadData }) {
     try {
       await axios
         .post(
-          "http://localhost:8080/api/manage/event/save",
+          "http://localhost:8080/api/manage/events",
           { name: values.name, date: values.date },
           {
             withCredentials: true,
           }
         )
         .then((response) => {
-          if (response.status === 200) {
+          if (response.status === 201) {
             setDisplay(false);
             loadData();
           } else {

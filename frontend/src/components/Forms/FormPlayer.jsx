@@ -23,7 +23,7 @@ function FormPlayer({ setDisplay, loadData }) {
     try {
       await axios
         .post(
-          "http://localhost:8080/api/manage/player/save",
+          "http://localhost:8080/api/manage/players",
           {
             firstname: values.firstname,
             lastname: values.lastname,
@@ -35,7 +35,7 @@ function FormPlayer({ setDisplay, loadData }) {
           }
         )
         .then((response) => {
-          if (response.status === 200) {
+          if (response.status === 201) {
             setDisplay(false);
             loadData();
           } else {

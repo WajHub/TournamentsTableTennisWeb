@@ -29,7 +29,7 @@ function Event() {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData().then(r => {});
   }, []);
 
   return (

@@ -4,6 +4,7 @@ import axios from "axios";
 import { Formik, Form, Field } from "formik";
 import Input from "./Input";
 import * as Yup from "yup";
+import {setResultGame, submitTournament} from "../../utils/api.js";
 
 function FormTournament({ setDisplay, loadData }) {
   const { id } = useParams();
@@ -32,29 +33,12 @@ function FormTournament({ setDisplay, loadData }) {
   };
 
   const onSubmit = async (values) => {
-    try {
-      await axios
-        .post(
-          "http://localhost:8080/api/manage/save/tournament",
-          {
-            name: values.name,
-            category: values.category,
-            event_id: values.event_id,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          if (response.status === 200) {
-            setDisplay(false);
-            loadData();
-          } else {
-          }
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    submitTournament(values).then(r => {
+      if(r.status === 201){
+        setDisplay(false);
+        loadData();
+      }
+    });
   };
   return (
     <Formik

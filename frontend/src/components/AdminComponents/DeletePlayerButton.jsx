@@ -1,21 +1,15 @@
 import React from "react";
 import { useAuth, isAuth, isMod } from "../../auth/AuthProvider.jsx";
 import axios from "axios";
+import {deletePlayer} from "../../utils/api.js";
 
 function DeletePlayerButton({ idPlayer, loadData }) {
   const { user } = useAuth();
 
   const handleDeletion = (e) => {
-    axios
-      .delete(`http://localhost:8080/api/manage/player/delete/${idPlayer}`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        loadData();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  deletePlayer(idPlayer).then((result) =>{
+    loadData();
+  })
   };
   return (
     <>

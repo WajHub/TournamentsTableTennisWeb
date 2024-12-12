@@ -7,18 +7,19 @@ import ManageRunningTournament from "./ManageRunningTournament";
 function ManageTournament({ tournament, refreshData }) {
   const [players, setPlayers] = useState([]);
 
-  const fetchData = async (id) => {
-    await loadEligiblePlayers(id).then((res) => {
+  const fetchData = async () => {
+    await loadEligiblePlayers(tournament.id).then((res) => {
       setPlayers(res);
     });
   };
+
   useEffect(() => {
-    if(tournament.id) fetchData(tournament.id);
+    if(tournament.id) fetchData();
   }, [tournament]);
 
   const handleStartTournament = (id) => {
     startTournament(id).then(r => {
-        fetchData(id);
+        fetchData();
         refreshData();
     });
   };
@@ -33,9 +34,8 @@ function ManageTournament({ tournament, refreshData }) {
         idTournament={tournament.id}
         deletion={false}
         players={players}
-        loadData={() => {
-          fetchData(tournament.id);
-        }}
+        loadData={fetchData}
+        refreshData={refreshData}
       />
       <button
         className="btn btn-success mt-3"

@@ -1,7 +1,6 @@
 package com.ttt.backend.dto;
 
 import com.ttt.backend.dto.response.GameDtoResponse;
-import com.ttt.backend.models.Game;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

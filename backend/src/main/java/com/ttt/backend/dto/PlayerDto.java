@@ -1,9 +1,7 @@
 package com.ttt.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ttt.backend.models.Gender;
-import com.ttt.backend.models.PlayerCategory;
-import jakarta.persistence.Column;
+import com.ttt.backend.entity.Gender;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

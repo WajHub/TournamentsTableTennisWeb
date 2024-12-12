@@ -96,7 +96,7 @@ function FormGameResult({setDisplay, refreshData, gameId, homeId, awayId}) {
 
     const onSubmit = (values) =>{
         setResultGame(gameId, values).then(r => {
-            if(r.status === 201){
+            if(r.status === 204){
                 setDisplay(false);
                 refreshData();
             }

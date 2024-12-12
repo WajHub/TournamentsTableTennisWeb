@@ -1,10 +1,10 @@
 package com.ttt.backend.mapper;
 
 import com.ttt.backend.dto.*;
-import com.ttt.backend.dto.request.GameDtoCreate;
+import com.ttt.backend.dto.request.GameDtoRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
 import com.ttt.backend.dto.response.PlayerDtoResponseInGame;
-import com.ttt.backend.models.*;
+import com.ttt.backend.entity.*;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public interface MapperStruct {
 
     TournamentDto tournamentToTournamentDto(Tournament tournament);
 
-    Game createNewGame(GameDtoCreate gameDtoCreate, Tournament tournament, Long idNextMatch);
+    Game createNewGame(GameDtoRequest gameDtoRequest, Tournament tournament, Long idNextMatch);
 
     GameDtoResponse gameToGameDtoResponse(Game game);
 

@@ -1,10 +1,10 @@
 package com.ttt.backend.mapper;
 
 import com.ttt.backend.dto.*;
-import com.ttt.backend.dto.request.GameDtoCreate;
+import com.ttt.backend.dto.request.GameDtoRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
 import com.ttt.backend.dto.response.PlayerDtoResponseInGame;
-import com.ttt.backend.models.*;
+import com.ttt.backend.entity.*;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -99,6 +99,8 @@ public class MapperStructImpl implements MapperStruct{
                 .event(event)
                 .category(category)
                 .isRunning(tournamentDto.isRunning())
+                .playerList(new ArrayList<>())
+                .games(new ArrayList<>())
                 .build();
     }
 
@@ -124,10 +126,10 @@ public class MapperStructImpl implements MapperStruct{
     }
 
     @Override
-    public Game createNewGame(GameDtoCreate gameDtoCreate, Tournament tournament, Long idNextMatch) {
+    public Game createNewGame(GameDtoRequest gameDtoRequest, Tournament tournament, Long idNextMatch) {
         return Game.builder()
                 .tournament(tournament)
-                .round(gameDtoCreate.getRound())
+                .round(gameDtoRequest.getRound())
                 .state(GameState.valueOf("CREATED"))
                 .nextMatchId(idNextMatch)
                 .build();

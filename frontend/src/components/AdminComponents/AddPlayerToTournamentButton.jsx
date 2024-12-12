@@ -3,12 +3,13 @@ import { useAuth, isAuth, isMod } from "../../auth/AuthProvider.jsx";
 import axios from "axios";
 import { addPlayerToTournament } from "../../utils/api.js";
 
-function AddPlayerToTournamentButton({ idPlayer, loadData, idTournament }) {
+function AddPlayerToTournamentButton({ idPlayer, loadData,refreshData, idTournament }) {
   const { user } = useAuth();
 
   const handleSubmit = async (e) => {
     await addPlayerToTournament(idPlayer, idTournament);
     loadData();
+    refreshData();
   };
   return (
     <>

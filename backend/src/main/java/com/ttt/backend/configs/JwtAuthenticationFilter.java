@@ -1,7 +1,7 @@
 package com.ttt.backend.configs;
 
 
-import com.ttt.backend.services.JwtService;
+import com.ttt.backend.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
