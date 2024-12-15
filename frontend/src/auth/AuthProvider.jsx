@@ -22,23 +22,15 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     async function fetchUser() {
+      if (!user) return;
+
       try {
-        axios
-          .get("http://localhost:8080/auth/details", {
-            withCredentials: true,
-          })
-          .then(function (response) {
-            const { username, email, role } = response.data;
-            setUser({ username, email, role });
-          })
-          .catch(function (error) {
-            if (error.response) {
-              console.log("ERR");
-              setUser(null);
-            }
-          });
-      } catch {
-        console.log("ERR");
+        const response = await axios.get("http://localhost:8080/auth/details", {
+          withCredentials: true,
+        });
+        const { username, email, role } = response.data;
+        setUser({ username, email, role });
+      } catch (error) {
         setUser(null);
       }
     }

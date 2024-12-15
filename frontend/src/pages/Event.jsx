@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { useParams } from "react-router-dom";
 import NavTabs from "../components/Tabs/NavTabs";
 import TabTitle from "../components/Tabs/TabTitle";
@@ -10,15 +10,20 @@ import FormTournament from "../components/Forms/FormTournament";
 import { loadEvent, loadTournaments } from "../utils/api";
 import Tournament from "../components/PageEvent/Tournament";
 
+import {WebsocketContext} from "../ws/WebsocketProvider.jsx"
+
 function Event() {
+
+  const socketUrl = 'ws://localhost:8080/ws';
+
   const { user, handleSignOut } = useAuth();
   const { id } = useParams();
+
   const [displayFormTournament, setDisplayFormTournament] = useState(false);
   const [eventData, setEventData] = useState({
     name: "",
   });
   const [tournaments, setTournaments] = useState([]);
-  const [selectedTabTournament, setSelectedTabTournament] = useState(null);
 
   const fetchData = async () => {
     const event = await loadEvent(id);
@@ -32,10 +37,16 @@ function Event() {
     fetchData().then(r => {});
   }, []);
 
+  const stompClient = useContext(WebsocketContext);
+
+    const handleTest = () =>{
+      stompClient.current.publish({destination: "/app/hello", body: "Hello, STOMP"});
+    }
+
   return (
     <div>
       <h3 className="h3">{eventData.name}</h3>
-
+        <button onClick={handleTest}>TEST</button>
       <NavTabs>
         {/*TITLE TABS */}
         {tournaments.map((tournament) => (

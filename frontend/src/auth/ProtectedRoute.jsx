@@ -5,9 +5,9 @@ function ProtectedRoute({ allowedRoles, children }) {
   const { user } = useAuth();
   if (user === undefined) {
     return (
-      <div class="d-flex justify-content-center">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+      <div className="d-flex justify-content-center">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
     );
@@ -16,7 +16,7 @@ function ProtectedRoute({ allowedRoles, children }) {
     user === null ||
     (!allowedRoles && allowedRoles.includes(user.roles[0]))
   ) {
-    return <div>Permision denied</div>;
+    return <div>Permission denied</div>;
   }
   return children;
 }

@@ -8,6 +8,7 @@ import com.ttt.backend.service.GameService;
 import com.ttt.backend.validaton.GameResultValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -49,6 +50,12 @@ public class GameControllerImpl implements GameController {
     @Override
     public void delete(@PathVariable Long gameId) {
         gameService.deleteById(gameId);
+    }
+
+    @Override
+    public String greeting(@Payload String hello) {
+        System.out.println(hello);
+        return "Hello";
     }
 
     /** Functions only for testing  ------------------------ **/

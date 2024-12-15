@@ -5,6 +5,8 @@ import com.ttt.backend.dto.request.GameResultRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
 import com.ttt.backend.validaton.GameResultValidation;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,9 +30,13 @@ public interface GameController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     GameDtoResponse updateState(@PathVariable Long gameId, @RequestParam(name= "state") String state);
 
-    @DeleteMapping("/manage/game/delete/{gameId}")
+    @DeleteMapping("/manage/games/{gameId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable Long gameId);
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/events/{eventId}")
+    String greeting(String hello);
 
     /** Functions only for testing  ------------------------ **/
     @PostMapping("/manage/tournaments/{tournamentId}/games")
