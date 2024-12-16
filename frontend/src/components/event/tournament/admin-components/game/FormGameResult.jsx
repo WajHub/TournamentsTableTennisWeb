@@ -1,9 +1,9 @@
 import React from 'react';
-import {formatDate} from "../../../../utils/date.js";
+import {formatDate} from "../../../../../utils/date.js";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {array, number} from "yup";
-import {setResultGame} from "../../../../utils/api.js";
+import {setResultGame} from "../../../../../utils/api.js";
 
 function FormGameResult({setDisplay, refreshData, gameId, homeId, awayId}) {
 

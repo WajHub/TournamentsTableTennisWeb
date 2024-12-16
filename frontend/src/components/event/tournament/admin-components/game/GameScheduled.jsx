@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import Player from "../../../shared/Player.jsx";
-import {setStateGame} from "../../../../utils/api.js";
+import Player from "../../../../shared/Player.jsx";
+import {setStateGame} from "../../../../../utils/api.js";
 
 function GameScheduled({game, refreshData}) {
     const [home, setHome] = useState(null);

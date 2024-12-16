@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {loadRunningMatches, loadScheduledMatches} from "../../../utils/api.js";
-import Player from "../../shared/Player.jsx";
+import {loadRunningMatches, loadScheduledMatches} from "../../../../utils/api.js";
+import Player from "../../../shared/Player.jsx";
 import GameScheduled from "./game/GameScheduled.jsx";
 import GameRunning from "./game/GameRunning.jsx";
 

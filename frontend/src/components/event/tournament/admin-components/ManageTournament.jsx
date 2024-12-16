@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { loadEligiblePlayers } from "../../../utils/api.js";
-import PlayerList from "../../shared/PlayerList.jsx";
-import { startTournament } from "../../../utils/api.js";
+import { loadEligiblePlayers } from "../../../../utils/api.js";
+import PlayerList from "../../../shared/PlayerList.jsx";
+import { startTournament } from "../../../../utils/api.js";
 import ManageRunningTournament from "./ManageRunningTournament.jsx";
 
 function ManageTournament({ tournament, refreshData }) {

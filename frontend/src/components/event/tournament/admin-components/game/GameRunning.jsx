@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {loadTournaments, setStateGame} from "../../../../utils/api.js";
-import Overlay from "../../../shared/Overlay.jsx";
-import FormTournament from "../../FormTournament.jsx";
+import {loadTournaments, setStateGame} from "../../../../../utils/api.js";
+import Overlay from "../../../../shared/Overlay.jsx";
+import FormTournament from "../../../FormTournament.jsx";
 import FormGameResult from "./FormGameResult.jsx";
 
 function GameRunning({game, refreshData}) {

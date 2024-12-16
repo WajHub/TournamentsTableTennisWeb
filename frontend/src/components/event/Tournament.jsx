@@ -3,7 +3,7 @@ import NavTabs from "./tabs/NavTabs.jsx";
 import TabTitle from "./tabs/TabTitle.jsx";
 import TabContent from "./tabs/TabContent.jsx";
 import { useAuth } from "../../providers/AuthProvider.jsx";
-import ManageTournament from "./tournament/ManageTournament.jsx";
+import ManageTournament from "./tournament/admin-components/ManageTournament.jsx";
 import PlayerList from "../shared/PlayerList.jsx";
 import Draw from "./tournament/Draw.jsx";
 import {loadEvent, loadTournament, loadTournaments} from "../../utils/api.js";
