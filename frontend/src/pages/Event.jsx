@@ -14,7 +14,6 @@ import {WebsocketContext} from "../ws/WebsocketProvider.jsx"
 
 function Event() {
 
-  const socketUrl = 'ws://localhost:8080/ws';
 
   const { user, handleSignOut } = useAuth();
   const { id } = useParams();
@@ -24,6 +23,7 @@ function Event() {
     name: "",
   });
   const [tournaments, setTournaments] = useState([]);
+  const {subscribe, unsubscribe, sendMessage} = useContext(WebsocketContext);
 
   const fetchData = async () => {
     const event = await loadEvent(id);
@@ -37,10 +37,23 @@ function Event() {
     fetchData().then(r => {});
   }, []);
 
-  const stompClient = useContext(WebsocketContext);
+
+  useEffect(() =>{
+    const channel = `/topic/events/${id}`
+    const subscription = subscribe(channel, (message) =>{
+      console.log("Received message: ", message);
+    })
+
+    return () =>  {
+      unsubscribe(subscription);
+    }
+      }
+  , [subscribe, unsubscribe]);
+
+
 
     const handleTest = () =>{
-      stompClient.current.publish({destination: "/app/hello", body: "Hello, STOMP"});
+      sendMessage(`/app/events/${id}`, JSON.stringify({ content: 'Hello, WebSocket!' }));
     }
 
   return (

@@ -8,6 +8,7 @@ import com.ttt.backend.service.GameService;
 import com.ttt.backend.validaton.GameResultValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -53,8 +54,7 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public String greeting(@Payload String hello) {
-        System.out.println(hello);
+    public String greeting(@DestinationVariable Long id, @Payload String hello) {
         return "Hello";
     }
 

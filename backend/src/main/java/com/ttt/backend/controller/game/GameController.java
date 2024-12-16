@@ -5,7 +5,9 @@ import com.ttt.backend.dto.request.GameResultRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
 import com.ttt.backend.validaton.GameResultValidation;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +36,9 @@ public interface GameController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable Long gameId);
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/events/{eventId}")
-    String greeting(String hello);
+    @MessageMapping("/events/{id}")
+    @SendTo("/topic/events/{id}")
+    String greeting(@DestinationVariable Long id, @Payload String hello);
 
     /** Functions only for testing  ------------------------ **/
     @PostMapping("/manage/tournaments/{tournamentId}/games")

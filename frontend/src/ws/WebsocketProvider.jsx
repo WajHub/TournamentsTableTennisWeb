@@ -22,17 +22,43 @@ function WebsocketProvider({children}) {
         stompClient.current.activate();
 
         return () => {
-            stompClient.current.deactivate().then(r => {});
+            stompClient.current.deactivate().then(r => {
+                console.log('WebSocket connection deactivated.');
+            });
         };
     }, []);
 
-    const sendMessage = () =>{
-        console.log("TEST")
-        stompClient.current.publish({destination: "/app/hello", body: "Hello, STOMP"});
+
+    const subscribe = (channel, callback) => {
+        if(stompClient.current.connected){
+            console.log("Subs", channel)
+            return stompClient.current.subscribe(channel, (message) =>{
+                callback(message.body);
+            });
+        }
+        else{
+            console.log("Client is not connected!")
+        }
+    }
+
+    const unsubscribe = (subscription) =>{
+        if(subscription){
+            subscription.unsubscribe();
+        }
+    }
+
+    const sendMessage = (destination, body) => {
+        if(stompClient.current.connected) {
+            stompClient.current.publish({destination, body});
+        }
     }
 
     return (
-        <WebsocketContext.Provider value={stompClient}>
+        <WebsocketContext.Provider value={{
+                subscribe,
+                unsubscribe,
+                sendMessage
+            }}>
             {children}
         </WebsocketContext.Provider>
     );
