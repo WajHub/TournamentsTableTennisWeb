@@ -20,14 +20,12 @@ public class WebSocketEventListener {
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         log.info("User disconnected!");
-        log.info("Header Accessor: {}", headerAccessor.toString());
 
     }
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         log.info("User Connected!");
-        log.info("Header Accessor: {}", headerAccessor.toString());
     }
 
 }

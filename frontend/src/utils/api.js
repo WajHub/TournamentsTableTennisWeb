@@ -15,7 +15,7 @@ export const loadEvents = async () => {
     const result = await axios.get("http://localhost:8080/api/events");
     return result.data;
   } catch (error) {
-    console.error("Error loading events:", error);
+    console.error("Error loading event:", error);
     throw error;
   }
 };

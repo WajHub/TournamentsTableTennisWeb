@@ -63,7 +63,5 @@ public class GameControllerImpl implements GameController {
     public List<GameDtoResponse> createAllGames(@PathVariable Long tournamentId) {
         return gameService.createAllGames(tournamentId);
     }
-
-
     /** ------------------------------------------------ **/
 }
