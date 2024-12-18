@@ -19,7 +19,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private static final String[] BLACK_LIST_URL = {"/api/manage/**", };
+    private static final String[] BLACK_LIST_URL = {"/api/manage/**"};
 
     private static final String[] AUTHENTICATED_LIST = {"/auth/details"};
     private final AuthenticationProvider authenticationProvider;

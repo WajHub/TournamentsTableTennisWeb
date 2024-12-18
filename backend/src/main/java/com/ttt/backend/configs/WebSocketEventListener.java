@@ -20,6 +20,7 @@ public class WebSocketEventListener {
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         log.info("User disconnected!");
+        log.info(headerAccessor.toString());
 
     }
     @EventListener
