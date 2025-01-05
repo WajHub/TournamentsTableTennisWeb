@@ -54,8 +54,9 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public String greeting(@DestinationVariable Long id, @Payload String hello) {
-        return "Hello";
+    public GameDtoResponse sendLiveResult(@Payload GameDtoResponse gameUpdated) {
+        System.out.println(gameUpdated);
+        return gameUpdated;
     }
 
     /** Functions only for testing  ------------------------ **/

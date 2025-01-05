@@ -26,7 +26,7 @@ public interface GameController {
     GameDtoResponse save(@RequestBody GameDtoRequest gameDtoRequest);
 
     @PatchMapping("/manage/games/{gameId}/results")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     GameDtoResponse updateResult(@PathVariable Long gameId, @RequestBody @GameResultValidation GameResultRequest gameResultRequest);
 
     @PatchMapping("/manage/games/{gameId}")
@@ -40,7 +40,7 @@ public interface GameController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @MessageMapping("/events/{id}")
     @SendTo("/topic/events/{id}")
-    String greeting(@DestinationVariable Long id, @Payload String hello);
+    GameDtoResponse sendLiveResult(@Payload GameDtoResponse gameUpdated);
 
     /** Functions only for testing  ------------------------ **/
     @PostMapping("/manage/tournaments/{tournamentId}/games")

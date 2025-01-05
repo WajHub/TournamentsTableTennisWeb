@@ -49,7 +49,11 @@ function WebsocketProvider({children}) {
 
     const sendMessage = (destination, body) => {
         if(stompClient.current.connected) {
-            stompClient.current.publish({destination, body});
+            // stompClient.current.publish({destination, body});
+            stompClient.current.publish({
+                destination: destination,
+                body: JSON.stringify(body)
+            });
         }
     }
 

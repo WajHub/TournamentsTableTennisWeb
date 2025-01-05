@@ -22,8 +22,6 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     async function fetchUser() {
-      if (!user) return;
-
       try {
         const response = await axios.get("http://localhost:8080/auth/details", {
           withCredentials: true,
@@ -35,7 +33,7 @@ function AuthProvider({ children }) {
       }
     }
 
-    fetchUser();
+    fetchUser().then(r => {});
   }, []);
 
   async function handleSignIn(dtoUser) {

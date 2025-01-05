@@ -34,7 +34,7 @@ function ManageRunningTournament({tournament, refreshData}) {
           <h3 className="h3 p-2">Running Matches</h3>
           <ul className="list-group list-group-flush mt-2 p-2">
               {runningMatches.map((game) =>
-                  (<GameRunning key={game.id} game={game} refreshData={refreshData}/>))}
+                  (<GameRunning key={game.id} game={game} eventId={tournament.event_id} refreshData={refreshData}/>))}
           </ul>
       </div>
 );

@@ -11,6 +11,7 @@ import { loadEvent, loadTournaments } from "../../utils/api.js";
 import Tournament from "./Tournament.jsx";
 
 import {WebsocketContext} from "../../providers/WebsocketProvider.jsx"
+import tournament from "./Tournament.jsx";
 
 function Event() {
   const { user, handleSignOut } = useAuth();
@@ -38,8 +39,27 @@ function Event() {
 
   useEffect(() =>{
     const channel = `/topic/events/${id}`
-    const subscription = subscribe(channel, (message) =>{
-      console.log("Received message: ", message);
+
+    const subscription = subscribe(channel, (response) =>{
+      const gameUpdated = JSON.parse(response);
+      console.log("Received message: ", gameUpdated);
+
+      setTournaments((prevTournaments) =>{
+       return prevTournaments
+           .map((tournament)=> {
+            return {
+              ...tournament,
+              games: tournament.games.map((game) =>{
+                if(game.id === gameUpdated.id){
+                  return gameUpdated;
+                }
+                return game;
+              })
+            }
+          }
+        )
+      })
+
     })
 
     return () =>  {
@@ -50,14 +70,10 @@ function Event() {
 
 
 
-    const handleTest = () =>{
-      sendMessage(`/app/events/${id}`, JSON.stringify({ content: 'Hello, WebSocket!' }));
-    }
 
   return (
     <div>
       <h3 className="h3">{eventData.name}</h3>
-        <button onClick={handleTest}>TEST</button>
       <NavTabs>
         {/*TITLE TABS */}
         {tournaments.map((tournament) => (
@@ -82,7 +98,7 @@ function Event() {
         {/*CONTENT TABS */}
         {tournaments.map((tournament) => (
           <TabContent key={tournament.id} id={tournament.id} active={false}>
-            <Tournament idTournament={tournament.id} />
+            <Tournament tournament={tournament} fetchData={fetchData}/>
           </TabContent>
         ))}
       </NavTabs>

@@ -40,6 +40,7 @@ public class ApplicationConfiguration {
         return config.getAuthenticationManager();
     }
 
+    // TODO: correct permissions for sending messages
     @Bean
     public AuthorizationManager<Message<?>> authorizationManager() {
         return MessageMatcherDelegatingAuthorizationManager.builder()

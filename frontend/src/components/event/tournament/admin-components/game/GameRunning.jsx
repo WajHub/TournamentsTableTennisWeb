@@ -4,7 +4,7 @@ import Overlay from "../../../../shared/Overlay.jsx";
 import FormTournament from "../../../FormTournament.jsx";
 import FormGameResult from "./FormGameResult.jsx";
 
-function GameRunning({game, refreshData}) {
+function GameRunning({game, eventId, refreshData}) {
 
     const [home, setHome] = useState(null);
     const [away, setAway] = useState(null);
@@ -60,7 +60,7 @@ function GameRunning({game, refreshData}) {
                     <div className="col-4 font-weight-bold">{away.name}</div>
 
                 </div>
-                <FormGameResult setDisplay={setOverlayDisplayed} refreshData={refreshData} gameId={game.id} homeId={home.id} awayId={away.id}/>
+                <FormGameResult setDisplay={setOverlayDisplayed} refreshData={refreshData} gameId={game.id} homeId={home.id} awayId={away.id} eventId={eventId}/>
             </Overlay>
         </div>
     );

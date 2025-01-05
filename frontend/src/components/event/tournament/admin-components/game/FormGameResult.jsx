@@ -1,11 +1,13 @@
-import React from 'react';
-import {formatDate} from "../../../../../utils/date.js";
+import React, {useContext} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {array, number} from "yup";
 import {setResultGame} from "../../../../../utils/api.js";
+import {WebsocketContext} from "../../../../../providers/WebsocketProvider.jsx";
 
-function FormGameResult({setDisplay, refreshData, gameId, homeId, awayId}) {
+function FormGameResult({setDisplay, refreshData, gameId, homeId, awayId, eventId}) {
+
+    const {sendMessage} = useContext(WebsocketContext);
 
     const initialValues = {
         homeId: homeId,
@@ -96,12 +98,13 @@ function FormGameResult({setDisplay, refreshData, gameId, homeId, awayId}) {
 
     const onSubmit = (values) =>{
         setResultGame(gameId, values).then(r => {
-            if(r.status === 204){
+            if(r.status === 200){
                 setDisplay(false);
+                let gameUpdated = r.data;
+                sendMessage(`/app/events/${eventId}`, (gameUpdated));
                 refreshData();
             }
         });
-
     }
 
     return (

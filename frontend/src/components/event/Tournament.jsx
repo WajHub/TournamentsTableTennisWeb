@@ -8,21 +8,11 @@ import PlayerList from "../shared/PlayerList.jsx";
 import Draw from "./tournament/Draw.jsx";
 import {loadEvent, loadTournament, loadTournaments} from "../../utils/api.js";
 
-function Tournament({idTournament}) {
+function Tournament({tournament, fetchData}) {
   const { user, handleSignOut } = useAuth();
+  
 
-  const [tournament, setTournament] = useState({
-    playerDtoList: []
-  });
-
-  const fetchData = async () => {
-    const tournament = await loadTournament(idTournament);
-    setTournament(tournament);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  if(tournament.playerDtoList===undefined) return "Loading...";
 
   return (
     <div className="container border rounded p-4 mt-2 shadow w-75">
@@ -30,24 +20,24 @@ function Tournament({idTournament}) {
       <NavTabs>
         {/*TITLE TABS */}
         <TabTitle
-          key={`${idTournament}_1`}
+          key={`${tournament.id}_1`}
           title="player List"
-          id={`${idTournament}_1`}
+          id={`${tournament.id}_1`}
           active={false}
         />
         <TabTitle
-          key={`${idTournament}_2`}
+          key={`${tournament.id}_2`}
           title="Draws"
-          id={`${idTournament}_2`}
+          id={`${tournament.id}_2`}
           active={false}
         />
 
         {/*TITLE TAB FOR ADMIN */}
         {user ? (
           <TabTitle
-            key={`${idTournament}_-1`}
+            key={`${tournament.id}_-1`}
             title="manage"
-            id={`${idTournament}_-1`}
+            id={`${tournament.id}_-1`}
             active={false}
           />
         ) : (
@@ -55,8 +45,8 @@ function Tournament({idTournament}) {
         )}
         {user ? (
           <TabContent
-            key={`${idTournament}_-1`}
-            id={`${idTournament}_-1`}
+            key={`${tournament.id}_-1`}
+            id={`${tournament.id}_-1`}
             active={false}
           >
             <ManageTournament tournament={tournament} refreshData={fetchData}/>
@@ -67,11 +57,11 @@ function Tournament({idTournament}) {
 
         {/*CONTENT TABS */}
         <TabContent
-          key={`${idTournament}_1`}
-          id={`${idTournament}_1`}
+          key={`${tournament.id}_1`}
+          id={`${tournament.id}_1`}
           active={false}
         >
-          Player List {idTournament}
+          Player List {tournament.id}
           <PlayerList
             players={tournament.playerDtoList}
             deletion={false}
@@ -79,8 +69,8 @@ function Tournament({idTournament}) {
           />
         </TabContent>
         <TabContent
-          key={`${idTournament}_2`}
-          id={`${idTournament}_2`}
+          key={`${tournament.id}_2`}
+          id={`${tournament.id}_2`}
           active={false}
         >
           <Draw tournament={tournament} />
