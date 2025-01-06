@@ -7,8 +7,8 @@ function EventCard({ event, loadData }) {
 
   const handleDeleteEvent = (id) => {
     console.log("ID", event.id);
-    deleteEvent(id);
-    loadData();
+    // deleteEvent(id);
+    // loadData();
   };
 
   return (

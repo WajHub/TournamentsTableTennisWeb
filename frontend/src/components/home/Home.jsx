@@ -42,20 +42,21 @@ function Home() {
         filter={filtering}
       />
 
-      <div className="row">
-        {/* Button to add new event */}
-        <AddEventCard hanldeClick={(e) => setDisplayFormEvent(true)} />
+        <div className="row">
+            {/* Button to add new event */}
+            <AddEventCard hanldeClick={(e) => setDisplayFormEvent(true)}/>
 
-        {/* Display event */}
-        {filteredEvents.map((event, index) => (
-          <div className="col-4" key={index}>
-            <EventCard event={event} loadData={loadData} />
-          </div>
-        ))}
-      </div>
 
-      {/* Overlay for the form */}
-      <Overlay isDisplayed={displayFormEvent} setDisplay={setDisplayFormEvent}>
+            {/* Display event */}
+            {filteredEvents.map((event, index) => (
+                <div className="col-4" key={index}>
+                    <EventCard event={event} loadData={loadData}/>
+                </div>
+            ))}
+        </div>
+
+        {/* Overlay for the form */}
+        <Overlay isDisplayed={displayFormEvent} setDisplay={setDisplayFormEvent}>
         <FormEvent setDisplay={setDisplayFormEvent} updateData={loadData} />
       </Overlay>
     </div>
