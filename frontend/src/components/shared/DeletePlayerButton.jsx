@@ -3,12 +3,12 @@ import { useAuth, isAuth, isMod } from "../../providers/AuthProvider.jsx";
 import axios from "axios";
 import {deletePlayer} from "../../utils/api.js";
 
-function DeletePlayerButton({ idPlayer, loadData }) {
+function DeletePlayerButton({ idPlayer, updateData }) {
   const { user } = useAuth();
 
   const handleDeletion = (e) => {
   deletePlayer(idPlayer).then((result) =>{
-    loadData();
+    updateData(idPlayer);
   })
   };
   return (

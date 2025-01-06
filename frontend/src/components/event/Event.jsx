@@ -32,10 +32,16 @@ function Event() {
     setTournaments(tournaments);
   };
 
+  const putTournament = (tournament) => {
+      setTournaments([
+          ...tournaments,
+          {tournament}
+      ])
+  }
+
   useEffect(() => {
     fetchData().then(r => {});
   }, []);
-
 
   useEffect(() =>{
     const channel = `/topic/events/${id}`
@@ -67,8 +73,6 @@ function Event() {
     }
       }
   , [subscribe, unsubscribe]);
-
-
 
 
   return (
@@ -110,7 +114,7 @@ function Event() {
       >
         <FormTournament
           setDisplay={setDisplayFormTournament}
-          loadData={() => loadTournaments(id).then(setTournaments)}
+          updateData={() => loadTournaments(id).then(setTournaments)}
         ></FormTournament>
       </Overlay>
     </div>

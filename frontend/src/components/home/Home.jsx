@@ -20,6 +20,13 @@ function Home() {
     });
   };
 
+  const addEvent = (e) =>{
+      setEvents([
+          ...events,
+          e
+      ])
+  }
+
   useEffect(() => {
     loadData();
   }, []);
@@ -49,7 +56,7 @@ function Home() {
 
       {/* Overlay for the form */}
       <Overlay isDisplayed={displayFormEvent} setDisplay={setDisplayFormEvent}>
-        <FormEvent setDisplay={setDisplayFormEvent} loadData={loadData} />
+        <FormEvent setDisplay={setDisplayFormEvent} updateData={loadData} />
       </Overlay>
     </div>
   );

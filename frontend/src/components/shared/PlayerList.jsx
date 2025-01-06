@@ -7,6 +7,7 @@ function PlayerList({
   idTournament,
   players,
   deletion,
+  deletePlayer,
   loadData,
     refreshData
 }) {
@@ -33,6 +34,7 @@ function PlayerList({
           <Player
             player={player}
             key={index}
+            deletePlayer={deletePlayer}
             loadData={loadData}
             refreshData={refreshData}
             deletion={deletion}

@@ -5,7 +5,7 @@ import {array, number} from "yup";
 import {setResultGame} from "../../../../../utils/api.js";
 import {WebsocketContext} from "../../../../../providers/WebsocketProvider.jsx";
 
-function FormGameResult({setDisplay, refreshData, gameId, homeId, awayId, eventId}) {
+function FormGameResult({setDisplay, gameId, homeId, awayId, eventId}) {
 
     const {sendMessage} = useContext(WebsocketContext);
 
@@ -102,7 +102,6 @@ function FormGameResult({setDisplay, refreshData, gameId, homeId, awayId, eventI
                 setDisplay(false);
                 let gameUpdated = r.data;
                 sendMessage(`/app/events/${eventId}`, (gameUpdated));
-                refreshData();
             }
         });
     }

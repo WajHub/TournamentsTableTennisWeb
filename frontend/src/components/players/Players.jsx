@@ -15,6 +15,17 @@ function Players() {
     });
   };
 
+  const addPlayer = (player) =>{
+      setPlayers([
+          ...players,
+          player
+      ])
+  }
+
+  const deletePlayer = (idPlayer) =>{
+      setPlayers(players.filter(p => p.id !== idPlayer))
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -26,6 +37,7 @@ function Players() {
       <PlayerList
         addingToTournament={false}
         deletion={true}
+        deletePlayer={deletePlayer}
         players={players}
         loadData={fetchData}
       />
@@ -34,7 +46,7 @@ function Players() {
         isDisplayed={displayFormPlayer}
         setDisplay={setDisplayFormPlayer}
       >
-        <FormPlayer setDisplay={setDisplayFormPlayer} loadData={fetchData} />
+        <FormPlayer setDisplay={setDisplayFormPlayer} updateData={addPlayer} />
       </Overlay>
     </div>
   );

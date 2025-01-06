@@ -5,7 +5,7 @@ import { Formik, Form, Field } from "formik";
 import Input from "../shared/Input.jsx";
 import * as Yup from "yup";
 
-function FormPlayer({ setDisplay, loadData }) {
+function FormPlayer({ setDisplay, updateData }) {
   const initialValues = {
     firstname: "",
     lastname: "",
@@ -37,7 +37,7 @@ function FormPlayer({ setDisplay, loadData }) {
         .then((response) => {
           if (response.status === 201) {
             setDisplay(false);
-            loadData();
+            updateData(response.data);
           } else {
           }
         });

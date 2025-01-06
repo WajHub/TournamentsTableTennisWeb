@@ -15,7 +15,9 @@ function GameScheduled({game, refreshData}) {
 
     const handleClick = () => {
         setStateGame(game.id, "RUNNING").then(r => {
-            refreshData();
+            // refreshData();
+
+            console.log(game);
         });
     }
 

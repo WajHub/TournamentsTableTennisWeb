@@ -93,6 +93,7 @@ export const loadEligiblePlayers = async (id) => {
   }
 };
 
+// TODO: correct handling response
 export const addPlayerToTournament = async (playerId, tournamentId) => {
   try {
     await axios.patch(

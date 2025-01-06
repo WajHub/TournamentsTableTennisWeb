@@ -5,7 +5,7 @@ import Input from "../shared/Input.jsx";
 import axios from "axios";
 import { formatDate } from "../../utils/date.js";
 
-function FormEvent({ setDisplay, loadData }) {
+function FormEvent({ setDisplay, updateData }) {
   const initialValues = {
     name: "",
     date: formatDate(new Date()),
@@ -30,7 +30,7 @@ function FormEvent({ setDisplay, loadData }) {
         .then((response) => {
           if (response.status === 201) {
             setDisplay(false);
-            loadData();
+            updateData(response.data);
           } else {
           }
         });

@@ -60,7 +60,7 @@ function GameRunning({game, eventId, refreshData}) {
                     <div className="col-4 font-weight-bold">{away.name}</div>
 
                 </div>
-                <FormGameResult setDisplay={setOverlayDisplayed} refreshData={refreshData} gameId={game.id} homeId={home.id} awayId={away.id} eventId={eventId}/>
+                <FormGameResult setDisplay={setOverlayDisplayed} gameId={game.id} homeId={home.id} awayId={away.id} eventId={eventId}/>
             </Overlay>
         </div>
     );

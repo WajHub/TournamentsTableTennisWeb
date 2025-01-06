@@ -6,7 +6,7 @@ import Input from "../shared/Input.jsx";
 import * as Yup from "yup";
 import {setResultGame, submitTournament} from "../../utils/api.js";
 
-function FormTournament({ setDisplay, loadData }) {
+function FormTournament({ setDisplay, updateData }) {
   const { id } = useParams();
   const initialValues = {
     name: "",
@@ -36,7 +36,7 @@ function FormTournament({ setDisplay, loadData }) {
     submitTournament(values).then(r => {
       if(r.status === 201){
         setDisplay(false);
-        loadData();
+        updateData(r.data);
       }
     });
   };

@@ -2,15 +2,16 @@ import React from "react";
 import DeletePlayerButton from "./DeletePlayerButton.jsx";
 import AddPlayerToTournamentButton from "./AddPlayerToTournamentButton.jsx";
 
-/* deletetion, addingToTournament - operation on player*/
+/* deletion, addingToTournament - operation on player*/
 
 function Player({
-  player,
-  deletion,
-  loadData,
+    player,
+    deletion,
+    deletePlayer,
+    loadData,
     refreshData,
-  addingToTournament,
-  idTournament,
+    addingToTournament,
+    idTournament,
 }) {
   return (
     <div key={player.id}>
@@ -36,7 +37,7 @@ function Player({
           </div>
           {deletion && (
             <div className="col-1">
-              <DeletePlayerButton idPlayer={player.id} loadData={loadData} />
+              <DeletePlayerButton idPlayer={player.id} updateData={deletePlayer} />
             </div>
           )}
           {addingToTournament && (
