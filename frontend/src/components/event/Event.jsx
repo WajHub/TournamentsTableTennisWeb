@@ -9,10 +9,8 @@ import Overlay from "../shared/Overlay.jsx";
 import FormTournament from "./FormTournament.jsx";
 import { loadEvent, loadTournaments } from "../../utils/api.js";
 import Tournament from "./Tournament.jsx";
-
 import {WebsocketContext} from "../../providers/WebsocketProvider.jsx"
 import {TournamentsContext} from "../../providers/TournamentsInEventProvider.jsx";
-import tournament from "./Tournament.jsx";
 
 function Event() {
   const { user, handleSignOut } = useAuth();
@@ -23,17 +21,12 @@ function Event() {
     name: "",
   });
 
-  // TODO: use Reducer with Context to store data
-  // const [tournaments, setTournaments] = useState([]);
-
   const {subscribe, unsubscribe, sendMessage} = useContext(WebsocketContext);
   const {tournaments, dispatch} = useContext(TournamentsContext)
 
   const fetchData = async () => {
     const event = await loadEvent(id);
     setEventData(event);
-
-      // setTournaments(tournaments);
 
     const response = await loadTournaments(id);
     dispatch({
@@ -50,11 +43,11 @@ function Event() {
     const channel = `/topic/events/${id}`
 
     const subscription = subscribe(channel, (response) =>{
-      const gameUpdated = JSON.parse(response);
-      console.log("Received message: ", gameUpdated);
+      const tournamentUpdated = JSON.parse(response);
+      console.log("Received message: ", tournamentUpdated);
       dispatch({
-          type:"resultGame",
-          data: gameUpdated
+          type:"updateTournament",
+          data: tournamentUpdated
       })
 
       // setTournaments((prevTournaments) =>{

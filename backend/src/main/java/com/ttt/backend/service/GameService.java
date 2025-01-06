@@ -1,5 +1,6 @@
 package com.ttt.backend.service;
 
+import com.ttt.backend.dto.TournamentDto;
 import com.ttt.backend.dto.request.GameDtoRequest;
 import com.ttt.backend.dto.request.GameResultRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
@@ -58,7 +59,7 @@ public class GameService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game doesn't exist!"));
     }
 
-    public GameDtoResponse setResult(Game game, GameResultRequest gameResultRequest) {
+    public TournamentDto setResult(Game game, GameResultRequest gameResultRequest) {
         Player winnerPlayer = playerRepository.findById(gameResultRequest.idWinner()).get();
         game.setState(GameState.DONE);
 
@@ -74,7 +75,8 @@ public class GameService {
         }
 
         gameRepository.save(game);
-        return mapperStructImpl.gameToGameDtoResponse(game);
+//        return mapperStructImpl.gameToGameDtoResponse(game);
+        return mapperStructImpl.tournamentToTournamentDto(game.getTournament());
     }
 
     public Game findById(Long id){

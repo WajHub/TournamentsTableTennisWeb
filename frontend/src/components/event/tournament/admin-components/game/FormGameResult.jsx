@@ -101,8 +101,8 @@ function FormGameResult({setDisplay, gameId, homeId, awayId, eventId}) {
         setResultGame(gameId, values).then(r => {
             if(r.status === 200){
                 setDisplay(false);
-                let gameUpdated = r.data;
-                sendMessage(`/app/events/${eventId}`, (gameUpdated));
+                let tournamentUpdated = r.data;
+                sendMessage(`/app/events/${eventId}`, (tournamentUpdated));
             }
         });
     }

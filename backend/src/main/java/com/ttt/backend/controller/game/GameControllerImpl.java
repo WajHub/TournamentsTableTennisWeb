@@ -1,5 +1,6 @@
 package com.ttt.backend.controller.game;
 
+import com.ttt.backend.dto.TournamentDto;
 import com.ttt.backend.dto.request.GameDtoRequest;
 import com.ttt.backend.dto.request.GameResultRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
@@ -35,7 +36,7 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public GameDtoResponse updateResult(Long gameId, @RequestBody @GameResultValidation GameResultRequest gameResultRequest) {
+    public TournamentDto updateResult(Long gameId, @RequestBody @GameResultValidation GameResultRequest gameResultRequest) {
         try{
             return gameService.setResult(gameService.findById(gameId), gameResultRequest);
         }catch(Exception e) {
@@ -54,9 +55,9 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public GameDtoResponse sendLiveResult(@Payload GameDtoResponse gameUpdated) {
-        System.out.println(gameUpdated);
-        return gameUpdated;
+    public TournamentDto sendLiveResult(@Payload TournamentDto tournamentUpdated) {
+        System.out.println(tournamentUpdated);
+        return tournamentUpdated;
     }
 
     /** Functions only for testing  ------------------------ **/

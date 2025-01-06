@@ -28,20 +28,6 @@ const tournamentReducer = (state, action) => {
                     })
                 };
             });
-        case "resultGame":
-            return state
-                .map((tournament)=> {
-                        return {
-                            ...tournament,
-                            games: tournament.games.map((game) =>{
-                                if(game.id === action.data.id){
-                                    return action.data;
-                                }
-                                return game;
-                            })
-                        }
-                    }
-                )
     }
 }
 

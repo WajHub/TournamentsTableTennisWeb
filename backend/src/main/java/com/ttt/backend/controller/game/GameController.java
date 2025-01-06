@@ -1,5 +1,6 @@
 package com.ttt.backend.controller.game;
 
+import com.ttt.backend.dto.TournamentDto;
 import com.ttt.backend.dto.request.GameDtoRequest;
 import com.ttt.backend.dto.request.GameResultRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
@@ -27,7 +28,7 @@ public interface GameController {
 
     @PatchMapping("/manage/games/{gameId}/results")
     @ResponseStatus(HttpStatus.OK)
-    GameDtoResponse updateResult(@PathVariable Long gameId, @RequestBody @GameResultValidation GameResultRequest gameResultRequest);
+    TournamentDto updateResult(@PathVariable Long gameId, @RequestBody @GameResultValidation GameResultRequest gameResultRequest);
 
     @PatchMapping("/manage/games/{gameId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -40,7 +41,7 @@ public interface GameController {
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @MessageMapping("/events/{id}")
     @SendTo("/topic/events/{id}")
-    GameDtoResponse sendLiveResult(@Payload GameDtoResponse gameUpdated);
+    TournamentDto sendLiveResult(@Payload TournamentDto tournamentUpdated);
 
     /** Functions only for testing  ------------------------ **/
     @PostMapping("/manage/tournaments/{tournamentId}/games")
