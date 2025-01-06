@@ -2,6 +2,7 @@ import React from "react";
 
 function TabTitle({ id, title, active, handleClick }) {
   var title_ = title.charAt(0).toUpperCase() + title.slice(1);
+
   return (
     <li className="nav-item" role="presentation">
       <button

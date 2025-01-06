@@ -32,13 +32,6 @@ function Event() {
     setTournaments(tournaments);
   };
 
-  const putTournament = (tournament) => {
-      setTournaments([
-          ...tournaments,
-          {tournament}
-      ])
-  }
-
   useEffect(() => {
     fetchData().then(r => {});
   }, []);
@@ -80,12 +73,12 @@ function Event() {
       <h3 className="h3">{eventData.name}</h3>
       <NavTabs>
         {/*TITLE TABS */}
-        {tournaments.map((tournament) => (
+        {tournaments.map((tournament, index) => (
           <TabTitle
             key={tournament.id}
             title={tournament.name}
             id={tournament.id}
-            active={false}
+            active={index===0}
           />
         ))}
 
@@ -100,8 +93,8 @@ function Event() {
         )}
 
         {/*CONTENT TABS */}
-        {tournaments.map((tournament) => (
-          <TabContent key={tournament.id} id={tournament.id} active={false}>
+        {tournaments.map((tournament, index) => (
+          <TabContent key={tournament.id} id={tournament.id} active={index===0}>
             <Tournament tournament={tournament} fetchData={fetchData}/>
           </TabContent>
         ))}

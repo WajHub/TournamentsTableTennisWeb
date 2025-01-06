@@ -29,7 +29,7 @@ function Tournament({tournament, fetchData}) {
           key={`${tournament.id}_2`}
           title="Draws"
           id={`${tournament.id}_2`}
-          active={false}
+          active={true}
         />
 
         {/*TITLE TAB FOR ADMIN */}
@@ -71,7 +71,7 @@ function Tournament({tournament, fetchData}) {
         <TabContent
           key={`${tournament.id}_2`}
           id={`${tournament.id}_2`}
-          active={false}
+          active={true}
         >
           <Draw tournament={tournament} />
         </TabContent>
