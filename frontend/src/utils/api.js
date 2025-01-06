@@ -93,16 +93,16 @@ export const loadEligiblePlayers = async (id) => {
   }
 };
 
-// TODO: correct handling response
 export const addPlayerToTournament = async (playerId, tournamentId) => {
   try {
-    await axios.patch(
+    const result = await axios.patch(
       `http://localhost:8080/api/manage/tournaments/${tournamentId}/players/${playerId}`,
       {},
       {
         withCredentials: true,
       }
     );
+    return result.data;
   } catch (error) {
     throw error;
   }

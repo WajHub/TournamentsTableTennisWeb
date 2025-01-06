@@ -11,6 +11,7 @@ import java.util.List;
 
 public class GameDtoResponse {
     Long id;
+    Long tournamentId;
     String name;
     Long nextMatchId;
     String tournamentRoundText;

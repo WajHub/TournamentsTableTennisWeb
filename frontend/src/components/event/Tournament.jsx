@@ -8,11 +8,14 @@ import PlayerList from "../shared/PlayerList.jsx";
 import Draw from "./tournament/Draw.jsx";
 import {loadEvent, loadTournament, loadTournaments} from "../../utils/api.js";
 
-function Tournament({tournament, fetchData}) {
-  const { user, handleSignOut } = useAuth();
-  
+function Tournament({tournament}) {
 
-  if(tournament.playerDtoList===undefined) return "Loading...";
+  const { user, handleSignOut } = useAuth();
+
+  if(tournament.playerDtoList===undefined) {
+    console.log(tournament)
+    return "Loading...";
+  }
 
   return (
     <div className="container border rounded p-4 mt-2 shadow w-75">
@@ -49,7 +52,7 @@ function Tournament({tournament, fetchData}) {
             id={`${tournament.id}_-1`}
             active={false}
           >
-            <ManageTournament tournament={tournament} refreshData={fetchData}/>
+            <ManageTournament tournament={tournament}/>
           </TabContent>
         ) : (
           ""
@@ -64,8 +67,6 @@ function Tournament({tournament, fetchData}) {
           Player List {tournament.id}
           <PlayerList
             players={tournament.playerDtoList}
-            deletion={false}
-            loadData={false}
           />
         </TabContent>
         <TabContent

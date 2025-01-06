@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { loadEligiblePlayers } from "../../../../utils/api.js";
 import PlayerList from "../../../shared/PlayerList.jsx";
 import { startTournament } from "../../../../utils/api.js";
 import ManageRunningTournament from "./ManageRunningTournament.jsx";
+import {TournamentsContext} from "../../../../providers/TournamentsInEventProvider.jsx";
 
-function ManageTournament({ tournament, refreshData }) {
+function ManageTournament({ tournament }) {
   const [players, setPlayers] = useState([]);
+  const {dispatch} = useContext(TournamentsContext)
 
   const fetchData = async () => {
     await loadEligiblePlayers(tournament.id).then((res) => {
@@ -19,13 +21,15 @@ function ManageTournament({ tournament, refreshData }) {
 
   const handleStartTournament = (id) => {
     startTournament(id).then(r => {
-        fetchData();
-        refreshData();
+        dispatch({
+            type: "updateTournament",
+            data: r.data
+        })
     });
   };
 
   return tournament.running ? (
-    <ManageRunningTournament tournament={tournament} refreshData={refreshData}/>
+    <ManageRunningTournament tournament={tournament} refreshData={()=>{}}/>
   ) : (
     <div>
       List of players to Add:
@@ -34,8 +38,6 @@ function ManageTournament({ tournament, refreshData }) {
         idTournament={tournament.id}
         deletion={false}
         players={players}
-        loadData={fetchData}
-        refreshData={refreshData}
       />
       <button
         className="btn btn-success mt-3"

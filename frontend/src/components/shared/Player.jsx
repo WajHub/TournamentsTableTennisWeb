@@ -8,8 +8,6 @@ function Player({
     player,
     deletion,
     deletePlayer,
-    loadData,
-    refreshData,
     addingToTournament,
     idTournament,
 }) {
@@ -44,8 +42,6 @@ function Player({
             <div className="col-1">
               <AddPlayerToTournamentButton
                 idPlayer={player.id}
-                loadData={loadData}
-                refreshData={refreshData}
                 idTournament={idTournament}
               />
             </div>

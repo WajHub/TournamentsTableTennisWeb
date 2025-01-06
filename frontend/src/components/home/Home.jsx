@@ -3,7 +3,6 @@ import EventCard from "./EventCard.jsx";
 import AddEventCard from "./admin-components/AddEventCard.jsx";
 import Overlay from "../shared/Overlay.jsx";
 import FormEvent from "./FormEvent.jsx";
-import axios from "axios";
 import Search from "../shared/Search.jsx";
 import { loadEvents } from "../../utils/api.js";
 
@@ -44,7 +43,10 @@ function Home() {
 
         <div className="row">
             {/* Button to add new event */}
-            <AddEventCard hanldeClick={(e) => setDisplayFormEvent(true)}/>
+            <AddEventCard handleClick={(e) => {
+                console.log("TEST")
+                setDisplayFormEvent(true)
+            }}/>
 
 
             {/* Display event */}

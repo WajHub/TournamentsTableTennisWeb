@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import {array, number} from "yup";
 import {setResultGame} from "../../../../../utils/api.js";
 import {WebsocketContext} from "../../../../../providers/WebsocketProvider.jsx";
+import {TournamentsContext} from "../../../../../providers/TournamentsInEventProvider.jsx";
 
 function FormGameResult({setDisplay, gameId, homeId, awayId, eventId}) {
 

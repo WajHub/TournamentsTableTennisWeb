@@ -6,7 +6,7 @@ function AddEventCard({ handleClick }) {
     <>
       {isAuth(user) && isMod(user) ? (
         <div className="col-4">
-          <div className="card event-card my-4 btn h-75" onClick={handleClick}>
+          <div className="btn card event-card my-4  h-75" onClick={handleClick}>
             <div className="card-body d-flex justify-content-center align-items-center">
               <h1 className="text-success ">
                 <i className="bi bi-plus-circle"></i>

@@ -8,6 +8,7 @@ import About from "./components/about/About.jsx";
 import Event from "./components/event/Event.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import Players from "./components/players/Players.jsx";
+import TournamentsInEventProvider from "./providers/TournamentsInEventProvider.jsx";
 
 function App() {
   return (
@@ -27,7 +28,11 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
-          <Route exatc path="/eventInfo/:id" element={<Event />}></Route>
+          <Route exact path="/eventInfo/:id" element={
+              <TournamentsInEventProvider>
+                <Event />
+              </TournamentsInEventProvider>
+          }></Route>
           <Route exatc path="/players" element={<Players />}></Route>
         </Routes>
       </Router>

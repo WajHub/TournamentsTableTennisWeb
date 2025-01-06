@@ -155,6 +155,7 @@ public class MapperStructImpl implements MapperStruct{
 
         return GameDtoResponse.builder()
                 .id(game.getId())
+                .tournamentId(game.getTournament().getId())
                 .name("")
                 .nextMatchId(game.getNextMatchId())
                 .tournamentRoundText(String.valueOf(game.getRound()))

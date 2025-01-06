@@ -1,15 +1,22 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useAuth, isAuth, isMod } from "../../providers/AuthProvider.jsx";
 import axios from "axios";
 import { addPlayerToTournament } from "../../utils/api.js";
+import {TournamentsContext} from "../../providers/TournamentsInEventProvider.jsx";
 
-function AddPlayerToTournamentButton({ idPlayer, loadData,refreshData, idTournament }) {
+function AddPlayerToTournamentButton({ idPlayer, idTournament }) {
+
   const { user } = useAuth();
+  const {dispatch} = useContext(TournamentsContext)
 
   const handleSubmit = async (e) => {
-    await addPlayerToTournament(idPlayer, idTournament);
-    loadData();
-    refreshData();
+    addPlayerToTournament(idPlayer, idTournament).then((response) => {
+      dispatch({
+        type: "updateTournament",
+        data: response
+      })
+    });
+
   };
   return (
     <>

@@ -3,13 +3,11 @@ import Search from "./Search";
 import Player from "./Player";
 
 function PlayerList({
-  addingToTournament,
-  idTournament,
-  players,
-  deletion,
-  deletePlayer,
-  loadData,
-    refreshData
+    addingToTournament,
+    idTournament,
+    players,
+    deletion,
+    deletePlayer
 }) {
   const [filteredPlayers, setFilteredPlayers] = useState([]);
 
@@ -35,8 +33,6 @@ function PlayerList({
             player={player}
             key={index}
             deletePlayer={deletePlayer}
-            loadData={loadData}
-            refreshData={refreshData}
             deletion={deletion}
             addingToTournament={addingToTournament}
             idTournament={idTournament}

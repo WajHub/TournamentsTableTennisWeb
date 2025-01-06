@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Formik, Form, Field } from "formik";
 import Input from "../shared/Input.jsx";
 import * as Yup from "yup";
 import {setResultGame, submitTournament} from "../../utils/api.js";
+import {TournamentsContext} from "../../providers/TournamentsInEventProvider.jsx";
 
-function FormTournament({ setDisplay, updateData }) {
+function FormTournament({ setDisplay }) {
   const { id } = useParams();
   const initialValues = {
     name: "",
@@ -20,6 +21,7 @@ function FormTournament({ setDisplay, updateData }) {
   });
 
   const [categories, setCategories] = useState([]);
+  const {dispatch} = useContext(TournamentsContext)
 
   useEffect(() => {
     loadCategories();
@@ -36,7 +38,10 @@ function FormTournament({ setDisplay, updateData }) {
     submitTournament(values).then(r => {
       if(r.status === 201){
         setDisplay(false);
-        updateData(r.data);
+        dispatch({
+          type: "addTournament",
+          data: r.data
+        })
       }
     });
   };

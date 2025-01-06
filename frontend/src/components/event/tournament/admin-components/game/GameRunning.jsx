@@ -1,15 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {loadTournaments, setStateGame} from "../../../../../utils/api.js";
 import Overlay from "../../../../shared/Overlay.jsx";
 import FormTournament from "../../../FormTournament.jsx";
 import FormGameResult from "./FormGameResult.jsx";
+import {TournamentsContext} from "../../../../../providers/TournamentsInEventProvider.jsx";
 
-function GameRunning({game, eventId, refreshData}) {
+function GameRunning({game, eventId}) {
 
     const [home, setHome] = useState(null);
     const [away, setAway] = useState(null);
 
     const [isOverlayDisplayed, setOverlayDisplayed] = useState(false);
+
+    const {dispatch} = useContext(TournamentsContext)
 
     useEffect(() => {
         if(game) {
@@ -20,7 +23,12 @@ function GameRunning({game, eventId, refreshData}) {
 
     const handleStop = () => {
         setStateGame(game.id, "SCHEDULED").then(r => {
-            refreshData();
+            dispatch({
+                type:"updateStateGame",
+                gameId:game.id,
+                tournamentId: game.tournamentId,
+                state:"SCHEDULED"
+            })
         });
     }
 

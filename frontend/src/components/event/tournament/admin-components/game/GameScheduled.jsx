@@ -1,10 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Player from "../../../../shared/Player.jsx";
 import {setStateGame} from "../../../../../utils/api.js";
+import {TournamentsContext} from "../../../../../providers/TournamentsInEventProvider.jsx";
 
-function GameScheduled({game, refreshData}) {
+function GameScheduled({game}) {
     const [home, setHome] = useState(null);
     const [away, setAway] = useState(null);
+
+    const {dispatch} = useContext(TournamentsContext)
 
     useEffect(() => {
         if(game) {
@@ -13,11 +16,14 @@ function GameScheduled({game, refreshData}) {
         }
     }, [game]);
 
-    const handleClick = () => {
+    const handleStartGame = () => {
         setStateGame(game.id, "RUNNING").then(r => {
-            // refreshData();
-
-            console.log(game);
+            dispatch({
+                type:"updateStateGame",
+                gameId:game.id,
+                tournamentId: game.tournamentId,
+                state:"RUNNING"
+            })
         });
     }
 
@@ -33,7 +39,7 @@ function GameScheduled({game, refreshData}) {
                     {home.name} vs {away.name}
                 </div>
                 <div className="row p-2 justify-content-center">
-                    <button className="col-sm-3 col-md-2 col-lg-1 btn btn-primary" onClick={(e) => {handleClick()}}>Start </button>
+                    <button className="col-sm-3 col-md-2 col-lg-1 btn btn-primary" onClick={(e) => {handleStartGame()}}>Start </button>
                 </div>
             </li>
         </div>

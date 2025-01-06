@@ -14,29 +14,8 @@ function Draw({ tournament }) {
   const size = useWindowSize();
   const finalWidth = Math.max(size.width / 1.5, 500);
   const finalHeight = Math.max(size.height / 1.2, 500);
-  const [matches, setMatches] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const matches = tournament.games;
 
-  const fetchData = (id) => {
-    getGamesInTournament(id)
-      .then((result) => {
-        setMatches(result.data || []);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    if(tournament.id ) fetchData(tournament.id);
-
-  }, [tournament]);
-
-  if (isLoading || !tournament.id) {
-    return "Loading...";
-  }
 
   if (!tournament.running) {
     return "Tournament has not started";

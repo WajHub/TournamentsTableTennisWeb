@@ -27,7 +27,7 @@ public interface TournamentController {
     TournamentDto save(@RequestBody TournamentDto tournamentDto);
 
     @PatchMapping("/manage/tournaments/{tournamentId}/players/{playerId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     TournamentDto addPlayer(@PathVariable Long tournamentId, @PathVariable Long playerId);
 
     @PatchMapping("/manage/tournaments/{tournamentId}/players/{playerId}/remove")
