@@ -56,7 +56,6 @@ public class GameControllerImpl implements GameController {
 
     @Override
     public TournamentDto sendLiveResult(@Payload TournamentDto tournamentUpdated) {
-        System.out.println(tournamentUpdated);
         return tournamentUpdated;
     }
 

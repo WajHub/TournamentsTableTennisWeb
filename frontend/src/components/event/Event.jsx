@@ -50,23 +50,6 @@ function Event() {
           data: tournamentUpdated
       })
 
-      // setTournaments((prevTournaments) =>{
-      //  return prevTournaments
-      //      .map((tournament)=> {
-      //       return {
-      //         ...tournament,
-      //         games: tournament.games.map((game) =>{
-      //           if(game.id === gameUpdated.id){
-      //             return gameUpdated;
-      //           }
-      //           return game;
-      //         })
-      //       }
-      //     }
-      //   )
-      // })
-
-
     })
 
     return () =>  {

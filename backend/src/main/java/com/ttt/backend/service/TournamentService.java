@@ -200,11 +200,11 @@ public class TournamentService {
                     .filter(g -> Objects.equals(g.getId(), nextGameId))
                     .findFirst().get();
             nextGame.setState(GameState.valueOf("CREATED"));
-            if (nextGame.getPlayerAway() == null) {
-                nextGame.setPlayerAway(winner);
+            if (nextGame.getPlayerHome() == null) {
+                nextGame.setPlayerHome(winner);
             } else {
                 nextGame.setState(GameState.valueOf("SCHEDULED"));
-                nextGame.setPlayerHome(winner);
+                nextGame.setPlayerAway(winner);
             }
             gameRepository.save(nextGame);
         }

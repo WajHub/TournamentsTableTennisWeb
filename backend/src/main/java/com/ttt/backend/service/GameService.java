@@ -75,7 +75,7 @@ public class GameService {
         }
 
         gameRepository.save(game);
-//        return mapperStructImpl.gameToGameDtoResponse(game);
+        System.out.println(game);
         return mapperStructImpl.tournamentToTournamentDto(game.getTournament());
     }
 
