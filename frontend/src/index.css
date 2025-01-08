@@ -12,6 +12,25 @@ code {
     monospace;
 }
 
+.item-nav{
+  text-decoration: none;
+  color: gray;
+  font-size: clamp(17px,2.25vw, 22px);
+}
+
+
+
+.item-nav:hover{
+ background-color: white;
+  color: #5c5c5c;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.item-current {
+  color: #474747;
+}
+
 .event-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer; /* Makes the card clickable */
