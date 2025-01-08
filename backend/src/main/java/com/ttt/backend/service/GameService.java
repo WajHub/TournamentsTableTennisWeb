@@ -156,13 +156,11 @@ public class GameService {
         gameRepository.findById(gameId)
             .ifPresentOrElse((game)->
                 {
-//                    System.out.println(game);
                     if(game.getPlayerHome()==null){
                         game.setPlayerHome(winner);
                     }
                     else if(game.getPlayerAway()==null){
                         game.setPlayerAway(winner);
-
                     }
                     if(game.getPlayerAway()!=null && game.getPlayerHome()!= null) game.setState(GameState.SCHEDULED);
                     gameRepository.save(game);

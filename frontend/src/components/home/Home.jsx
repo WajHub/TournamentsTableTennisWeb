@@ -24,6 +24,10 @@ function Home() {
           ...events,
           e
       ])
+      setFilteredEvents([
+          ...filteredEvents,
+          e
+      ])
   }
 
   useEffect(() => {
@@ -44,7 +48,6 @@ function Home() {
         <div className="row">
             {/* Button to add new event */}
             <AddEventCard handleClick={(e) => {
-                console.log("TEST")
                 setDisplayFormEvent(true)
             }}/>
 
@@ -59,7 +62,7 @@ function Home() {
 
         {/* Overlay for the form */}
         <Overlay isDisplayed={displayFormEvent} setDisplay={setDisplayFormEvent}>
-        <FormEvent setDisplay={setDisplayFormEvent} updateData={loadData} />
+        <FormEvent setDisplay={setDisplayFormEvent} updateData={addEvent} />
       </Overlay>
     </div>
   );
