@@ -9,6 +9,7 @@ import Event from "./components/event/Event.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import Players from "./components/players/Players.jsx";
 import TournamentsInEventProvider from "./providers/TournamentsInEventProvider.jsx";
+import PageNotFound from "./components/pageNotFound/pageNotFound.jsx";
 
 function App() {
   return (
@@ -37,7 +38,7 @@ function App() {
             }
           ></Route>
             // TODO: PAGE NOT FOUND
-          <Route exatc path="/*" ></Route>
+          <Route exatc path="/*" element={<PageNotFound />}></Route>
         </Routes>
       </Router>
     </div>
