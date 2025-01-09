@@ -1,33 +1,55 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../providers/AuthProvider.jsx";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Navbar() {
   let navigate = useNavigate();
 
   const { user, handleSignOut } = useAuth();
+  const location = useLocation();
+  const [navigation, setNavigation] = useState([
+      {name:"Home",     isHome:true ,   href: "/",          current: false},
+      {name:"Players",  isHome:false,   href: "/players",   current: false},
+      {name:"About",    isHome:false,   href: "/about",     current: false},
+      {name:"Sign In",  isHome:false,   href: "/signIn",    current: false},
+      {name:"Sign Up",  isHome:false,   href: "/signUp",    current: false},
+  ])
 
-  const [navigation, setNavigation] = useState(window.location.pathname==="/" ? 0 : 1);
+  const handleSwitchPage = (pageName) =>{
+    const newNav = navigation.map((nav) =>{
+        if(nav.href === pageName) return {...nav, current: true};
+        return {...nav, current: false};
+    })
+      setNavigation(newNav);
+  }
 
+    useEffect(() => {
+        handleSwitchPage(location.pathname);
+    }, [useLocation().pathname]);
 
   return (
-      <nav className=" navbar-light bg-light p-2c d-flex flex-wrap justify-content-between p-2">
+      <nav className=" navbar-light bg-light p-2c d-flex flex-wrap justify-content-between p-2 position-sticky sticky-top">
           <div className="align-content-center">
-          <Link className={"item-nav m-0 p-2 rounded"+(navigation === 0 ? " item-current" : "")} to="/" onClick={() => setNavigation(0)}>
-              <i className="bi bi-house-door-fill p-1"></i>
-              Home
-          </Link>
-          <Link className={"item-nav m-0 p-2 rounded" + (navigation === 1 ? " item-current" : "")} to="/players" onClick={() => setNavigation(1)}>
-              Players
-          </Link>
+              {navigation.slice(0,2).map((nav, index) =>{
+                  return (
+                      <Link className={"item-nav m-0 p-2 rounded"+(nav.current ? " item-current" : "")}
+                            to={nav.href}
+                            key={index}
+                      >
+                          {nav.isHome ? (<i className="bi bi-house-door-fill p-1"></i>) : ""}
+                          {nav.name}
+                      </Link>)
+              })}
           </div>
           {user ? (
               <div className="">
                   <Link
-                      className="btn btn-outline-dark my-2 my-sm-0 mx-2"
+                      className={"btn btn-outline-dark my-2 my-sm-0 mx-2"+(navigation[2].current ? " active" : "")}
                       type="submit"
                       to="/about"
+                      onClick={(e) => e.target.blur()}
                   >
                       <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -45,26 +67,28 @@ function Navbar() {
                   <Link
                       className="btn btn-outline-danger my-2 my-sm-0 mx-2"
                       type="submit"
+                      to={"/"}
                       onClick={(e) => {
-                          handleSignOut(user).then(() => navigate("/"));
-                      }}
-                      to={"/"}>
+                        handleSignOut(user).then(() => navigate("/"));
+                      }}>
                       Sign out
                   </Link>
               </div>
           ) : (
               <div className="">
                   <Link
-                      className="btn btn-outline-dark my-2 my-sm-0 mx-2"
+                      className={"btn btn-outline-dark my-2 my-sm-0 mx-2"+(navigation[4].current ? " active" : "")}
                       type="submit"
                       to="/signUp"
+                      onClick={(e) => e.target.blur()}
                   >
                       Sing up
                   </Link>
                   <Link
-                      className="btn btn-outline-dark my-2 my-sm-0 mx-2 justify-content-end"
+                      className={"btn btn-outline-dark my-2 my-sm-0 mx-2 justify-content-end"+(navigation[3].current ? " active" : "")}
                       type="submit"
                       to="/signIn"
+                      onClick={(e) => e.target.blur()}
                   >
                       Sign in
                   </Link>

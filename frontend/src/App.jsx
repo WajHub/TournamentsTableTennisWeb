@@ -19,6 +19,14 @@ function App() {
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/signUp" element={<SignUp />}></Route>
           <Route exact path="/signIn" element={<SignIn />}></Route>
+          <Route exatc path="/players" element={<Players />}></Route>
+          <Route exact path="/eventInfo/:id"
+            element={
+                <TournamentsInEventProvider>
+                    <Event />
+                </TournamentsInEventProvider>
+            }
+          ></Route>
           <Route
             exact
             path="/about"
@@ -28,12 +36,8 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
-          <Route exact path="/eventInfo/:id" element={
-              <TournamentsInEventProvider>
-                <Event />
-              </TournamentsInEventProvider>
-          }></Route>
-          <Route exatc path="/players" element={<Players />}></Route>
+            // TODO: PAGE NOT FOUND
+          <Route exatc path="/*" ></Route>
         </Routes>
       </Router>
     </div>
