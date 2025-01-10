@@ -76,6 +76,25 @@ public class MapperStructImpl implements MapperStruct{
     }
 
     @Override
+    public PlayerDto playerToPlayerDto(Player player, Category category) {
+        return PlayerDto.builder()
+                .id(player.getId())
+                .firstname(player.getFirstname())
+                .lastname(player.getLastname())
+                .gender(player.getGender())
+                .date(player.getBirthday())
+                .playerCategoryDtoList(
+                        player.getPlayerCategoryList()
+                            .stream()
+                                .filter((playerCategory -> Objects.equals(playerCategory.getCategory().getId(), category.getId())))
+                                .toList()
+                            .stream()
+                                .map(this::playerCategoryToPlayerCategoryDto).toList()
+                )
+                .build();
+    }
+
+    @Override
     public PlayerDto playerToPlayerDto(Player player, List<PlayerCategoryDto> playerCategoryDtoList) {
         PlayerDto playerDto = playerToPlayerDto(player);
         playerDto.setPlayerCategoryDtoList(playerCategoryDtoList);
@@ -115,7 +134,7 @@ public class MapperStructImpl implements MapperStruct{
                 .playerDtoList(
                         tournament.getPlayerList()
                             .stream()
-                                .map(this::playerToPlayerDto)
+                                .map((player) -> this.playerToPlayerDto(player, tournament.getCategory()))
                             .toList()
                 )
                 .games(tournament.getGames()

@@ -28,7 +28,7 @@ function Player({
                 <b>Categories: </b>
                 <i>|</i>
                 {player.playerCategoryDtoList.map((category, index) => (
-                  <i key={index}> {category.categoryDto.name + "|"} </i>
+                  <i key={index}> {category.categoryDto.name + ` (points: ${category.points})|`} </i>
                 ))}
               </>
             )}

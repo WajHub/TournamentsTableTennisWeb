@@ -19,6 +19,10 @@ public class GameResultRequest {
         return (this.setsHome() > this.setsAway()) ? this.getHomeId() : this.getAwayId();
     }
 
+    public Long idLoser(){
+        return (this.setsHome() < this.setsAway()) ? this.getHomeId() : this.getAwayId();
+    }
+
     public int setsHome(){
         int sets = 0;
         for(int i=0; i< this.getPointsHome().size(); i++){

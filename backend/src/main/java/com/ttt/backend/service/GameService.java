@@ -61,6 +61,7 @@ public class GameService {
 
     public TournamentDto setResult(Game game, GameResultRequest gameResultRequest) {
         Player winnerPlayer = playerRepository.findById(gameResultRequest.idWinner()).get();
+//        Player looserPlayer = playerRepository.findById(gameResultRequest.idLoser()).get();
         game.setState(GameState.DONE);
 
         game.setPointsHome(gameResultRequest.getPointsHome());
@@ -73,6 +74,11 @@ public class GameService {
         if(game.getNextMatchId()!=null){
             handleNextGame(game.getNextMatchId(), winnerPlayer);
         }
+
+        // TODO: set points for win game
+        winnerPlayer.getPlayerCategoryList().forEach(
+                (playerCategory -> playerCategory.setPoints(69))
+        );
 
         gameRepository.save(game);
         System.out.println(game);

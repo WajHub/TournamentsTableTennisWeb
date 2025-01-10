@@ -29,7 +29,7 @@ public class PlayerCategory {
     Category category;
 
     @Column(name = "points")
-    @ColumnDefault("0")
+    @ColumnDefault("100")
     private int points;
 
 }

@@ -21,6 +21,8 @@ public interface MapperStruct {
 
     PlayerDto playerToPlayerDto(Player player);
 
+    PlayerDto playerToPlayerDto(Player player, Category category);
+
     PlayerDto playerToPlayerDto(Player player, List<PlayerCategoryDto> playerCategoryDtoList);
 
     PlayerDtoResponseInGame playerToPlayerDtoResponseInGame(Player player, boolean isWinner, String resultText);

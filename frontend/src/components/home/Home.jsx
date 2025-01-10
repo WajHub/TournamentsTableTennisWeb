@@ -46,7 +46,7 @@ function Home() {
 
   const setDisplayingCards = () =>{
       const additionalCard = isAuth(user) ? 1 : 0;
-      if(size.height>800) {
+      if(size.height>900) {
           setNumberOfElementsInPage(12 - additionalCard);
           setNumberOfPages(Math.ceil(filteredEvents.length/numberOfElementsInPage))
       }
