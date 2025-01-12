@@ -9,6 +9,7 @@ function NavItems({navigationItems}) {
                     <Link className={"item-nav m-0 p-2 rounded" + (nav.current ? " item-current" : "")}
                           to={nav.href}
                           key={index}
+                          aria-current={nav.current ? "page" : undefined}
                     >
                         {nav.isHome ? (<i className="bi bi-house-door-fill p-1"></i>) : ""}
                         {nav.name}

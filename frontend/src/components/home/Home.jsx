@@ -99,6 +99,8 @@ function Home() {
         <div className="row" >
             {/* Button to add new event */}
             <AddEventCard handleClick={(e) => {
+                console.log(e)
+                e.target.blur()
                 setDisplayFormEvent(true)
             }}/>
 

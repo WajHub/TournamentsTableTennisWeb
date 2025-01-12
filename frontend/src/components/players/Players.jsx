@@ -33,7 +33,7 @@ function Players() {
   return (
     <div>
       <h3 className="h3">List of players</h3>
-      <AddPlayerButton hanldeClick={setDisplayFormPlayer} />
+      <AddPlayerButton handleClick={setDisplayFormPlayer} />
       <PlayerList
         addingToTournament={false}
         deletion={true}

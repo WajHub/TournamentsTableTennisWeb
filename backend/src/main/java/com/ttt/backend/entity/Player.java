@@ -49,4 +49,15 @@ public class Player {
         return (int) years;
     }
 
+    public int getPointsInTournament(Tournament tournament) {
+        return this.getPlayerCategoryList()
+                .stream()
+                .filter(playerCategory ->
+                            playerCategory.getCategory().getId()
+                                    .equals(tournament.getCategory().getId())
+                ).findFirst()
+                .get()
+                .getPoints();
+    }
+
 }

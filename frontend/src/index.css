@@ -33,11 +33,12 @@ code {
   cursor: pointer; /* Makes the card clickable */
   text-decoration: none;
   color: inherit;
+  background-color: black;
 }
 
 .event-card:hover {
   text-decoration: none;
-  z-index: 3;
+  z-index: 2;
 }
 
 .overlay {
@@ -52,6 +53,6 @@ code {
   justify-content: center;
   align-items: center;
   background-color: rgba(0,0,0,0.75); 
-  z-index: 2; 
+  z-index: 3;
 }
 

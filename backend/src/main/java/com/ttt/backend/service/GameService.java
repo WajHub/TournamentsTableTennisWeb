@@ -61,7 +61,7 @@ public class GameService {
 
     public TournamentDto setResult(Game game, GameResultRequest gameResultRequest) {
         Player winnerPlayer = playerRepository.findById(gameResultRequest.idWinner()).get();
-//        Player looserPlayer = playerRepository.findById(gameResultRequest.idLoser()).get();
+        Player looserPlayer = playerRepository.findById(gameResultRequest.idLoser()).get();
         game.setState(GameState.DONE);
 
         game.setPointsHome(gameResultRequest.getPointsHome());
@@ -75,13 +75,25 @@ public class GameService {
             handleNextGame(game.getNextMatchId(), winnerPlayer);
         }
 
-        // TODO: set points for win game
-        winnerPlayer.getPlayerCategoryList().forEach(
-                (playerCategory -> playerCategory.setPoints(69))
+        winnerPlayer.getPlayerCategoryList()
+                .stream()
+                .filter(playerCategory -> playerCategory.getCategory().getId()
+                                                        .equals(game.getTournament().getCategory().getId())
+                        )
+                .forEach(playerCategory -> playerCategory
+                        .setPoints(playerCategory.getPoints()+(5/game.getRound()*2))
         );
 
+        looserPlayer.getPlayerCategoryList()
+                .stream()
+                .filter(playerCategory -> playerCategory.getCategory().getId()
+                        .equals(game.getTournament().getCategory().getId())
+                )
+                .forEach(playerCategory -> playerCategory
+                        .setPoints(playerCategory.getPoints()-(game.getRound()/10*2))
+                );
+
         gameRepository.save(game);
-        System.out.println(game);
         return mapperStructImpl.tournamentToTournamentDto(game.getTournament());
     }
 

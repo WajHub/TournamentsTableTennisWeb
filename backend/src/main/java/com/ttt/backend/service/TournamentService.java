@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -85,7 +86,7 @@ public class TournamentService {
                 .toList();
     }
 
-   public TournamentDto addPlayerToTournament(Long playerId, Long tournamentId) {
+    public TournamentDto addPlayerToTournament(Long playerId, Long tournamentId) {
     Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(() -> new TournamentNotFoundException(tournamentId));
     Player player = playerRepository.findById(playerId).orElseThrow(() -> new RuntimeException("Player not found!"));
 
@@ -101,7 +102,7 @@ public class TournamentService {
     return mapperStruct.tournamentToTournamentDto(tournament);
 }
 
-   public TournamentDto removePlayerFromTournament(Long playerId, Long tournamentId) {
+    public TournamentDto removePlayerFromTournament(Long playerId, Long tournamentId) {
     Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(() -> new TournamentNotFoundException(tournamentId));
     Player player = playerRepository.findById(playerId).orElseThrow(() -> new RuntimeException("Player not found!"));
 
@@ -151,9 +152,9 @@ public class TournamentService {
                 .filter(game -> game.getRound() == numberOfRounds - 1)
                 .toList();
 
-        // TODO: Sort players by points in category
-        List<Player> players = tournament.getPlayerList();
-        List<List<Integer>> matches =generatePairs(numberOfRounds, participantCount);
+        List<Player> players = sortPlayersByPoints(tournament);
+
+        List<List<Integer>> matches = generatePairs(numberOfRounds, participantCount);
 
         for (int i = 0; i < matches.size(); i++) {
             Game game = games.get(i);
@@ -161,6 +162,15 @@ public class TournamentService {
             Player away = getPlayerByIndex(matches.get(i).get(1), players);
             scheduleGames(game, home, away, nextGames, i);
         }
+    }
+
+    private List<Player> sortPlayersByPoints(Tournament tournament){
+        return tournament.getPlayerList()
+                .stream()
+                .sorted(Comparator
+                            .comparing(player -> ((Player) player).getPointsInTournament(tournament))
+                        .reversed())
+                .toList();
     }
 
     /** Algorithm to generate pairs in bracket**/
