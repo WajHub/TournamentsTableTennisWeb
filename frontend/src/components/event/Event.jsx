@@ -11,7 +11,7 @@ import { loadEvent, loadTournaments } from "../../utils/api.js";
 import Tournament from "./Tournament.jsx";
 import {WebsocketContext} from "../../providers/WebsocketProvider.jsx"
 import {TournamentsContext} from "../../providers/TournamentsInEventProvider.jsx";
-import tournament from "./Tournament.jsx";
+
 
 function Event() {
   const { user, handleSignOut } = useAuth();

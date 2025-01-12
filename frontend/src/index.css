@@ -30,14 +30,14 @@ code {
 }
 
 .event-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer; /* Makes the card clickable */
+  text-decoration: none;
+  color: inherit;
 }
 
 .event-card:hover {
-  transform: translateY(-10px); /* Lifts the card slightly */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow */
-  background-color: #f8f9fa; /* Changes the background color */
+  text-decoration: none;
+  z-index: 3;
 }
 
 .overlay {
@@ -55,7 +55,3 @@ code {
   z-index: 2; 
 }
 
-.transform-component-module_wrapper__SPB86{
-  width: auto !important;
-  height: auto !important;
-}

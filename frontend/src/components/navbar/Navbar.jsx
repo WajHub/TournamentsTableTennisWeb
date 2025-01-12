@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../providers/AuthProvider.jsx";
-import { useNavigate } from "react-router-dom";
+import {motion} from "framer-motion";
 import { useLocation } from "react-router-dom";
 import NavItems from "./NavItems.jsx";
 import NavItemsUser from "./NavItemsUser.jsx";
@@ -33,14 +33,16 @@ function Navbar() {
     }, [useLocation().pathname]);
 
   return (
-      <nav className=" navbar-light bg-light p-2c d-flex flex-wrap justify-content-between p-2 position-sticky sticky-top">
+      <motion.nav className=" navbar-light bg-light p-2c d-flex flex-wrap justify-content-between p-2 position-sticky sticky-top"
+        initial={{y: -50}} animate={{y:0}}
+      >
           <NavItems navigationItems={navigation.slice(0,2)} />
           {user ? (
              <NavItemsUser navigationItems={navigation}/>
           ) : (
             <NavItemsAuth navigationItems={navigation}/>
           )}
-      </nav>
+      </motion.nav>
   );
 }
 
