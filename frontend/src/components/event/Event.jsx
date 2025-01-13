@@ -66,46 +66,47 @@ function Event() {
     return (
         <div>
             <h3 className="h3">{eventData.name}</h3>
+
             <NavTabs>
-            {/*TITLE TABS */}
-            {tournaments.map((tournament, index) => (
-              <TabTitle
-                key={tournament.id}
-                title={tournament.name}
-                id={tournament.id}
-                active={index===0}
-              />
-            ))}
+                {/*TITLE TABS */}
+                {tournaments.map((tournament, index) => (
+                    <TabTitle
+                        key={tournament.id}
+                        title={tournament.name}
+                        id={tournament.id}
+                        active={index === 0}
+                    />
+                ))}
 
-            {/*TITLE TAB FOR ADMIN */}
-            {user ? (
-              <TabButtonAdmin
-                className="h1"
-                handleClick={(e) => setDisplayFormTournament(true)}
-              />
-            ) : (
-              ""
-            )}
+                {/*TITLE TAB FOR ADMIN */}
+                {user ? (
+                    <TabButtonAdmin
+                        className="h1"
+                        handleClick={(e) => setDisplayFormTournament(true)}
+                    />
+                ) : (
+                    ""
+                )}
 
-            {/*CONTENT TABS */}
-            {tournaments.map((tournament, index) => (
-              <TabContent key={tournament.id} id={tournament.id} active={index===0}>
-                <Tournament tournament={tournament}/>
-              </TabContent>
-            ))}
-          </NavTabs>
+                {/*CONTENT TABS */}
+                {tournaments.map((tournament, index) => (
+                    <TabContent key={tournament.id} id={tournament.id} active={index === 0}>
+                        <Tournament tournament={tournament}/>
+                    </TabContent>
+                ))}
+            </NavTabs>
 
-          {/*FORM TOURNAMENT */}
-          <Overlay
-            isDisplayed={displayFormTournament}
-            setDisplay={setDisplayFormTournament}
-          >
-            <FormTournament
-              setDisplay={setDisplayFormTournament}
-            ></FormTournament>
-          </Overlay>
-    </div>
-  );
+            {/*FORM TOURNAMENT */}
+            <Overlay
+                isDisplayed={displayFormTournament}
+                setDisplay={setDisplayFormTournament}
+            >
+                <FormTournament
+                    setDisplay={setDisplayFormTournament}
+                ></FormTournament>
+            </Overlay>
+        </div>
+    );
 }
 
 export default Event;

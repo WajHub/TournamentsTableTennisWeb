@@ -17,14 +17,14 @@ function NavTabs({ children }) {
     }
   });
   return (
-    <div>
+    <>
       <ul className="nav nav-tabs" id="myTab" role="tablist">
         {tabTitles}
       </ul>
       <div className="tab-content" id="myTabContent">
         {tabContents}
       </div>
-    </div>
+    </>
   );
 }
 
