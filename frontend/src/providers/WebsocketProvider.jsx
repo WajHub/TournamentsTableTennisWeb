@@ -1,10 +1,12 @@
-import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
-import { Client } from '@stomp/stompjs';
+import React, {createContext, useEffect, useRef} from 'react';
+import {Client} from '@stomp/stompjs';
 
 const WebsocketContext = createContext(undefined);
 
 function WebsocketProvider({children}) {
     let stompClient = useRef({});
+    const subscriptionsRef = useRef([]);
+
 
     useEffect(() => {
         stompClient.current = new Client({
@@ -12,6 +14,13 @@ function WebsocketProvider({children}) {
             reconnectDelay: 5000,
             onConnect: () => {
                 console.log('Connected to WebSocket!');
+                console.log(subscriptionsRef);
+
+                // Re-subscription after re-connection
+                subscriptionsRef.current.findLast(({ channel, callback }) => {
+                    subscribe(channel,callback);
+                    subscriptionsRef.current.pop();
+                });
             },
             onStompError: (frame) => {
                 console.error('Broker reported error: ' + frame.headers['message']);
@@ -30,39 +39,40 @@ function WebsocketProvider({children}) {
 
 
     const subscribe = (channel, callback) => {
-        if(stompClient.current.connected){
-            console.log("Subs", channel)
-            return stompClient.current.subscribe(channel, (message) =>{
+        if (stompClient.current.connected) {
+            console.log("Subs", channel);
+            return stompClient.current.subscribe(channel, (message) => {
                 callback(message.body);
             });
+        } else {
+            console.log("Client is not connected!");
+            subscriptionsRef.current.push({ channel, callback });
+            return null;
         }
-        else{
-            console.log("Client is not connected!")
-        }
-    }
+    };
 
-    const unsubscribe = (subscription) =>{
-        if(subscription){
+    const unsubscribe = (subscription) => {
+        if (subscription) {
+            console.log("Unsub", subscription)
             subscription.unsubscribe();
         }
-    }
+    };
 
     const sendMessage = (destination, body) => {
-        if(stompClient.current.connected) {
-            // stompClient.current.publish({destination, body});
+        if (stompClient.current.connected) {
             stompClient.current.publish({
                 destination: destination,
                 body: JSON.stringify(body)
             });
         }
-    }
+    };
 
     return (
         <WebsocketContext.Provider value={{
-                subscribe,
-                unsubscribe,
-                sendMessage
-            }}>
+            subscribe,
+            unsubscribe,
+            sendMessage
+        }}>
             {children}
         </WebsocketContext.Provider>
     );

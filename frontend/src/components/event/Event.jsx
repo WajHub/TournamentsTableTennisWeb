@@ -22,7 +22,7 @@ function Event() {
     name: "",
   });
 
-  const {subscribe, unsubscribe, sendMessage} = useContext(WebsocketContext);
+  const {subscribe, unsubscribe} = useContext(WebsocketContext);
   const {tournaments, dispatch} = useContext(TournamentsContext)
 
   const fetchData = async () => {
@@ -43,14 +43,13 @@ function Event() {
   useEffect(() =>{
     const channel = `/topic/events/${id}`
 
-    const subscription = subscribe(channel, (response) =>{
+    const subscription = subscribe(channel, (response) => {
       const tournamentUpdated = JSON.parse(response);
       console.log("Received message: ", tournamentUpdated);
       dispatch({
           type:"updateTournament",
           data: tournamentUpdated
       })
-
     })
 
     return () =>  {
