@@ -113,7 +113,6 @@ target/
 *.war
 *.ear
 *.jar
-*Dockerfile
 .spring-boot-devtools.properties
 .application.properties
 
