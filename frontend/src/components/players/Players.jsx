@@ -27,7 +27,7 @@ function Players() {
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData().then(r => {});
   }, []);
 
   return (
