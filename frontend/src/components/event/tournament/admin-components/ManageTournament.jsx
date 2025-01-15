@@ -1,9 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
 import { loadEligiblePlayers } from "../../../../utils/api.js";
-import PlayerList from "../../../shared/PlayerList.jsx";
+import PlayerList from "../../../shared/PlayerList/PlayerList.jsx";
 import { startTournament } from "../../../../utils/api.js";
 import ManageRunningTournament from "./ManageRunningTournament.jsx";
 import {TournamentsContext} from "../../../../providers/TournamentsInEventProvider.jsx";
+import DeletePlayerButton from "../../../shared/PlayerList/DeletePlayerButton.jsx";
+import AddToTournamentButton from "../../../shared/PlayerList/AddToTournamentButton.jsx";
 
 function ManageTournament({ tournament }) {
   const [players, setPlayers] = useState([]);
@@ -34,10 +36,16 @@ function ManageTournament({ tournament }) {
     <div>
       List of players to Add:
       <PlayerList
-        addingToTournament={true}
-        idTournament={tournament.id}
-        deletion={false}
         players={players}
+        renderDeleteButton={(idPlayer) =>
+            <></>
+        }
+        renderAddToTournamentButton={(idPlayer) =>
+            <AddToTournamentButton
+                idPlayer={idPlayer}
+                idTournament={tournament.id}
+            />
+        }
       />
       <button
         className="btn btn-success mt-3"

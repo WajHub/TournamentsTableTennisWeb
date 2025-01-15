@@ -1,10 +1,10 @@
 import React, {useContext} from "react";
-import { useAuth, isAuth, isMod } from "../../providers/AuthProvider.jsx";
+import { useAuth, isAuth, isMod } from "../../../providers/AuthProvider.jsx";
 import axios from "axios";
-import { addPlayerToTournament } from "../../utils/api.js";
-import {TournamentsContext} from "../../providers/TournamentsInEventProvider.jsx";
+import { addPlayerToTournament } from "../../../utils/api.js";
+import {TournamentsContext} from "../../../providers/TournamentsInEventProvider.jsx";
 
-function AddPlayerToTournamentButton({ idPlayer, idTournament }) {
+function AddToTournamentButton({ idPlayer, idTournament }) {
 
   const { user } = useAuth();
   const {dispatch} = useContext(TournamentsContext)
@@ -32,4 +32,4 @@ function AddPlayerToTournamentButton({ idPlayer, idTournament }) {
   );
 }
 
-export default AddPlayerToTournamentButton;
+export default AddToTournamentButton;

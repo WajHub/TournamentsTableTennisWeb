@@ -4,9 +4,10 @@ import TabTitle from "./tabs/TabTitle.jsx";
 import TabContent from "./tabs/TabContent.jsx";
 import { useAuth } from "../../providers/AuthProvider.jsx";
 import ManageTournament from "./tournament/admin-components/ManageTournament.jsx";
-import PlayerList from "../shared/PlayerList.jsx";
+import PlayerList from "../shared/PlayerList/PlayerList.jsx";
 import Draw from "./tournament/Draw.jsx";
 import {loadEvent, loadTournament, loadTournaments} from "../../utils/api.js";
+import AddToTournamentButton from "../shared/PlayerList/AddToTournamentButton.jsx";
 
 function Tournament({tournament}) {
 
@@ -67,6 +68,8 @@ function Tournament({tournament}) {
           Player List {tournament.id}
           <PlayerList
             players={tournament.playerDtoList}
+            renderDeleteButton={(idPlayer) => <></>}
+            renderAddToTournamentButton={(idPlayer) => <></>}
           />
         </TabContent>
         <TabContent

@@ -3,7 +3,8 @@ import AddPlayerButton from "./admin-components/AddPlayerButton.jsx";
 import Overlay from "../shared/Overlay.jsx";
 import FormPlayer from "./FormPlayer.jsx";
 import { loadPlayers } from "../../utils/api.js";
-import PlayerList from "../shared/PlayerList.jsx";
+import PlayerList from "../shared/PlayerList/PlayerList.jsx";
+import DeletePlayerButton from "../shared/PlayerList/DeletePlayerButton.jsx";
 
 function Players() {
   const [players, setPlayers] = useState([]);
@@ -34,19 +35,21 @@ function Players() {
     <div>
       <h3 className="h3">List of players</h3>
       <AddPlayerButton handleClick={setDisplayFormPlayer} />
-      <PlayerList
-        addingToTournament={false}
-        deletion={true}
-        deletePlayer={deletePlayer}
-        players={players}
-        loadData={fetchData}
-      />
+        <PlayerList
+            players={players}
+            renderDeleteButton={(idPlayer) =>
+                <DeletePlayerButton idPlayer={idPlayer} updateData={deletePlayer}/>
+            }
+            renderAddToTournamentButton={() =>
+                <></>
+            }
+        />
 
-      <Overlay
-        isDisplayed={displayFormPlayer}
-        setDisplay={setDisplayFormPlayer}
-      >
-        <FormPlayer setDisplay={setDisplayFormPlayer} updateData={addPlayer} />
+        <Overlay
+            isDisplayed={displayFormPlayer}
+            setDisplay={setDisplayFormPlayer}
+        >
+            <FormPlayer setDisplay={setDisplayFormPlayer} updateData={addPlayer} />
       </Overlay>
     </div>
   );

@@ -3,7 +3,7 @@ import EventCard from "./EventCard.jsx";
 import AddEventCard from "./admin-components/AddEventCard.jsx";
 import Overlay from "../shared/Overlay.jsx";
 import FormEvent from "./FormEvent.jsx";
-import Search from "../shared/Search.jsx";
+import SearchType from "../shared/SearchType.jsx";
 import { loadEvents } from "../../utils/api.js";
 import {Pagination, Stack, Typography} from "@mui/material";
 import {useWindowSize} from "@uidotdev/usehooks";
@@ -90,7 +90,7 @@ function Home() {
   return (
     <div className="container">
 
-          <Search
+          <SearchType
             apiSet={events}
             setFilteredSet={setFilteredEvents}
             filter={filtering}

@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect} from "react";
 
-function Search({ apiSet, setFilteredSet, filter }) {
+function SearchType({ apiSet, setFilteredSet, filter }) {
   const [searchItem, setSearchItem] = useState("");
   const inputRef = useRef(null)
 
@@ -38,4 +38,4 @@ function Search({ apiSet, setFilteredSet, filter }) {
   );
 }
 
-export default Search;
+export default SearchType;

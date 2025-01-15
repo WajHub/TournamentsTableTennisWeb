@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Search from "./Search";
-import Player from "./Player";
+import SearchType from "../SearchType.jsx";
+import Player from "./Player.jsx";
 import {useWindowSize} from "@uidotdev/usehooks";
 import {Pagination, Stack, Typography} from "@mui/material";
 import {AnimatePresence, motion} from "framer-motion";
 
 function PlayerList({
-    addingToTournament,
-    idTournament,
     players,
-    deletion,
-    deletePlayer
+    renderDeleteButton,
+    renderAddToTournamentButton
 }) {
-  const [filteredPlayers, setFilteredPlayers] = useState(players);
+
+    const [filteredPlayers, setFilteredPlayers] = useState(players);
 
     const [pagination, setPagination] = useState({
         size: useWindowSize(),
@@ -45,15 +44,14 @@ function PlayerList({
         })
     }, [useWindowSize().height])
 
-  const filtering = (object, newSearch) => {
-    const name = object.firstname + " " + object.lastname;
-    return name.toLowerCase().includes(newSearch.toLowerCase());
+    const filtering = (object, newSearch) => {
+        const name = object.firstname + " " + object.lastname;
+        return name.toLowerCase().includes(newSearch.toLowerCase());
   };
-
 
   return (
     <div className="container">
-      <Search
+      <SearchType
         apiSet={players}
         setFilteredSet={setFilteredPlayers}
         filter={filtering}
@@ -64,20 +62,16 @@ function PlayerList({
                 .slice((pagination.page-1)*pagination.numberOfElementsPerPage,
                     pagination.numberOfElementsPerPage + (pagination.page-1) * pagination.numberOfElementsPerPage)
                 .map((player, index) => (
-                    <motion.div key={player.id}
-                         initial={{scale: 0, x: -10} }
-                         animate={{scale: 1, x: 0}}
-                         transition={{duration: 0.09 + index * 0.06}}
-                    >
-                      <Player
-                        player={player}
+                    <motion.div
                         key={player.id}
-                        deletePlayer={deletePlayer}
-                        deletion={deletion}
-                        addingToTournament={addingToTournament}
-                        idTournament={idTournament}
-
-                        />
+                        initial={{scale: 0, x: -10} }
+                        animate={{scale: 1, x: 0}}
+                        transition={{duration: 0.09 + index * 0.06}}
+                    >
+                      <Player player={player}>
+                          {renderDeleteButton(player.id)}
+                          {renderAddToTournamentButton(player.id)}
+                      </Player>
                     </motion.div>
             ))}
           </AnimatePresence>

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import Player from "../../../../shared/Player.jsx";
+import Player from "../../../../shared/PlayerList/Player.jsx";
 import {setStateGame} from "../../../../../utils/api.js";
 import {TournamentsContext} from "../../../../../providers/TournamentsInEventProvider.jsx";
 

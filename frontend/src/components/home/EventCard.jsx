@@ -12,7 +12,7 @@ function EventCard({ event }) {
     console.log("ID", event.id);
   };
 
-  const MotionLink = motion(Link);
+  const MotionLink = motion.create(Link);
 
   return (
     <MotionLink
@@ -36,6 +36,7 @@ function EventCard({ event }) {
             {event.date != null ? event.date : ""}
           </small>
         </p>
+
         {/*TODO: add functionality and refactor code*/}
         {user ? (
           <div className="container">
@@ -71,6 +72,7 @@ function EventCard({ event }) {
         ) : (
           ""
         )}
+
       </div>
     </MotionLink>
   );
