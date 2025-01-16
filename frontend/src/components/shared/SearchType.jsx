@@ -1,6 +1,9 @@
 import React, {useState, useRef, useEffect} from "react";
+import {TextField} from "@mui/material";
+
 
 function SearchType({ apiSet, setFilteredSet, filter }) {
+
   const [searchItem, setSearchItem] = useState("");
   const inputRef = useRef(null)
 
@@ -11,7 +14,8 @@ function SearchType({ apiSet, setFilteredSet, filter }) {
   };
 
   const handleKeyDown = (e) => {
-    if(document.activeElement !== inputRef.current) inputRef.current.focus();
+    if(document.activeElement !== inputRef.current && e.key>='a' && e.key<='z')
+      inputRef.current.focus();
   }
 
   useEffect(() => {
@@ -23,18 +27,16 @@ function SearchType({ apiSet, setFilteredSet, filter }) {
   }, []);
 
   return (
-    <div className="row mt-3 justify-content-center">
-      <div className="col-4">
-        {" "}
-        <input
-          ref={inputRef}
-          type="text"
-          value={searchItem}
-          onChange={handleInputChange}
-          placeholder="Type to search"
-        />
-      </div>
-    </div>
+      <TextField
+         id="outlined-basic"
+         label="Search"
+         variant="outlined"
+         inputRef={inputRef}
+         type="text"
+         value={searchItem}
+         onChange={handleInputChange}
+         placeholder="Search"
+      />
   );
 }
 

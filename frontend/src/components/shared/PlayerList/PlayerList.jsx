@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import SearchType from "../SearchType.jsx";
 import Player from "./Player.jsx";
 import {useWindowSize} from "@uidotdev/usehooks";
-import {Pagination, Stack, Typography} from "@mui/material";
+import {Autocomplete, Pagination, Stack, TextField, Typography} from "@mui/material";
 import {AnimatePresence, motion} from "framer-motion";
+import {loadCategories} from "../../../utils/api.js";
 
 function PlayerList({
     players,
@@ -12,6 +13,8 @@ function PlayerList({
 }) {
 
     const [filteredPlayers, setFilteredPlayers] = useState(players);
+
+    const [categories, setCategories] = useState([]);
 
     const [pagination, setPagination] = useState({
         size: useWindowSize(),
@@ -28,6 +31,11 @@ function PlayerList({
     };
 
     const countNumberOfPages = (numberOfElements, numberOfElementsPerPage) => Math.ceil(numberOfElements/numberOfElementsPerPage)
+
+    useEffect(() => {
+        loadCategories().then((result)=>{
+            setCategories(result)})
+    }, []);
 
     useEffect(() => {
         setFilteredPlayers(players);
@@ -49,13 +57,44 @@ function PlayerList({
         return name.toLowerCase().includes(newSearch.toLowerCase());
   };
 
+    const filteringOnCategory = (event, value) => {
+        const playersInCategory = players.filter(
+            (player)=> playerIsInCategory(player, value)
+        );
+        const newFilteredPlayers = filteredPlayers.filter(
+            (player) => playersInCategory.includes(player)
+        )
+        setFilteredPlayers(newFilteredPlayers);
+    }
+
+    const playerIsInCategory = (player, value) =>{
+        const result = player.playerCategoryDtoList.find(
+            (category) => (category.categoryDto.name === value.name)
+        )
+        return result !== undefined;
+    }
+
   return (
     <div className="container">
-      <SearchType
-        apiSet={players}
-        setFilteredSet={setFilteredPlayers}
-        filter={filtering}
-      />
+
+      <div className="d-flex justify-content-center flex-wrap align-items-center">
+          <SearchType
+            className="m-2"
+            apiSet={players}
+            setFilteredSet={setFilteredPlayers}
+            filter={filtering}
+          />
+          <Autocomplete
+            className="m-2"
+            options={categories.sort((a, b) => -b.gender.localeCompare(a.gender))}
+            groupBy={(option) => option.gender}
+            getOptionLabel={(option) => option.name}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="With categories" />}
+            onChange={filteringOnCategory}
+          />
+      </div>
+
       <ul className="list-group list-group-flush mt-2">
           <AnimatePresence mode="popLayout">
             {filteredPlayers
@@ -76,11 +115,12 @@ function PlayerList({
             ))}
           </AnimatePresence>
       </ul>
+
         <Stack spacing={2} className="align-items-center">
             <Typography>Page: {pagination.page}</Typography>
             <Pagination count={pagination.numberOfPages} page={pagination.page} onChange={handleChangePage}/>
         </Stack>
-      <></>
+
     </div>
   );
 }

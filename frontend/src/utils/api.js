@@ -93,6 +93,17 @@ export const loadEligiblePlayers = async (id) => {
   }
 };
 
+export const loadCategories = async () => {
+  try {
+    const result = await axios.get(
+        `http://localhost:8080/api/categories`
+    );
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const addPlayerToTournament = async (playerId, tournamentId) => {
   try {
     const result = await axios.patch(
@@ -177,21 +188,6 @@ export const setResultGame = async(gameId, gameResultRequest) => {
     throw error;
   }
 }
-
-export const deleteEvent = (id) => {
-  try {
-    const result = axios.delete(
-      `http://localhost:8080/api/manage/event/delete/${id}`,
-      {},
-      {
-        withCredentials: true,
-      }
-    );
-    return result;
-  } catch (error) {
-    throw error;
-  }
-};
 
 export const deletePlayer = (idPlayer) =>{
   try {

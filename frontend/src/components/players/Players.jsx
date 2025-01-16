@@ -32,7 +32,7 @@ function Players() {
   }, []);
 
   return (
-    <div>
+    <div className="mt-2">
       <h3 className="h3">List of players</h3>
       <AddPlayerButton handleClick={setDisplayFormPlayer} />
         <PlayerList

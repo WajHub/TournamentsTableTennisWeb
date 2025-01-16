@@ -88,7 +88,7 @@ function Home() {
     const filtering = (object, newSearch) => object.name.toLowerCase().includes(newSearch.toLowerCase());
 
   return (
-    <div className="container">
+    <div className="container mt-2">
 
           <SearchType
             apiSet={events}
