@@ -1,11 +1,10 @@
 package com.ttt.backend.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import java.security.SignatureException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,9 +68,13 @@ public class JwtService {
     }
 
     public boolean isTokenExpired(String token) {
-        if(token == null) return false;
-        return
-                extractExpiration(token).before(new Date());
+        try{
+            if(token == null) return false;
+            return extractExpiration(token).before(new Date());
+        }
+       catch(ExpiredJwtException expiredJwtException){
+            return true;
+       }
     }
 
     private Date extractExpiration(String token) {

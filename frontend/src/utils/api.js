@@ -200,3 +200,14 @@ export const deletePlayer = (idPlayer) =>{
     throw error;
   }
 }
+
+// Auth
+export const refreshToken = () => {
+  try {
+      axios.post(`http://localhost:8080/auth/refreshtoken`, {},{
+        withCredentials: true,
+      }).then(r => {})
+  } catch(error) {
+    // throw error;
+  }
+}

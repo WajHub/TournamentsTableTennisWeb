@@ -23,7 +23,7 @@ public class AppExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(TokenRefreshException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     public Map<String, String> exceptionHandler(TokenRefreshException exception){
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", exception.getMessage());

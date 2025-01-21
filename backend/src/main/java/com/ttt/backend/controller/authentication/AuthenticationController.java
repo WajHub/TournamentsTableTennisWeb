@@ -2,6 +2,7 @@ package com.ttt.backend.controller;
 
 import com.ttt.backend.dto.LoginUserDto;
 import com.ttt.backend.dto.RegisterUserDto;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -28,5 +29,7 @@ public interface AuthenticationController {
 
     @PostMapping("/refreshtoken")
     @ResponseStatus(HttpStatus.OK)
-    ResponseEntity<?> refreshtoken();
+    ResponseEntity<?> refreshtoken(HttpServletResponse response);
+
+    Cookie saveToken(String nameOfToken, String token, String Path, int expirationTime);
 }

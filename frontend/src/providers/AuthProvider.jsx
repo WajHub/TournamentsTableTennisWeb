@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 
 import React from "react";
+import {refreshToken} from "../utils/api.js";
 
 const AuthContext = createContext(
   {
@@ -33,8 +34,17 @@ function AuthProvider({ children }) {
       }
     }
 
+    refreshToken();
     fetchUser().then(r => {});
+
   }, []);
+
+  useEffect(() => {
+    setInterval(() => {
+      if(user!==null) refreshToken();
+
+    }, 1800000); // Time expiration access token
+  }, [user]);
 
   async function handleSignIn(dtoUser) {
     try {
@@ -47,11 +57,11 @@ function AuthProvider({ children }) {
       );
       const { username, email, role } = response.data.user;
       setUser({ username, email, role });
-      return true; // Zwróć true w przypadku sukcesu
+      return true;
     } catch (error) {
       console.log("ERR");
       setUser(null);
-      return false; // Zwróć false w przypadku błędu
+      return false;
     }
   }
 

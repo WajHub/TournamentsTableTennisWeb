@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationControllerImpl implements AuthenticationController {
@@ -36,6 +35,9 @@ public class AuthenticationControllerImpl implements AuthenticationController {
 
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
+
+    @Value("${security.refresh_jwt.expiration-time}")
+    private long refreshTokenExpiration;
 
     public AuthenticationControllerImpl(JwtService jwtService, AuthenticationService authenticationService, RefreshTokenService refreshTokenService, UserService userService) {
         this.jwtService = jwtService;
@@ -56,22 +58,16 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
         String jwtToken = jwtService.generateToken(authenticatedUser);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(authenticatedUser.getId());
-        Cookie cookie = new Cookie("token", jwtToken);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge((int) (jwtExpiration/60));
-        response.addCookie(cookie);
+        response.addCookie(saveToken("token", jwtToken, "/", (int) jwtExpiration));
+        response.addCookie(saveToken("refresh-token", refreshToken.getToken(), "/auth/refreshtoken", (int) refreshTokenExpiration));
         return ResponseEntity.ok(new JwtResponse(jwtToken, refreshToken.getToken(), authenticatedUser));
     }
 
     @Override
     public ResponseEntity<?> logoutUser(HttpServletResponse response) {
-        Cookie cookie = new Cookie("token", "NONE");
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        return ResponseEntity.ok(("Logged out successfully " + cookie.getName() + cookie.getValue()));
+        response.addCookie(saveToken("token", "NONE", "/", 0));
+        response.addCookie(saveToken("refresh-token", "NONE", "/auth/refreshtoken", 0));
+        return ResponseEntity.ok("Logged out successfully ");
     }
 
     @Override
@@ -88,7 +84,7 @@ public class AuthenticationControllerImpl implements AuthenticationController {
     }
 
     @Override
-    public ResponseEntity<?> refreshtoken() {
+    public ResponseEntity<?> refreshtoken(HttpServletResponse response) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String userEmail = ((UserDetails) principal).getUsername();
@@ -96,6 +92,11 @@ public class AuthenticationControllerImpl implements AuthenticationController {
             if (user.isPresent()) {
                 String requestRefreshToken = String.valueOf(refreshTokenService.findByUser(user.get()));
                 String newToken = jwtService.generateToken(user.get());
+                RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user.get().getId());
+
+                response.addCookie(saveToken("token", newToken, "/", (int) jwtExpiration));
+                response.addCookie(saveToken("refresh-token", newRefreshToken.getToken(), "/auth/refreshtoken", (int) refreshTokenExpiration));
+
                 return ResponseEntity.ok(new TokenRefreshResponse(newToken, requestRefreshToken));
             } else {
                 throw new TokenRefreshException("Error", "");
@@ -103,5 +104,14 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         } else {
             return new ResponseEntity<>(principal.toString(), HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @Override
+    public Cookie saveToken(String nameOfToken, String token, String path, int expirationTime) {
+        Cookie cookieToken = new Cookie(nameOfToken, token);
+        cookieToken.setHttpOnly(true);
+        cookieToken.setPath(path);
+        cookieToken.setMaxAge(expirationTime);
+        return cookieToken;
     }
 }
