@@ -21,7 +21,11 @@ public interface EventController {
     @ResponseStatus(HttpStatus.OK)
     EventDto getAllById(@PathVariable Long id);
 
-    @DeleteMapping("/manage/events/delete/{id}")
+    @PatchMapping("/manage/events/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    EventDto updateEvent(@PathVariable Long id, @RequestBody EventDto eventDto);
+
+    @DeleteMapping("/manage/events/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable Long id);
 }

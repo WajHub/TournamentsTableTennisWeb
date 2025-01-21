@@ -1,7 +1,7 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
 
-function Input({ type, name, value, label, children }) {
+function Input({ type, name, label, children }) {
   return (
     <div className="form-group">
       <label
@@ -14,7 +14,6 @@ function Input({ type, name, value, label, children }) {
         type={type}
         id={name}
         name={name}
-        value={value}
         className={type === "radio" ? "form-check" : "form-control"}
       />
       <ErrorMessage name={name} component="div" className="text-danger" />

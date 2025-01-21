@@ -201,6 +201,30 @@ export const deletePlayer = (idPlayer) =>{
   }
 }
 
+export const updateEvent = async (idEvent, event) => {
+  try{
+    console.log(event)
+    const result =
+        axios.patch(`http://localhost:8080/api/manage/events/${idEvent}`,
+            event,
+            {withCredentials: true}
+        )
+    return result
+  }catch(error){}
+}
+
+export const deleteEvent = (idEvent) => {
+  try{
+    const result =
+        axios.delete(`http://localhost:8080/api/manage/events/${idEvent}`,{
+          withCredentials: true
+        })
+    return result
+  }catch(error){
+
+  }
+}
+
 // Auth
 export const refreshToken = () => {
   try {

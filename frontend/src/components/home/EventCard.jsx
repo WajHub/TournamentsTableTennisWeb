@@ -2,15 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../providers/AuthProvider.jsx";
 import {motion} from "framer-motion";
+import {deleteEvent} from "../../utils/api.js";
 
 
-function EventCard({ event }) {
+function EventCard({ event, handleDelete, handleEdit }) {
 
   const { user } = useAuth();
-
-  const handleDeleteEvent = () => {
-    console.log("ID", event.id);
-  };
 
   const MotionLink = motion.create(Link);
 
@@ -23,11 +20,6 @@ function EventCard({ event }) {
         transition: { duration: 0.2 }
         }
       }
-      whileTap={
-        { scale: 6,  opacity: 0,
-          transition: { duration: 0.09 }
-        }
-      }
     >
       <div className="card-body">
         <h5 className="card-title">{event.name}</h5>
@@ -37,40 +29,27 @@ function EventCard({ event }) {
           </small>
         </p>
 
-        {/*TODO: add functionality and refactor code*/}
-        {user ? (
-          <div className="container">
-            <div className="row ">
-              <div className="col text-right">
-                {" "}
+        {user && (
+            <div>
                 <button
                   className="btn btn-primary"
                   onClick={(e) => {
                     e.preventDefault();
-                    console.log("EDIT");
+                    handleEdit(event);
                   }}
-                  disabled
                 >
                   <i className="bi bi-pencil"></i>
                 </button>
-              </div>
-              <div className="col text-left">
-                {" "}
                 <button
                   className="btn btn-danger"
                   onClick={(e) => {
                     e.preventDefault();
-                    handleDeleteEvent(event.id);
+                    handleDelete(event.id);
                   }}
-                  disabled
                 >
                   <i className="bi bi-trash"></i>
                 </button>
-              </div>
             </div>
-          </div>
-        ) : (
-          ""
         )}
 
       </div>

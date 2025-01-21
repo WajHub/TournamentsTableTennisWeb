@@ -4,12 +4,14 @@ import * as Yup from "yup";
 import Input from "../shared/Input.jsx";
 import axios from "axios";
 import { formatDate } from "../../utils/date.js";
+import {updateEvent} from "../../utils/api.js";
 
-function FormEvent({ setDisplay, updateData }) {
-  const initialValues = {
-    name: "",
-    date: formatDate(new Date()),
-  };
+function FormEvent({ setDisplay, updateSavedEvent, updateUpdatedEvent, eventToUpdate }) {
+
+  const initialValues = eventToUpdate===null ?
+      {name: "", date: formatDate(new Date())}
+      :
+      {name: eventToUpdate.name, date:formatDate(new Date())}
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -19,21 +21,31 @@ function FormEvent({ setDisplay, updateData }) {
 
   const onSubmit = async (values) => {
     try {
-      await axios
-        .post(
-          "http://localhost:8080/api/manage/events",
-          { name: values.name, date: values.date },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          if (response.status === 201) {
+      if(eventToUpdate===null){
+        await axios
+            .post(
+                "http://localhost:8080/api/manage/events",
+                { name: values.name, date: values.date },
+                {
+                  withCredentials: true,
+                }
+            )
+            .then((response) => {
+              if (response.status === 201) {
+                setDisplay(false);
+                updateSavedEvent(response.data);
+              } else {
+              }
+            });
+      }else{
+        updateEvent(eventToUpdate.id, values).then((result) => {
+          if(result.status === 200){
             setDisplay(false);
-            updateData(response.data);
-          } else {
+            updateUpdatedEvent(result.data);
           }
         });
+      }
+
     } catch (error) {}
   };
   return (

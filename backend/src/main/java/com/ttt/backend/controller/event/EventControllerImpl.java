@@ -23,16 +23,11 @@ public class EventControllerImpl implements EventController {
     }
 
     @Override
-    public EventDto save(@RequestBody EventDto eventDto) {
+    public EventDto save(EventDto eventDto) {
         if (eventService.findByName(eventDto.getName()).isPresent())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Name is taken!");
         eventService.save(mapperStruct.createEvent(eventDto));
         return eventDto;
-    }
-
-    @Override
-    public void delete(@PathVariable Long id) {
-        eventService.deleteById(id);
     }
 
     @Override
@@ -44,7 +39,20 @@ public class EventControllerImpl implements EventController {
     }
 
     @Override
-    public EventDto getAllById(@PathVariable Long id) {
+    public EventDto getAllById(Long id) {
         return mapperStruct.eventToEventDto(eventService.findAllById(id));
+    }
+
+    @Override
+    public EventDto updateEvent(Long id, EventDto eventDto) {
+        System.out.println(eventDto);
+        EventDto test = eventService.updateEvent(id, eventDto);
+        System.out.println(test);
+        return test;
+    }
+
+    @Override
+    public void delete(Long id) {
+        eventService.deleteById(id);
     }
 }

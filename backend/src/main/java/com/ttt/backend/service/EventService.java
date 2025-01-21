@@ -1,6 +1,8 @@
 package com.ttt.backend.service;
 
+import com.ttt.backend.dto.EventDto;
 import com.ttt.backend.entity.Event;
+import com.ttt.backend.mapper.MapperStructImpl;
 import com.ttt.backend.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,11 +15,13 @@ import java.util.Optional;
 @Transactional
 public class EventService {
 
+    private final MapperStructImpl mapperStructImpl;
     EventRepository eventRepository;
 
     @Autowired
-    public EventService(EventRepository eventRepository){
+    public EventService(EventRepository eventRepository, MapperStructImpl mapperStructImpl){
         this.eventRepository = eventRepository;
+        this.mapperStructImpl = mapperStructImpl;
     }
 
     public Event save(Event event){
@@ -34,5 +38,16 @@ public class EventService {
 
     public void deleteById(Long id) {
         eventRepository.deleteById(id);
+    }
+
+    public EventDto updateEvent(Long id, EventDto eventDto) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+
+        event.setName(eventDto.getName());
+        event.setDate(eventDto.getDate());
+        Event savedEvent = eventRepository.save(event);
+
+        return mapperStructImpl.eventToEventDto(savedEvent);
     }
 }
