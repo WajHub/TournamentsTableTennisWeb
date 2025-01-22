@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from "react";
 import {TextField} from "@mui/material";
 
 
-function SearchType({ apiSet, setFilteredSet, filter, focusOnInput }) {
+function SearchType({ focusOnInput, handleChangeFilter}) {
 
   const [searchItem, setSearchItem] = useState("");
   const inputRef = useRef(null)
@@ -10,7 +10,6 @@ function SearchType({ apiSet, setFilteredSet, filter, focusOnInput }) {
   const handleInputChange = (e) => {
     const newSearchItem = e.target.value;
     setSearchItem(newSearchItem);
-    setFilteredSet(apiSet.filter((eve) => filter(eve, newSearchItem)));
   };
 
   const handleKeyDown = (e) => {
@@ -25,7 +24,6 @@ function SearchType({ apiSet, setFilteredSet, filter, focusOnInput }) {
   const removeKeyboardListener = () => {
     document.removeEventListener("keydown", handleKeyDown, false);
   }
-
 
   useEffect(() => {
     if(focusOnInput) addKeyboardListener();
@@ -42,8 +40,12 @@ function SearchType({ apiSet, setFilteredSet, filter, focusOnInput }) {
          inputRef={inputRef}
          type="text"
          value={searchItem}
-         onChange={handleInputChange}
+         onChange={(e)=> {
+           handleInputChange(e)
+           handleChangeFilter(e.target.name, e.target.value)
+         }}
          placeholder="Search"
+         name="name"
       />
   );
 }

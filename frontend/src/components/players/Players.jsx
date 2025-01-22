@@ -37,6 +37,7 @@ function Players() {
       <AddPlayerButton handleClick={setDisplayFormPlayer} />
         <PlayerList
             players={players}
+            overlayIsDisplayed={displayFormPlayer}
             renderDeleteButton={(idPlayer) =>
                 <DeletePlayerButton idPlayer={idPlayer} updateData={deletePlayer}/>
             }

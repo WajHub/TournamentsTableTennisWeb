@@ -16,6 +16,7 @@ function Home() {
 
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
+    const [filters, setFilters] = useState({name:"" })
 
     const [displayFormEvent, setDisplayFormEvent] = useState(false);
 
@@ -27,19 +28,6 @@ function Home() {
     })
 
     const [updatingEvent, setUpdatingEvent] = useState(null);
-
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    useEffect(() => {
-        setDisplayingCards();
-    }, [filteredEvents, isAuth(user)])
-
-    useEffect(()=>{
-        setDisplayingCards();
-    }, [useWindowSize().height])
-
 
     const handleChangePage = (event, value) => {
         setPagination({
@@ -103,7 +91,7 @@ function Home() {
          })
      }
 
-     const handleUpdateEvent = (event) => {
+    const handleUpdateEvent = (event) => {
         setUpdatingEvent(event);
         setDisplayFormEvent(true);
      }
@@ -130,15 +118,42 @@ function Home() {
           }
       }
 
-    const filtering = (object, newSearch) => object.name.toLowerCase().includes(newSearch.toLowerCase());
+    const handleChangeFilter = (name, value) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: value,
+        }))
+    }
+
+    const filterEvents = () => {
+        const filteredEvents = events.filter(
+            (eve) => filterEventsByName(eve, filters.name))
+        setFilteredEvents(filteredEvents);
+    }
+
+    const filterEventsByName = (object, newSearch) => object.name.toLowerCase().includes(newSearch.toLowerCase());
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    useEffect(() =>{
+        filterEvents();
+    }, [filters])
+
+    useEffect(() => {
+        setDisplayingCards();
+    }, [filteredEvents, isAuth(user)])
+
+    useEffect(()=>{
+        setDisplayingCards();
+    }, [useWindowSize().height])
 
   return (
     <div className="container mt-2">
 
         <SearchType
-            apiSet={events}
-            setFilteredSet={setFilteredEvents}
-            filter={filtering}
+            handleChangeFilter={handleChangeFilter}
             focusOnInput={!displayFormEvent}
         />
 

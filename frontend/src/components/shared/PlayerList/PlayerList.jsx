@@ -9,10 +9,16 @@ import {loadCategories} from "../../../utils/api.js";
 function PlayerList({
     players,
     renderDeleteButton,
-    renderAddToTournamentButton
+    renderAddToTournamentButton,
+    overlayIsDisplayed
 }) {
 
     const [filteredPlayers, setFilteredPlayers] = useState(players);
+
+    const [filters, setFilters] = useState({
+        category: null,
+        name: ""
+    })
 
     const [categories, setCategories] = useState([]);
 
@@ -22,6 +28,41 @@ function PlayerList({
         numberOfPages: 10,
         page: 1
     })
+
+    const handleChangeFilter = (name, value) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: value,
+        }))
+    }
+
+    const filterPlayers = () => {
+        if(filters.category == null){
+            const filteredPlayers = players.filter(
+                (eve) => filterPlayersByName(eve, filters.name))
+            setFilteredPlayers(filteredPlayers);
+        }
+        else{
+            const playersInCategory = players.filter(
+                (player)=> filterPlayersByCategory(player, filters.category)
+            );
+            const filteredPlayers = playersInCategory.filter(
+                (eve) => filterPlayersByName(eve, filters.name))
+            setFilteredPlayers(filteredPlayers);
+        }
+    }
+
+    const filterPlayersByName = (object, newSearch) => {
+        const name = object.firstname + " " + object.lastname;
+        return name.toLowerCase().includes(newSearch.toLowerCase());
+    };
+
+    const filterPlayersByCategory = (player, value) =>{
+        const result = player.playerCategoryDtoList.find(
+            (category) => (category.categoryDto.name === value.name)
+        )
+        return result !== undefined;
+    }
 
     const handleChangePage = (event, value) => {
         setPagination({
@@ -36,6 +77,10 @@ function PlayerList({
         loadCategories().then((result)=>{
             setCategories(result)})
     }, []);
+
+    useEffect(() =>{
+        filterPlayers();
+    }, [filters])
 
     useEffect(() => {
         setFilteredPlayers(players);
@@ -52,37 +97,13 @@ function PlayerList({
         })
     }, [useWindowSize().height])
 
-    const filtering = (object, newSearch) => {
-        const name = object.firstname + " " + object.lastname;
-        return name.toLowerCase().includes(newSearch.toLowerCase());
-  };
-
-    const filteringOnCategory = (event, value) => {
-        const playersInCategory = players.filter(
-            (player)=> playerIsInCategory(player, value)
-        );
-        const newFilteredPlayers = filteredPlayers.filter(
-            (player) => playersInCategory.includes(player)
-        )
-        setFilteredPlayers(newFilteredPlayers);
-    }
-
-    const playerIsInCategory = (player, value) =>{
-        const result = player.playerCategoryDtoList.find(
-            (category) => (category.categoryDto.name === value.name)
-        )
-        return result !== undefined;
-    }
-
   return (
     <div className="container">
-
       <div className="d-flex justify-content-center flex-wrap align-items-center">
           <SearchType
             className="m-2"
-            apiSet={players}
-            setFilteredSet={setFilteredPlayers}
-            filter={filtering}
+            handleChangeFilter={handleChangeFilter}
+            focusOnInput={!overlayIsDisplayed}
           />
           <Autocomplete
             className="m-2"
@@ -90,8 +111,9 @@ function PlayerList({
             groupBy={(option) => option.gender}
             getOptionLabel={(option) => option.name}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="With categories" />}
-            onChange={filteringOnCategory}
+            name="category"
+            renderInput={(params) => <TextField {...params} label="With category" />}
+            onChange={(event, value) => handleChangeFilter("category", value)}
           />
       </div>
 

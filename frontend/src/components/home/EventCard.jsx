@@ -30,7 +30,7 @@ function EventCard({ event, handleDelete, handleEdit }) {
         </p>
 
         {user && (
-            <div>
+            <div className={"d-flex justify-content-around"}>
                 <button
                   className="btn btn-primary"
                   onClick={(e) => {
