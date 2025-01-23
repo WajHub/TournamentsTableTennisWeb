@@ -37,7 +37,6 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
-            // TODO: PAGE NOT FOUND
           <Route exatc path="/*" element={<PageNotFound />}></Route>
         </Routes>
       </Router>
