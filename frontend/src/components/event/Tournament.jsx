@@ -68,6 +68,7 @@ function Tournament({tournament}) {
           Player List {tournament.id}
           <PlayerList
             players={tournament.playerDtoList}
+            renderEditButton={(player) => <></>}
             renderDeleteButton={(idPlayer) => <></>}
             renderAddToTournamentButton={(idPlayer) => <></>}
           />

@@ -9,6 +9,7 @@ import {loadCategories} from "../../../utils/api.js";
 function PlayerList({
     players,
     renderDeleteButton,
+    renderEditButton,
     renderAddToTournamentButton,
     overlayIsDisplayed
 }) {
@@ -130,6 +131,7 @@ function PlayerList({
                         transition={{duration: 0.09 + index * 0.06}}
                     >
                       <Player player={player}>
+                          {renderEditButton(player)}
                           {renderDeleteButton(player.id)}
                           {renderAddToTournamentButton(player.id)}
                       </Player>

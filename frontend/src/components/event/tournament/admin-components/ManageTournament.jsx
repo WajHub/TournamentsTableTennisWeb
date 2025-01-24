@@ -4,7 +4,7 @@ import PlayerList from "../../../shared/PlayerList/PlayerList.jsx";
 import { startTournament } from "../../../../utils/api.js";
 import ManageRunningTournament from "./ManageRunningTournament.jsx";
 import {TournamentsContext} from "../../../../providers/TournamentsInEventProvider.jsx";
-import DeletePlayerButton from "../../../shared/PlayerList/DeletePlayerButton.jsx";
+import DeletePlayerButton from "../../../players/admin-components/DeletePlayerButton.jsx";
 import AddToTournamentButton from "../../../shared/PlayerList/AddToTournamentButton.jsx";
 
 function ManageTournament({ tournament }) {
@@ -37,6 +37,7 @@ function ManageTournament({ tournament }) {
       List of players to Add:
       <PlayerList
         players={players}
+        renderEditButton={(player) => <></>}
         renderDeleteButton={(idPlayer) =>
             <></>
         }

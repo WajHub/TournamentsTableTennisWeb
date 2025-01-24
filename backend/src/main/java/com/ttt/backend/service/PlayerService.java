@@ -61,6 +61,18 @@ public class PlayerService {
         return playerCategoryService.findByPlayer(player);
     }
 
+    public PlayerDto update(Long id, PlayerDto playerDto){
+        Player player = playerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Player not found"));
+
+        player.setBirthday(playerDto.getDate());
+        player.setFirstname(playerDto.getFirstname());
+        player.setLastname(playerDto.getLastname());
+        player.setGender(playerDto.getGender());
+
+        Player savedPlayer = playerRepository.save(player);
+        return mapperStructImpl.playerToPlayerDto(savedPlayer, playerCategoryService.findPlayerCategoriesDto(player));
+    }
 
     public boolean existById(Long id){
         return playerRepository.existsById(id);

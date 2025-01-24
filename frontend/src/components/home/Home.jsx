@@ -138,6 +138,10 @@ function Home() {
     }, []);
 
     useEffect(() =>{
+        if(displayFormEvent === false) setUpdatingEvent(null);
+    }, [displayFormEvent])
+
+    useEffect(() =>{
         filterEvents();
     }, [filters])
 

@@ -26,6 +26,11 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @Override
+    public PlayerDto updatePlayer(Long id, PlayerDto playerDto) {
+        return playerService.update(id, playerDto);
+    }
+
+    @Override
     public void deletePlayerById(@PathVariable Long id) {
         if (!playerService.existById(id)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player not found");

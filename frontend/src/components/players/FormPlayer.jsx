@@ -4,14 +4,25 @@ import { formatDate } from "../../utils/date.js";
 import { Formik, Form, Field } from "formik";
 import Input from "../shared/Input.jsx";
 import * as Yup from "yup";
+import {updatePlayer} from "../../utils/api.js";
 
-function FormPlayer({ setDisplay, updateData }) {
-  const initialValues = {
-    firstname: "",
-    lastname: "",
-    gender: "MAN",
-    date: formatDate(new Date()),
-  };
+function FormPlayer({ setDisplay, updateData, playerToUpdate }) {
+
+  const initialValues = playerToUpdate===null ?
+      {
+        firstname: "",
+        lastname: "",
+        gender: "MAN",
+        date: formatDate(new Date()),
+      }
+      :
+      {
+        firstname: playerToUpdate.firstname,
+        lastname: playerToUpdate.lastname,
+        gender: playerToUpdate.gender,
+        date: playerToUpdate.date,
+      }
+
   const validationSchema = Yup.object().shape({
     firstname: Yup.string().max(32, "Too Long!").required("Required!"),
     lastname: Yup.string().max(32, "Too Long!").required("Required!"),
@@ -21,26 +32,48 @@ function FormPlayer({ setDisplay, updateData }) {
 
   const onSubmit = async (values) => {
     try {
-      await axios
-        .post(
-          "http://localhost:8080/api/manage/players",
-          {
-            firstname: values.firstname,
-            lastname: values.lastname,
-            gender: values.gender,
-            date: values.date,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((response) => {
-          if (response.status === 201) {
-            setDisplay(false);
-            updateData(response.data);
-          } else {
-          }
-        });
+      if(playerToUpdate=== null) {
+        await axios
+            .post(
+                "http://localhost:8080/api/manage/players",
+                {
+                  firstname: values.firstname,
+                  lastname: values.lastname,
+                  gender: values.gender,
+                  date: values.date,
+                },
+                {
+                  withCredentials: true,
+                }
+            )
+            .then((response) => {
+              if (response.status === 201) {
+                setDisplay(false);
+                updateData(response.data, true);
+              } else {
+              }
+            });
+      }
+      else{
+          updatePlayer(playerToUpdate.id,
+              {
+                  firstname: values.firstname,
+                  lastname: values.lastname,
+                  gender: values.gender,
+                  date: values.date,
+              }
+              ).then((response) => {
+              if (response.status === 200) {
+                  setDisplay(false);
+                  updateData(response.data, false);
+              } else {
+                  console.log("ERR")
+              }
+          });
+          console.log(playerToUpdate)
+          console.log(values)
+      }
+
     } catch (error) {
       console.log(error);
     }
@@ -79,6 +112,7 @@ function FormPlayer({ setDisplay, updateData }) {
           <div className="col-2 mb-3 d-flex align-items-center d-flex justify-content-end">
             <Input type="radio" name="gender" label="Male" value="MAN" />
           </div>
+
           <div className="col-2 mb-3 d-flex align-items-center d-flex justify-content-start">
             <Input type="radio" name="gender" label="Female" value="WOMAN" />
           </div>

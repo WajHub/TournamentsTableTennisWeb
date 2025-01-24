@@ -11,7 +11,7 @@ function FormEvent({ setDisplay, updateSavedEvent, updateUpdatedEvent, eventToUp
   const initialValues = eventToUpdate===null ?
       {name: "", date: formatDate(new Date())}
       :
-      {name: eventToUpdate.name, date:formatDate(new Date())}
+      {name: eventToUpdate.name, date:eventToUpdate.date}
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()

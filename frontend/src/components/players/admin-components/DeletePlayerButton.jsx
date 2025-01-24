@@ -13,7 +13,7 @@ function DeletePlayerButton({ idPlayer, updateData }) {
   return (
     <>
       {isAuth(user) && isMod(user) ? (
-        <div className="btn btn-danger" onClick={(e) => handleDeletion(e)}>
+        <div className="btn btn-danger m-1" onClick={(e) => handleDeletion(e)}>
           {" "}
           <i className="bi bi-trash"></i>
         </div>

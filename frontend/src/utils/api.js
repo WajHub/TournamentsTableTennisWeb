@@ -189,6 +189,20 @@ export const setResultGame = async(gameId, gameResultRequest) => {
   }
 }
 
+export const updatePlayer = (idPlayer, playerDto) => {
+  try {
+    const result =  axios
+        .patch(
+            `http://localhost:8080/api/manage/players/${idPlayer}`,
+            playerDto,
+            {withCredentials: true}
+          );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const deletePlayer = (idPlayer) =>{
   try {
     const result =  axios

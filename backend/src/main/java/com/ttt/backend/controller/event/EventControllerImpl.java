@@ -45,9 +45,7 @@ public class EventControllerImpl implements EventController {
 
     @Override
     public EventDto updateEvent(Long id, EventDto eventDto) {
-        System.out.println(eventDto);
         EventDto test = eventService.updateEvent(id, eventDto);
-        System.out.println(test);
         return test;
     }
 
