@@ -4,7 +4,7 @@ import NavTabs from "./tabs/NavTabs.jsx";
 import TabTitle from "./tabs/TabTitle.jsx";
 import TabContent from "./tabs/TabContent.jsx";
 import TabButtonAdmin from "./tabs/TabButtonAdmin.jsx";
-import { useAuth } from "../../providers/AuthProvider.jsx";
+import {isMod, useAuth} from "../../providers/AuthProvider.jsx";
 import Overlay from "../shared/Overlay.jsx";
 import FormTournament from "./FormTournament.jsx";
 import { loadEvent, loadTournaments } from "../../utils/api.js";
@@ -79,7 +79,7 @@ function Event() {
                 ))}
 
                 {/*TITLE TAB FOR ADMIN */}
-                {user ? (
+                {(user && isMod(user)) ? (
                     <TabButtonAdmin
                         className="h1"
                         handleClick={(e) => setDisplayFormTournament(true)}

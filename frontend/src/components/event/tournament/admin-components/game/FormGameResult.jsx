@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import {array, number} from "yup";
 import {setResultGame} from "../../../../../utils/api.js";
 import {WebsocketContext} from "../../../../../providers/WebsocketProvider.jsx";
+import {Button} from "@mui/material";
 
 function FormGameResult({setDisplay, gameId, homeId, awayId, eventId}) {
 
@@ -150,8 +151,8 @@ function FormGameResult({setDisplay, gameId, homeId, awayId, eventId}) {
                             </div>
                         )}
                         <div className="row justify-content-center m-2">
-                            <button type="submit" className="col-sm-6 col-md-4 col-lg-2  btn btn-success m-2">Finish
-                            </button>
+                            <Button variant="contained" color="success" type="submit" className="col-sm-6 col-md-4 col-lg-2 m-2">Finish
+                            </Button>
                         </div>
                         {!isValid && submitCount > 0 && (
                             <div className="alert alert-danger">

@@ -27,8 +27,8 @@ function AuthProvider({ children }) {
         const response = await axios.get("http://localhost:8080/auth/details", {
           withCredentials: true,
         });
-        const { username, email, role } = response.data;
-        setUser({ username, email, role });
+        const { username, email, role, fullName } = response.data;
+        setUser({ username, email, role,fullName });
       } catch (error) {
         setUser(null);
       }
@@ -55,8 +55,8 @@ function AuthProvider({ children }) {
           withCredentials: true,
         }
       );
-      const { username, email, role } = response.data.user;
-      setUser({ username, email, role });
+      const { username, email, role, fullName } = response.data.user;
+      setUser({ username, email, role, fullName });
       return true;
     } catch (error) {
       console.log("ERR");

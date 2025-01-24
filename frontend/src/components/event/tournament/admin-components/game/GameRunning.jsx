@@ -4,6 +4,7 @@ import Overlay from "../../../../shared/Overlay.jsx";
 import FormTournament from "../../../FormTournament.jsx";
 import FormGameResult from "./FormGameResult.jsx";
 import {TournamentsContext} from "../../../../../providers/TournamentsInEventProvider.jsx";
+import {Button} from "@mui/material";
 
 function GameRunning({game, eventId}) {
 
@@ -47,14 +48,14 @@ function GameRunning({game, eventId}) {
                     {home.name} vs {away.name}
                 </div>
                 <div className="row p-2 justify-content-center">
-                    <button className="col-sm-3 col-md-2 col-lg-1  btn btn-success m-2" onClick={(e) => {
+                    <Button color="success" variant="outlined" className="col-sm-3 col-md-2 col-lg-1 m-2" onClick={(e) => {
                         handleFinish()
                     }}>Finish
-                    </button>
-                    <button className="col-sm-3 col-md-2 col-lg-1  btn btn-danger m-2" onClick={(e) => {
+                    </Button>
+                    <Button color="error" variant="outlined" className="col-sm-3 col-md-2 col-lg-1  m-2" onClick={(e) => {
                         handleStop()
                     }}>Stop
-                    </button>
+                    </Button>
                 </div>
             </li>
 

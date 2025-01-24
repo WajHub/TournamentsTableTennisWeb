@@ -5,6 +5,7 @@ import { Formik, Form, Field } from "formik";
 import Input from "../shared/Input.jsx";
 import * as Yup from "yup";
 import {updatePlayer} from "../../utils/api.js";
+import {Button} from "@mui/material";
 
 function FormPlayer({ setDisplay, updateData, playerToUpdate }) {
 
@@ -122,9 +123,9 @@ function FormPlayer({ setDisplay, updateData, playerToUpdate }) {
           </div>
 
           <div className="col-md-4 text-center">
-            <button type="submit" className="btn btn-primary d-inline-block">
+            <Button type="submit" className="btn btn-primary d-inline-block">
               Submit
-            </button>
+            </Button>
           </div>
         </Form>
       )}

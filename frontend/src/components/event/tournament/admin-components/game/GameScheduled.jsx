@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import Player from "../../../../shared/PlayerList/Player.jsx";
 import {setStateGame} from "../../../../../utils/api.js";
 import {TournamentsContext} from "../../../../../providers/TournamentsInEventProvider.jsx";
+import {Button} from "@mui/material";
 
 function GameScheduled({game}) {
     const [home, setHome] = useState(null);
@@ -31,7 +32,6 @@ function GameScheduled({game}) {
         return "loading...";
     }
 
-
     return (
         <div className="list-group-item justify-content-center">
             <li className="row align-items-center">
@@ -39,7 +39,7 @@ function GameScheduled({game}) {
                     {home.name} vs {away.name}
                 </div>
                 <div className="row p-2 justify-content-center">
-                    <button className="col-sm-3 col-md-2 col-lg-1 btn btn-primary" onClick={(e) => {handleStartGame()}}>Start </button>
+                    <Button variant="outlined" color="primary" className="col-sm-3 col-md-2 col-lg-1" onClick={(e) => {handleStartGame()}}>Start </Button>
                 </div>
             </li>
         </div>

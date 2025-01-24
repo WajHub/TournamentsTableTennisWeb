@@ -5,6 +5,7 @@ import Input from "../shared/Input.jsx";
 import axios from "axios";
 import { formatDate } from "../../utils/date.js";
 import {updateEvent} from "../../utils/api.js";
+import {Button} from "@mui/material";
 
 function FormEvent({ setDisplay, updateSavedEvent, updateUpdatedEvent, eventToUpdate }) {
 
@@ -65,9 +66,9 @@ function FormEvent({ setDisplay, updateSavedEvent, updateUpdatedEvent, eventToUp
         </div>
 
         <div className="col-md-6 mb-3 text-center">
-          <button type="submit" className="btn btn-primary">
+          <Button type="submit" color="primary" variant="contained">
             Submit
-          </button>
+          </Button>
         </div>
       </Form>
     </Formik>

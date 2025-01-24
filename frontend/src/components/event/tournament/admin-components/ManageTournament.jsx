@@ -6,6 +6,7 @@ import ManageRunningTournament from "./ManageRunningTournament.jsx";
 import {TournamentsContext} from "../../../../providers/TournamentsInEventProvider.jsx";
 import DeletePlayerButton from "../../../players/admin-components/DeletePlayerButton.jsx";
 import AddToTournamentButton from "../../../shared/PlayerList/AddToTournamentButton.jsx";
+import {Button} from "@mui/material";
 
 function ManageTournament({ tournament }) {
   const [players, setPlayers] = useState([]);
@@ -48,12 +49,13 @@ function ManageTournament({ tournament }) {
             />
         }
       />
-      <button
-        className="btn btn-success mt-3"
+      <Button
+        variant="outlined" color="primary"
+        className="mt-3"
         onClick={(e) => handleStartTournament(tournament.id)}
       >
         Start Tournament
-      </button>
+      </Button>
     </div>
   );
 }

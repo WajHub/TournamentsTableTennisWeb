@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../providers/AuthProvider.jsx";
+import {isMod, useAuth} from "../../providers/AuthProvider.jsx";
 import {motion} from "framer-motion";
 import {deleteEvent} from "../../utils/api.js";
+import {Button} from "@mui/material";
 
 
 function EventCard({ event, handleDelete, handleEdit }) {
@@ -29,26 +30,31 @@ function EventCard({ event, handleDelete, handleEdit }) {
           </small>
         </p>
 
-        {user && (
-            <div className={"d-flex justify-content-around"}>
-                <button
-                  className="btn btn-primary"
+        {(user && isMod(user)) && (
+            <div className={"d-flex justify-content-around flex-wrap"}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  className="mt-1"
                   onClick={(e) => {
                     e.preventDefault();
                     handleEdit(event);
                   }}
                 >
                   <i className="bi bi-pencil"></i>
-                </button>
-                <button
-                  className="btn btn-danger"
+                </Button>
+                <Button
+                  size="small"
+                  className="mt-1"
+                  variant="contained"
+                  color="error"
                   onClick={(e) => {
                     e.preventDefault();
                     handleDelete(event.id);
                   }}
                 >
                   <i className="bi bi-trash"></i>
-                </button>
+                </Button>
             </div>
         )}
 

@@ -38,7 +38,6 @@ public interface GameController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable Long gameId);
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @MessageMapping("/events/{id}")
     @SendTo("/topic/events/{id}")
     TournamentDto sendLiveResult(@Payload TournamentDto tournamentUpdated);

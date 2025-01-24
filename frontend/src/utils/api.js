@@ -239,6 +239,28 @@ export const deleteEvent = (idEvent) => {
   }
 }
 
+export const loadUsers = () => {
+  try{
+    const result =
+        axios.get(`http://localhost:8080/api/admin_manage/users`,{
+          withCredentials: true
+        })
+    return result
+  }catch(error){
+  }
+}
+
+export const deleteUser = (idUser) => {
+  try{
+    const result =
+        axios.delete(`http://localhost:8080/api/admin_manage/users/${idUser}`,{
+          withCredentials: true
+        })
+    return result
+  }catch(error){
+  }
+}
+
 // Auth
 export const refreshToken = () => {
   try {

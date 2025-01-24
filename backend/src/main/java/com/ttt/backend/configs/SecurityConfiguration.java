@@ -21,7 +21,8 @@ public class SecurityConfiguration {
 
     private static final String[] BLACK_LIST_URL = {"/api/manage/**"};
 
-    private static final String[] AUTHENTICATED_LIST = {"/auth/details"};
+    private static final String[] BLACK_LIST_ADMIN_URL = {"/auth/admin_manage/**"};
+
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -41,6 +42,8 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(req ->
                     req.requestMatchers(BLACK_LIST_URL)
                             .hasAnyAuthority("ADMIN", "MODERATOR")
+                            .requestMatchers(BLACK_LIST_ADMIN_URL)
+                            .hasAuthority("ADMIN")
                             .anyRequest()
                             .permitAll()
             )

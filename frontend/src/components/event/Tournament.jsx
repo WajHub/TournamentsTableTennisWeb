@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import NavTabs from "./tabs/NavTabs.jsx";
 import TabTitle from "./tabs/TabTitle.jsx";
 import TabContent from "./tabs/TabContent.jsx";
-import { useAuth } from "../../providers/AuthProvider.jsx";
+import {isMod, useAuth} from "../../providers/AuthProvider.jsx";
 import ManageTournament from "./tournament/admin-components/ManageTournament.jsx";
 import PlayerList from "../shared/PlayerList/PlayerList.jsx";
 import Draw from "./tournament/Draw.jsx";
@@ -37,7 +37,7 @@ function Tournament({tournament}) {
         />
 
         {/*TITLE TAB FOR ADMIN */}
-        {user ? (
+        {(user && isMod(user)) ? (
           <TabTitle
             key={`${tournament.id}_-1`}
             title="manage"
@@ -47,7 +47,7 @@ function Tournament({tournament}) {
         ) : (
           ""
         )}
-        {user ? (
+        {(user && isMod(user)) ? (
           <TabContent
             key={`${tournament.id}_-1`}
             id={`${tournament.id}_-1`}

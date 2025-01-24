@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth, isAuth, isMod } from "../../../providers/AuthProvider.jsx";
 import {deletePlayer} from "../../../utils/api.js";
+import {Button} from "@mui/material";
 
 function DeletePlayerButton({ idPlayer, updateData }) {
   const { user } = useAuth();
@@ -13,10 +14,10 @@ function DeletePlayerButton({ idPlayer, updateData }) {
   return (
     <>
       {isAuth(user) && isMod(user) ? (
-        <div className="btn btn-danger m-1" onClick={(e) => handleDeletion(e)}>
+        <Button variant="contained" color="error" className="m-1" onClick={(e) => handleDeletion(e)}>
           {" "}
           <i className="bi bi-trash"></i>
-        </div>
+        </Button>
       ) : (
         ""
       )}

@@ -19,7 +19,7 @@ function AddPlayerButton({ handleClick }) {
                             transition: { duration: 0.2 }
                           }
                         }>
-              <h1 className="text-success ">
+              <h1 className="text-success">
                 {" "}
                 <i className="bi bi-plus-circle"></i>
               </h1>

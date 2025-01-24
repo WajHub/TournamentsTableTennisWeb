@@ -3,6 +3,7 @@ import { useAuth, isAuth, isMod } from "../../../providers/AuthProvider.jsx";
 import axios from "axios";
 import { addPlayerToTournament } from "../../../utils/api.js";
 import {TournamentsContext} from "../../../providers/TournamentsInEventProvider.jsx";
+import {Button} from "@mui/material";
 
 function AddToTournamentButton({ idPlayer, idTournament }) {
 
@@ -21,10 +22,10 @@ function AddToTournamentButton({ idPlayer, idTournament }) {
   return (
     <>
       {isAuth(user) && isMod(user) ? (
-        <div className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
+        <Button variant="outlined" color="primary" onClick={(e) => handleSubmit(e)}>
           {" "}
           <i className="bi bi-plus-circle-dotted"></i>
-        </div>
+        </Button>
       ) : (
         ""
       )}

@@ -6,6 +6,7 @@ import Input from "../shared/Input.jsx";
 import * as Yup from "yup";
 import {setResultGame, submitTournament} from "../../utils/api.js";
 import {TournamentsContext} from "../../providers/TournamentsInEventProvider.jsx";
+import {Button} from "@mui/material";
 
 function FormTournament({ setDisplay }) {
   const { id } = useParams();
@@ -74,9 +75,9 @@ function FormTournament({ setDisplay }) {
           </div>
 
           <div className="col mb-3 text-center">
-            <button type="submit" className="btn btn-primary">
+            <Button variant="contained" color="primary" type="submit" >
               Submit
-            </button>
+            </Button>
           </div>
         </Form>
       )}

@@ -1,5 +1,6 @@
 import React from 'react';
 import {isAuth, isMod, useAuth} from "../../../providers/AuthProvider.jsx";
+import {Button} from "@mui/material";
 
 function EditPlayerButton({player, onEdit}) {
     const { user } = useAuth();
@@ -11,10 +12,10 @@ function EditPlayerButton({player, onEdit}) {
     return (
         <>
             {isAuth(user) && isMod(user) ? (
-                <div className="btn btn-primary m-1" onClick={(e) => handleEdit(e)}>
+                <Button variant="contained"  className="m-1" onClick={(e) => handleEdit(e)}>
                     {" "}
                     <i className="bi bi-pencil"></i>
-                </div>
+                </Button>
             ) : (
                 ""
             )}
