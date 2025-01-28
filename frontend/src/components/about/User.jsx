@@ -1,7 +1,20 @@
-import React from 'react';
-import {Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Typography} from "@mui/material";
+import React, {useState} from 'react';
+import {
+    Accordion,
+    AccordionActions,
+    AccordionDetails,
+    AccordionSummary,
+    Button,
+    FormControl, InputLabel, MenuItem, Select,
+    Typography
+} from "@mui/material";
 
-function User({user, onDelete}) {
+function User({user, onDelete, onEditRole}) {
+    const [userRole, setUserRole] = useState(user.role);
+
+    const handleChange = (event) => {
+        setUserRole(event.target.value);
+    };
 
     return (
         <div className="d-flex justify-content-center flex-wrap">
@@ -31,7 +44,22 @@ function User({user, onDelete}) {
                                 </li>
                                 <li className="list-group-item">
                                     <b>Role: </b>
-                                    {user.role}
+                                    {/*{user.role}*/}
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={userRole}
+                                            label="Role"
+                                            onChange={handleChange}
+                                            variant="outlined"
+                                        >
+                                            <MenuItem value="ADMIN">ADMIN</MenuItem>
+                                            <MenuItem value="MODERATOR">MODERATOR</MenuItem>
+                                            <MenuItem value="USER">USER</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </li>
                             </ul>
                         </div>
@@ -40,13 +68,22 @@ function User({user, onDelete}) {
             </AccordionDetails>
 
             <AccordionActions>
-                <Button color="primary" variant="outlined" disabled>Edit</Button>
+                <Button
+                    color="primary"
+                    variant="outlined"
+                    onClick={(e) => onEditRole(user.id, userRole)}
+                    disabled={userRole === user.role}
+                >
+                    Submit changes
+                </Button>
                 {user.role!=="ADMIN" &&
                     <Button
                         color="error"
                         variant="outlined"
                         onClick={(e) => onDelete(user.id)}
-                    >Delete</Button>
+                    >
+                        Delete
+                    </Button>
                 }
             </AccordionActions>
 

@@ -108,7 +108,7 @@ function FormGameResult({setDisplay, gameId, homeId, awayId, eventId}) {
     }
 
     return (
-        <div className="mt-4">
+        <div className="row mt-4">
             <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}

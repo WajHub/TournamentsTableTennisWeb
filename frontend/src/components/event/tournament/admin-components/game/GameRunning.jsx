@@ -63,11 +63,10 @@ function GameRunning({game, eventId}) {
                 isDisplayed={isOverlayDisplayed}
                 setDisplay={setOverlayDisplayed}
             >
-                <div className="row h4">
+                <div className="">
                     <div className="col-4 font-weight-bold">{home.name}</div>
                     <div className="col-4">vs</div>
                     <div className="col-4 font-weight-bold">{away.name}</div>
-
                 </div>
                 <FormGameResult setDisplay={setOverlayDisplayed} gameId={game.id} homeId={home.id} awayId={away.id} eventId={eventId}/>
             </Overlay>

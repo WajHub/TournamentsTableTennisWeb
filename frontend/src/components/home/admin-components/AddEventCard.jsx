@@ -7,7 +7,7 @@ function AddEventCard({ handleClick }) {
   return (
     <>
       {isAuth(user) && isMod(user) ? (
-        <div className="col-4" >
+        <div className="col-12 col-md-6 col-lg-4" >
           <motion.div className=" card event-card my-4 h-75" onClick={handleClick}
                       initial={{scale: 0, x:-10}} animate={{scale:1, x:0}}
                       whileHover={

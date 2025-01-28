@@ -261,6 +261,16 @@ export const deleteUser = (idUser) => {
   }
 }
 
+export const editRole = (idUser, newRole) => {
+  try{
+    const result =
+        axios.patch(`http://localhost:8080/api/admin_manage/users/${idUser}/${newRole}`,
+            {withCredentials: true})
+    return result
+  }catch(error){
+  }
+}
+
 // Auth
 export const refreshToken = () => {
   try {

@@ -173,7 +173,7 @@ function Home() {
                     .slice((pagination.page-1)*pagination.numberOfElementsPerPage,
                             pagination.numberOfElementsPerPage + (pagination.page-1) * pagination.numberOfElementsPerPage)
                     .map((event, index) => (
-                            <motion.div className="col-4"
+                            <motion.div className="col-12 col-md-6 col-lg-4"
                                         key={event.id}
                                         initial={{scale: 0, x: -10} }
                                         animate={{scale: 1, x: 0}}

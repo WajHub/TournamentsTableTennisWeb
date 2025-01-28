@@ -47,4 +47,13 @@ public class UserService {
                 },
                 () -> {throw new RuntimeException("User not found!");});
     }
+
+    public User editRole(Long id, Role role) {
+        return userRepository.findById(id).map(
+                (user) -> {
+                    user.setRole(role);
+                    return userRepository.save(user);
+                })
+                .orElseThrow(() -> new RuntimeException("User not found!"));
+    }
 }

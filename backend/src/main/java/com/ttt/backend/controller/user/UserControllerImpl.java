@@ -1,5 +1,6 @@
 package com.ttt.backend.controller.user;
 
+import com.ttt.backend.entity.Role;
 import com.ttt.backend.entity.User;
 import com.ttt.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,13 @@ public class UserControllerImpl implements  UserController{
     @Override
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @Override
+    public User editRole(Long id, String newRole) {
+        System.out.println(newRole);
+        Role role = Role.valueOf(newRole);
+        return userService.editRole(id, role);
     }
 
     @Override
