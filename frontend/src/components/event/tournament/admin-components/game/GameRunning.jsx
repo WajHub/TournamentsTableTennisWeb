@@ -63,12 +63,20 @@ function GameRunning({game, eventId}) {
                 isDisplayed={isOverlayDisplayed}
                 setDisplay={setOverlayDisplayed}
             >
-                <div className="">
-                    <div className="col-4 font-weight-bold">{home.name}</div>
-                    <div className="col-4">vs</div>
-                    <div className="col-4 font-weight-bold">{away.name}</div>
+                <div className="flex-column">
+                    <div className="container">
+                        <div className="row font-weight-bold">
+                            <div className="col-3  flex-fill">{home.name}</div>
+                            <div className="col-3 text-center flex-fill">vs</div>
+                            <div className="col-3 font-weight-bold flex-fill">{away.name}</div>
+                        </div>
+                    </div>
+                    <div className="d-flex">
+
+                    </div>
+                    <FormGameResult setDisplay={setOverlayDisplayed} gameId={game.id} homeId={home.id} awayId={away.id}
+                                    eventId={eventId}/>
                 </div>
-                <FormGameResult setDisplay={setOverlayDisplayed} gameId={game.id} homeId={home.id} awayId={away.id} eventId={eventId}/>
             </Overlay>
         </div>
     );
