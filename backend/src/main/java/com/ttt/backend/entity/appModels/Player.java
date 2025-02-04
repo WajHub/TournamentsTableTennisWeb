@@ -1,6 +1,7 @@
-package com.ttt.backend.entity;
+package com.ttt.backend.entity.appModels;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ttt.backend.entity.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 

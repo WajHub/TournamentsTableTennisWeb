@@ -1,7 +1,6 @@
 package com.ttt.backend.controller.user;
 
-import com.ttt.backend.entity.Role;
-import com.ttt.backend.entity.User;
+import com.ttt.backend.entity.auth.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

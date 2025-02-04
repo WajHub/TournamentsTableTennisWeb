@@ -10,6 +10,7 @@ import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import Players from "./components/players/Players.jsx";
 import TournamentsInEventProvider from "./providers/TournamentsInEventProvider.jsx";
 import PageNotFound from "./components/pageNotFound/pageNotFound.jsx";
+import ConfirmEmail from "./components/confirmEmail/ConfirmEmail.jsx";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
+          <Route exact path="/confirm_email" element={<ConfirmEmail />}></Route>
           <Route exatc path="/*" element={<PageNotFound />}></Route>
         </Routes>
       </Router>

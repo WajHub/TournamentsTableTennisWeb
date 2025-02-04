@@ -1,7 +1,7 @@
 package com.ttt.backend.configs;
 
 
-import com.ttt.backend.entity.RefreshToken;
+import com.ttt.backend.entity.auth.RefreshToken;
 import com.ttt.backend.service.JwtService;
 import com.ttt.backend.service.RefreshTokenService;
 import jakarta.servlet.FilterChain;

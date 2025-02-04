@@ -1,18 +1,16 @@
 package com.ttt.backend.service;
 
-import com.ttt.backend.dto.PlayerCategoryDto;
 import com.ttt.backend.dto.PlayerDto;
 import com.ttt.backend.mapper.MapperStructImpl;
-import com.ttt.backend.entity.Category;
-import com.ttt.backend.entity.Player;
-import com.ttt.backend.entity.PlayerCategory;
+import com.ttt.backend.entity.appModels.Category;
+import com.ttt.backend.entity.appModels.Player;
+import com.ttt.backend.entity.appModels.PlayerCategory;
 import com.ttt.backend.repository.CategoryRepository;
 import com.ttt.backend.repository.PlayerCategoryRepository;
 import com.ttt.backend.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

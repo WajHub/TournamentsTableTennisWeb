@@ -1,6 +1,6 @@
 package com.ttt.backend.repository;
 
-import com.ttt.backend.entity.Category;
+import com.ttt.backend.entity.appModels.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {

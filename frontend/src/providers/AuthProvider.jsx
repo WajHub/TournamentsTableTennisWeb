@@ -57,11 +57,16 @@ function AuthProvider({ children }) {
       );
       const { username, email, role, fullName } = response.data.user;
       setUser({ username, email, role, fullName });
-      return true;
+      return {
+        isCorrect: true,
+        message: ""
+      };
     } catch (error) {
-      console.log("ERR");
       setUser(null);
-      return false;
+      return {
+        isCorrect: false,
+        message: error.response.data
+      };
     }
   }
 

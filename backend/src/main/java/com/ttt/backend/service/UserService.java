@@ -1,7 +1,7 @@
 package com.ttt.backend.service;
 
-import com.ttt.backend.entity.Role;
-import com.ttt.backend.entity.User;
+import com.ttt.backend.entity.enums.Role;
+import com.ttt.backend.entity.auth.User;
 import com.ttt.backend.repository.RefreshTokenRepository;
 import com.ttt.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +55,10 @@ public class UserService {
                     return userRepository.save(user);
                 })
                 .orElseThrow(() -> new RuntimeException("User not found!"));
+    }
+
+    public User activeAccount(User user){
+        user.setIsActive(true);
+        return user;
     }
 }

@@ -1,7 +1,7 @@
 package com.ttt.backend.service;
 
 import com.ttt.backend.dto.EventDto;
-import com.ttt.backend.entity.Event;
+import com.ttt.backend.entity.appModels.Event;
 import com.ttt.backend.mapper.MapperStructImpl;
 import com.ttt.backend.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;

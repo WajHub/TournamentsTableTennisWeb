@@ -281,3 +281,14 @@ export const refreshToken = () => {
     // throw error;
   }
 }
+
+export const confirmEmail = (token) => {
+  try {
+    return axios.post(`http://localhost:8080/auth/confirm_email?token=${token}`, {}, {
+      withCredentials: true
+    });
+  } catch(error) {
+    throw error;
+  }
+}
+

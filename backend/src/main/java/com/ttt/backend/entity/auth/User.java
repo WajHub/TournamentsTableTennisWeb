@@ -1,5 +1,7 @@
-package com.ttt.backend.entity;
+package com.ttt.backend.entity.auth;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ttt.backend.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
@@ -28,22 +31,38 @@ public class User implements UserDetails {
     @Column(nullable = false, name = "fullname")
     private String fullName;
 
+    @Setter
     @Column(unique = true, length = 100, nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
+    @Setter
     @Column(nullable = false)
     private Role role;
 
+    @Column(nullable = false)
+    @Setter
+    private Boolean isActive = false;
+
+    @Setter
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
+    @Setter
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonBackReference
+    private ConfirmationToken confirmationToken;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonBackReference
+    private RefreshToken refreshToken;
 
 
     @Override
@@ -55,7 +74,6 @@ public class User implements UserDetails {
     public String getUsername() {
         return getEmail();
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -76,34 +94,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
 
 }

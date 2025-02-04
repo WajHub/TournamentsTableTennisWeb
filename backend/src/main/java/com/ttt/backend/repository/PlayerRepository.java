@@ -1,6 +1,6 @@
 package com.ttt.backend.repository;
 
-import com.ttt.backend.entity.Player;
+import com.ttt.backend.entity.appModels.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

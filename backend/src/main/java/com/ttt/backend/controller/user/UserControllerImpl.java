@@ -1,7 +1,7 @@
 package com.ttt.backend.controller.user;
 
-import com.ttt.backend.entity.Role;
-import com.ttt.backend.entity.User;
+import com.ttt.backend.entity.enums.Role;
+import com.ttt.backend.entity.auth.User;
 import com.ttt.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;

@@ -22,11 +22,11 @@ function FormSingIn() {
 
   const onSubmit = async (values) => {
     const result = await handleSignIn(values);
-    if (result) {
+    if (result.isCorrect) {
       setError(null);
       navigate("/");
     } else {
-      setError("Invalid login credentials. Please try again.")
+      setError(result.message);
     }
   };
 

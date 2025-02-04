@@ -25,7 +25,10 @@ function User({user, onDelete, onEditRole}) {
                 aria-controls="panel1-content"
                 id="panel1-header"
             >
-                <Typography component="span">{user.username}({user.role})</Typography>
+                <Typography
+                    component="span">
+                    {user.username}({user.role} - {user.isActive ? ("ACTIVATED") : ("NOT ACTIVATED")})
+                </Typography>
             </AccordionSummary>
 
             <AccordionDetails className="d-flex justify-content-center">

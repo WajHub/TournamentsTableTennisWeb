@@ -40,22 +40,23 @@ public class SecurityConfiguration {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(req ->
-                    req.requestMatchers(BLACK_LIST_URL)
-                            .hasAnyAuthority("ADMIN", "MODERATOR")
-                            .requestMatchers(BLACK_LIST_ADMIN_URL)
-                            .hasAuthority("ADMIN")
-                            .anyRequest()
-                            .permitAll()
+                req
+                    .requestMatchers(BLACK_LIST_URL)
+                    .hasAnyAuthority("ADMIN", "MODERATOR")
+                    .requestMatchers(BLACK_LIST_ADMIN_URL)
+                    .hasAuthority("ADMIN")
+                    .anyRequest()
+                    .permitAll()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .logout((logout) ->
-                    logout.logoutUrl("http://localhost:8080/auth/signout")
-                            .invalidateHttpSession(true)
-                            .clearAuthentication(true)
-                            .logoutSuccessUrl("http://localhost:3000")
-                            .permitAll());
+                logout.logoutUrl("http://localhost:8080/auth/signout")
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .logoutSuccessUrl("http://localhost:3000")
+                    .permitAll());
         return http.build();
     }
 

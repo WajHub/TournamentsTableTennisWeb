@@ -1,7 +1,7 @@
 package com.ttt.backend.dto.response;
 
 
-import com.ttt.backend.entity.User;
+import com.ttt.backend.entity.auth.User;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,8 +1,8 @@
 package com.ttt.backend.service;
 
 import com.ttt.backend.exception.TokenRefreshException;
-import com.ttt.backend.entity.RefreshToken;
-import com.ttt.backend.entity.User;
+import com.ttt.backend.entity.auth.RefreshToken;
+import com.ttt.backend.entity.auth.User;
 import com.ttt.backend.repository.RefreshTokenRepository;
 import com.ttt.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +52,6 @@ public class RefreshTokenService {
 
         return token;
     }
-
-
 
     @Transactional
     public int deleteByUserId(Long userId) {

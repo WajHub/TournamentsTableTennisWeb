@@ -1,7 +1,7 @@
 package com.ttt.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ttt.backend.entity.Gender;
+import com.ttt.backend.entity.enums.Gender;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

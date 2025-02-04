@@ -2,7 +2,7 @@ package com.ttt.backend.service;
 
 import com.ttt.backend.dto.CategoryDto;
 import com.ttt.backend.mapper.MapperStructImpl;
-import com.ttt.backend.entity.Category;
+import com.ttt.backend.entity.appModels.Category;
 import com.ttt.backend.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

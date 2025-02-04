@@ -4,7 +4,7 @@ import com.ttt.backend.dto.*;
 import com.ttt.backend.dto.request.GameDtoRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
 import com.ttt.backend.dto.response.PlayerDtoResponseInGame;
-import com.ttt.backend.entity.*;
+import com.ttt.backend.entity.appModels.*;
 
 import java.util.List;
 

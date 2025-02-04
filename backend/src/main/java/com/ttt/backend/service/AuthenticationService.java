@@ -3,8 +3,8 @@ package com.ttt.backend.service;
 
 import com.ttt.backend.dto.RegisterUserDto;
 import com.ttt.backend.dto.LoginUserDto;
-import com.ttt.backend.entity.Role;
-import com.ttt.backend.entity.User;
+import com.ttt.backend.entity.enums.Role;
+import com.ttt.backend.entity.auth.User;
 import com.ttt.backend.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,19 +35,24 @@ public class AuthenticationService {
                 .email(input.getEmail())
                 .password(passwordEncoder.encode(input.getPassword()))
                 .role(Role.USER)
+                .isActive(false)
                 .build();
         return userRepository.save(user);
     }
 
     public User authenticate(LoginUserDto input) {
+        User user = userRepository.findByEmail(input.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if(!user.getIsActive()){
+            throw new RuntimeException("Account not verified. Please verify your account.");
+        }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getEmail(),
                         input.getPassword()
                 )
         );
-
-        return userRepository.findByEmail(input.getEmail())
-                .orElseThrow();
+        return user;
     }
 }

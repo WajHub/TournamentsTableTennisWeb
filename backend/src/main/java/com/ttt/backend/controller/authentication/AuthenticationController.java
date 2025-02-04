@@ -1,4 +1,4 @@
-package com.ttt.backend.controller;
+package com.ttt.backend.controller.authentication;
 
 import com.ttt.backend.dto.LoginUserDto;
 import com.ttt.backend.dto.RegisterUserDto;
@@ -30,6 +30,10 @@ public interface AuthenticationController {
     @PostMapping("/refreshtoken")
     @ResponseStatus(HttpStatus.OK)
     ResponseEntity<?> refreshtoken(HttpServletResponse response);
+
+    @PostMapping("/confirm_email")
+    @ResponseStatus(HttpStatus.OK)
+    ResponseEntity<?> confirmEmail(@RequestParam String token);
 
     Cookie saveToken(String nameOfToken, String token, String Path, int expirationTime);
 }

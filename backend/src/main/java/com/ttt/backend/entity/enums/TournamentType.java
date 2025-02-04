@@ -1,4 +1,4 @@
-package com.ttt.backend.entity;
+package com.ttt.backend.entity.enums;
 
 public enum TournamentType {
     SINGLE_ELIMINATION,

@@ -13,6 +13,7 @@ function About() {
       loadUsers().then((result) => {
         if (result.status === 200) {
           setUsers(result.data)
+          console.log(result.data)
         }
       })
     }
