@@ -10,6 +10,7 @@ import com.ttt.backend.exception.UserNotFoundException;
 import com.ttt.backend.entity.auth.RefreshToken;
 import com.ttt.backend.entity.auth.User;
 import com.ttt.backend.service.*;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,11 +26,13 @@ import java.util.Optional;
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationControllerImpl implements AuthenticationController {
+
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
     private final RefreshTokenService refreshTokenService;
     private final ConfirmationTokenService confirmationTokenService;
     private final UserService userService;
+    private final EmailService emailService;
 
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
@@ -37,12 +40,13 @@ public class AuthenticationControllerImpl implements AuthenticationController {
     @Value("${security.refresh_jwt.expiration-time}")
     private long refreshTokenExpiration;
 
-    public AuthenticationControllerImpl(JwtService jwtService, AuthenticationService authenticationService, RefreshTokenService refreshTokenService, ConfirmationTokenService confirmationTokenService, UserService userService) {
+    public AuthenticationControllerImpl(JwtService jwtService, AuthenticationService authenticationService, RefreshTokenService refreshTokenService, ConfirmationTokenService confirmationTokenService, UserService userService, EmailService emailService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
         this.refreshTokenService = refreshTokenService;
         this.confirmationTokenService = confirmationTokenService;
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -50,7 +54,28 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         if(userService.existsWithEmail(registerUserDto.getEmail())) return new ResponseEntity<>("Email is already in use", HttpStatus.CONFLICT);
         User registeredUser = authenticationService.signup(registerUserDto);
         ConfirmationToken confirmationToken = confirmationTokenService.createConfirmationToken(registeredUser);
-        System.out.println(confirmationToken.toString());
+        String subject = "Account Verification";
+        String verificationLink = "http://localhost:3000/confirm_email?token=" + confirmationToken.getToken();
+        String htmlMessage =
+                "<html>"
+                        + "<body style=\"font-family: Arial, sans-serif;\">"
+                        + "<div style=\"background-color: #f5f5f5; padding: 20px;\">"
+                        + "<h2 style=\"color: #333;\">Welcome to our app!</h2>"
+                        + "<p style=\"font-size: 16px;\">Please enter the verification code below to continue:</p>"
+                        + "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
+                        + "<p><a href=\"" + verificationLink + "\" style=\"font-size: 18px; font-weight: bold; color: #007bff; text-decoration: none;\">Verify Your Account</a></p>"
+                        + "<p style=\"font-size: 18px; font-weight: bold; color: #007bff;\">" + "</p>"
+                        + "</div>"
+                        + "</div>"
+                        + "</body>"
+                        + "</html>";
+
+        try {
+            emailService.sendVerificationEmail(registeredUser.getEmail() , subject, htmlMessage);
+        } catch (MessagingException e) {
+            // Handle email sending exception
+            e.printStackTrace();
+        }
         return ResponseEntity.ok(confirmationToken.getToken());
     }
 
