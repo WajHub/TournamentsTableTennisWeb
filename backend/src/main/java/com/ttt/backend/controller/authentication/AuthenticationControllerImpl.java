@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @RequestMapping("/auth")
@@ -54,30 +55,20 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         if(userService.existsWithEmail(registerUserDto.getEmail())) return new ResponseEntity<>("Email is already in use", HttpStatus.CONFLICT);
         User registeredUser = authenticationService.signup(registerUserDto);
         ConfirmationToken confirmationToken = confirmationTokenService.createConfirmationToken(registeredUser);
-        String subject = "Account Verification";
-        String verificationLink = "http://localhost:3000/confirm_email?token=" + confirmationToken.getToken();
-        String htmlMessage =
-                "<html>"
-                        + "<body style=\"font-family: Arial, sans-serif;\">"
-                        + "<div style=\"background-color: #f5f5f5; padding: 20px;\">"
-                        + "<h2 style=\"color: #333;\">Welcome to our app!</h2>"
-                        + "<p style=\"font-size: 16px;\">Please enter the verification code below to continue:</p>"
-                        + "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
-                        + "<p><a href=\"" + verificationLink + "\" style=\"font-size: 18px; font-weight: bold; color: #007bff; text-decoration: none;\">Verify Your Account</a></p>"
-                        + "<p style=\"font-size: 18px; font-weight: bold; color: #007bff;\">" + "</p>"
-                        + "</div>"
-                        + "</div>"
-                        + "</body>"
-                        + "</html>";
-
         try {
-            emailService.sendVerificationEmail(registeredUser.getEmail() , subject, htmlMessage);
-        } catch (MessagingException e) {
-            // Handle email sending exception
-            e.printStackTrace();
+            emailService.sendEmailVerification(
+                    registeredUser.getEmail(),
+                    "Account Verification",
+                    registeredUser.getFullName(),
+                    confirmationToken.getToken()
+            );
+            return ResponseEntity.ok(confirmationToken.getToken());
+        } catch (IOException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(confirmationToken.getToken());
     }
+
+
 
     @Override
     public ResponseEntity<?> authenticate(@RequestBody LoginUserDto loginUserDto, HttpServletResponse response, HttpServletRequest request){
@@ -142,6 +133,7 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         confirmationTokenService.activeUserByToken(token);
         return new ResponseEntity<>("User is activated!", HttpStatus.OK);
     }
+
 
     @Override
     public Cookie saveToken(String nameOfToken, String token, String path, int expirationTime) {

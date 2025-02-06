@@ -1,27 +1,50 @@
 package com.ttt.backend.service;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import com.sendgrid.*;
+import java.io.IOException;
 
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender emailSender;
+    @Value("${security.sendgrid.api-key}")
+    private String api_key;
 
-    public void sendVerificationEmail(String to, String subject, String text) throws MessagingException{
-        MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    private final Email emailFrom = new Email("amdministator.ttt@gmail.com");
 
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(text, true);
+    public void sendEmailVerification(String to, String subject, String userName, String token) throws IOException {
+        Email emailTo = new Email(to);
+        Content emailContent = new Content(
+                "text/html",
+                getTemplate(userName, token));
+        Mail mail = new Mail(emailFrom, subject, emailTo, emailContent);
 
-        emailSender.send(message);
+        SendGrid sg = new SendGrid(api_key);
+        Request request = new Request();
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mail.build());
+        Response response = sg.api(request);
+        response.getStatusCode();
+    }
+
+    private static String getTemplate(String userName, String confirmationToken) {
+        String verificationLink = "http://localhost:3000/confirm_email?token=" + confirmationToken;
+        return "<html>"
+                + "<body style=\"font-family: Arial, sans-serif;\">"
+                + "<div style=\"background-color: #f5f5f5; padding: 20px;\">"
+                + "<h2 style=\"color: #333;\">Welcome to our app "+userName+"!</h2>"
+                + "<p style=\"font-size: 16px;\">Please enter the verification code below to continue:</p>"
+                + "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
+                + "<p><a href=\"" + verificationLink + "\" style=\"font-size: 18px; font-weight: bold; color: #007bff; text-decoration: none;\">Verify Your Account</a></p>"
+                + "<p style=\"font-size: 18px; font-weight: bold; color: #007bff;\">" + "</p>"
+                + "</div>"
+                + "</div>"
+                + "</body>"
+                + "</html>";
     }
 }
