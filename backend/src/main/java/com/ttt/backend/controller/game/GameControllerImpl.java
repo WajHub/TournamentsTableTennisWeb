@@ -4,7 +4,7 @@ import com.ttt.backend.dto.TournamentDto;
 import com.ttt.backend.dto.request.GameDtoRequest;
 import com.ttt.backend.dto.request.GameResultRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
-import com.ttt.backend.entity.enums.GameState;
+import com.ttt.backend.model.enums.GameState;
 import com.ttt.backend.service.GameService;
 import com.ttt.backend.validaton.GameResultValidation;
 import org.springframework.beans.factory.annotation.Autowired;

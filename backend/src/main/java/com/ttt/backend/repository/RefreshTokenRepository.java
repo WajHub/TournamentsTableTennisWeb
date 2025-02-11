@@ -1,7 +1,7 @@
 package com.ttt.backend.repository;
 
-import com.ttt.backend.entity.auth.RefreshToken;
-import com.ttt.backend.entity.auth.User;
+import com.ttt.backend.model.entity.auth.RefreshToken;
+import com.ttt.backend.model.entity.auth.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;

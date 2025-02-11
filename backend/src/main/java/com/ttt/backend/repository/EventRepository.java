@@ -1,6 +1,6 @@
 package com.ttt.backend.repository;
 
-import com.ttt.backend.entity.appModels.Event;
+import com.ttt.backend.model.entity.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,24 +1,28 @@
 package com.ttt.backend.controller.user;
 
-import com.ttt.backend.entity.auth.User;
+import com.ttt.backend.dto.request.ChangePasswordRequest;
+import com.ttt.backend.model.entity.auth.User;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
-@RequestMapping("api/admin_manage")
+@RequestMapping("api")
 public interface UserController {
 
-    @GetMapping("/users")
+    @GetMapping("/admin_manage/users")
     @ResponseStatus(HttpStatus.OK)
     List<User> getAllUsers();
 
-    @PatchMapping("/users/{id}/{newRole}")
+    @PatchMapping("/admin_manage/users/{id}/{newRole}")
     @ResponseStatus(HttpStatus.OK)
     User editRole(@PathVariable Long id, @PathVariable String newRole);
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/admin_manage/users/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable Long id);
+
+
 }

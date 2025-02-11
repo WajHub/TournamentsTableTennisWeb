@@ -47,6 +47,10 @@ const SignUpForm = () => {
         resetForm();
       }
     } catch (error) {
+      setMessage({
+        content: error.response.data,
+        type: "danger",
+      });
       resetForm();
     }
   };

@@ -1,8 +1,8 @@
-package com.ttt.backend.entity.appModels;
+package com.ttt.backend.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.ttt.backend.entity.enums.CategoryType;
-import com.ttt.backend.entity.enums.Gender;
+import com.ttt.backend.model.enums.CategoryType;
+import com.ttt.backend.model.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

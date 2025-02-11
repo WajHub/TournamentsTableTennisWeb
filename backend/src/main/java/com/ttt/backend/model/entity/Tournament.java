@@ -1,6 +1,6 @@
-package com.ttt.backend.entity.appModels;
+package com.ttt.backend.model.entity;
 
-import com.ttt.backend.entity.enums.TournamentType;
+import com.ttt.backend.model.enums.TournamentType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

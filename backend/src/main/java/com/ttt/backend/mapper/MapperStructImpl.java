@@ -4,8 +4,8 @@ import com.ttt.backend.dto.*;
 import com.ttt.backend.dto.request.GameDtoRequest;
 import com.ttt.backend.dto.response.GameDtoResponse;
 import com.ttt.backend.dto.response.PlayerDtoResponseInGame;
-import com.ttt.backend.entity.appModels.*;
-import com.ttt.backend.entity.enums.GameState;
+import com.ttt.backend.model.entity.*;
+import com.ttt.backend.model.enums.GameState;
 import org.springframework.stereotype.Component;
 
 import java.util.*;

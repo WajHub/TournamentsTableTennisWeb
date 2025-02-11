@@ -1,8 +1,8 @@
 package com.ttt.backend.service;
 
 import com.ttt.backend.exception.TokenRefreshException;
-import com.ttt.backend.entity.auth.RefreshToken;
-import com.ttt.backend.entity.auth.User;
+import com.ttt.backend.model.entity.auth.RefreshToken;
+import com.ttt.backend.model.entity.auth.User;
 import com.ttt.backend.repository.RefreshTokenRepository;
 import com.ttt.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,6 +2,7 @@ package com.ttt.backend.controller.authentication;
 
 import com.ttt.backend.dto.LoginUserDto;
 import com.ttt.backend.dto.RegisterUserDto;
+import com.ttt.backend.dto.request.ChangePasswordRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,6 +35,10 @@ public interface AuthenticationController {
     @PostMapping("/confirm_email")
     @ResponseStatus(HttpStatus.OK)
     ResponseEntity<?> confirmEmail(@RequestParam String token);
+
+    @PatchMapping("/new_password")
+    @ResponseStatus(HttpStatus.OK)
+    ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest);
 
     Cookie saveToken(String nameOfToken, String token, String Path, int expirationTime);
 }

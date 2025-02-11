@@ -1,6 +1,6 @@
-package com.ttt.backend.entity.appModels;
+package com.ttt.backend.model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.ttt.backend.entity.enums.GameState;
+import com.ttt.backend.model.enums.GameState;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,10 +1,12 @@
 package com.ttt.backend.service;
 
-import com.ttt.backend.entity.enums.Role;
-import com.ttt.backend.entity.auth.User;
+import com.ttt.backend.dto.request.ChangePasswordRequest;
+import com.ttt.backend.model.enums.Role;
+import com.ttt.backend.model.entity.auth.User;
 import com.ttt.backend.repository.RefreshTokenRepository;
 import com.ttt.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

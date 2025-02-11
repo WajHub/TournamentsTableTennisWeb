@@ -1,4 +1,4 @@
-package com.ttt.backend.entity.auth;
+package com.ttt.backend.model.entity.auth;
 
 import jakarta.persistence.*;
 import lombok.Getter;

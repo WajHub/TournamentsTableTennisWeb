@@ -1,4 +1,4 @@
-package com.ttt.backend.entity.appModels;
+package com.ttt.backend.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

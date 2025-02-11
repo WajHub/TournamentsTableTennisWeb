@@ -19,7 +19,9 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private static final String[] BLACK_LIST_URL = {"/api/manage/**"};
+    private static final String [] BLACK_LIST_USER_URL = {"api/users/**"};
+
+    private static final String[] BLACK_LIST_MOD_URL = {"/api/manage/**"};
 
     private static final String[] BLACK_LIST_ADMIN_URL = {"/auth/admin_manage/**"};
 
@@ -41,10 +43,12 @@ public class SecurityConfiguration {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(req ->
                 req
-                    .requestMatchers(BLACK_LIST_URL)
-                    .hasAnyAuthority("ADMIN", "MODERATOR")
+                    .requestMatchers(BLACK_LIST_USER_URL)
+                        .authenticated()
+                    .requestMatchers(BLACK_LIST_MOD_URL)
+                        .hasAnyAuthority("ADMIN", "MODERATOR")
                     .requestMatchers(BLACK_LIST_ADMIN_URL)
-                    .hasAuthority("ADMIN")
+                        .hasAuthority("ADMIN")
                     .anyRequest()
                     .permitAll()
             )

@@ -2,15 +2,15 @@ package com.ttt.backend.controller.authentication;
 
 import com.ttt.backend.dto.LoginUserDto;
 import com.ttt.backend.dto.RegisterUserDto;
+import com.ttt.backend.dto.request.ChangePasswordRequest;
 import com.ttt.backend.dto.response.JwtResponse;
 import com.ttt.backend.dto.response.TokenRefreshResponse;
-import com.ttt.backend.entity.auth.ConfirmationToken;
+import com.ttt.backend.model.entity.auth.ConfirmationToken;
 import com.ttt.backend.exception.TokenRefreshException;
 import com.ttt.backend.exception.UserNotFoundException;
-import com.ttt.backend.entity.auth.RefreshToken;
-import com.ttt.backend.entity.auth.User;
+import com.ttt.backend.model.entity.auth.RefreshToken;
+import com.ttt.backend.model.entity.auth.User;
 import com.ttt.backend.service.*;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -67,8 +67,6 @@ public class AuthenticationControllerImpl implements AuthenticationController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
-
 
     @Override
     public ResponseEntity<?> authenticate(@RequestBody LoginUserDto loginUserDto, HttpServletResponse response, HttpServletRequest request){
@@ -134,6 +132,20 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         return new ResponseEntity<>("User is activated!", HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<?> changePassword(ChangePasswordRequest changePasswordRequest) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            try{
+                authenticationService.changePassword(changePasswordRequest, (User) principal);
+                return new ResponseEntity<>("Password has been changed.", HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>("User is not authenticated", HttpStatus.UNAUTHORIZED);
+        }
+    }
 
     @Override
     public Cookie saveToken(String nameOfToken, String token, String path, int expirationTime) {

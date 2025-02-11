@@ -1,7 +1,7 @@
-package com.ttt.backend.entity.auth;
+package com.ttt.backend.model.entity.auth;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.ttt.backend.entity.enums.Role;
+import com.ttt.backend.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,6 +36,7 @@ public class User implements UserDetails {
     private String email;
 
     @Column(nullable = false)
+    @Setter
     private String password;
 
     @Setter

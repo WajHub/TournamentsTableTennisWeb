@@ -1,6 +1,6 @@
 package com.ttt.backend.repository;
 
-import com.ttt.backend.entity.auth.ConfirmationToken;
+import com.ttt.backend.model.entity.auth.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

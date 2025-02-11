@@ -1,7 +1,7 @@
 package com.ttt.backend.service;
 
-import com.ttt.backend.entity.auth.ConfirmationToken;
-import com.ttt.backend.entity.auth.User;
+import com.ttt.backend.model.entity.auth.ConfirmationToken;
+import com.ttt.backend.model.entity.auth.User;
 import com.ttt.backend.repository.ConfirmationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

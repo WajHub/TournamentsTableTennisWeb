@@ -1,7 +1,7 @@
 package com.ttt.backend.repository;
 
-import com.ttt.backend.entity.appModels.Player;
-import com.ttt.backend.entity.appModels.PlayerCategory;
+import com.ttt.backend.model.entity.Player;
+import com.ttt.backend.model.entity.PlayerCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

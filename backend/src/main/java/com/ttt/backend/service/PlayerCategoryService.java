@@ -2,9 +2,9 @@ package com.ttt.backend.service;
 
 import com.ttt.backend.dto.PlayerCategoryDto;
 import com.ttt.backend.mapper.MapperStructImpl;
-import com.ttt.backend.entity.appModels.Category;
-import com.ttt.backend.entity.appModels.Player;
-import com.ttt.backend.entity.appModels.PlayerCategory;
+import com.ttt.backend.model.entity.Category;
+import com.ttt.backend.model.entity.Player;
+import com.ttt.backend.model.entity.PlayerCategory;
 import com.ttt.backend.repository.PlayerCategoryRepository;
 import org.springframework.stereotype.Service;
 
