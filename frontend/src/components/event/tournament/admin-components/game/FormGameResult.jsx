@@ -119,26 +119,37 @@ function FormGameResult({setDisplay, gameId, homeId, awayId, eventId}) {
                                 <div className="row justify-content-center font-weight-bold">Set {index+1}</div>
                                 <div className="row justify-content-center" >
                                     <div className="col-auto">
-                                        <Field style={{ width: "7vw" }} size="small" type="number" name={`pointsHome[${index}]`} value={values.pointsHome[index]}
-                                                                onChange={(e) => {
-                                                                    setFieldValue(`pointsHome[${index}]`, Number(e.target.value)).then(r => {});
-                                                                }}
-                                                               onBlur={(e) => {
-                                                                   setFieldValue(`pointsHome[${index}]`, Number(e.target.value)).then(r => {});
-                                                                   handleChangeResult(values)
-                                                               }}/></div>
+                                        <Field
+                                            style={{ width: "7vw" }}
+                                            size="small"
+                                            type="number"
+                                            name={`pointsHome[${index}]`}
+                                            value={values.pointsHome[index]}
+                                            onChange={(e) => {
+                                                setFieldValue(`pointsHome[${index}]`, Number(e.target.value)).then(r => {});
+                                            }}
+                                           onBlur={(e) => {
+                                               setFieldValue(`pointsHome[${index}]`, Number(e.target.value)).then(r => {});
+                                               handleChangeResult(values)
+                                           }}/>
+                                    </div>
                                     <div className="col-auto font-weight-bold">:</div>
                                     <div className="col-auto">
-                                        <Field style={{ width: "7vw" }} type="number" name={`pointsAway[${index}]`} value={values.pointsAway[index]}
-                                                                onChange={(e) => {
-                                                                    setFieldValue(`pointsAway[${index}]`, Number(e.target.value)).then(r => {});
+                                        <Field
+                                            style={{ width: "7vw" }}
+                                            type="number"
+                                            name={`pointsAway[${index}]`}
+                                            value={values.pointsAway[index]}
+                                            onChange={(e) => {
+                                                setFieldValue(`pointsAway[${index}]`, Number(e.target.value)).then(r => {});
 
 
-                                                                }}
-                                                                onBlur={(e) => {
-                                                                    setFieldValue(`pointsAway[${index}]`, Number(e.target.value)).then(r => {});
-                                                                    handleChangeResult(values)
-                                                                }}/></div>
+                                            }}
+                                            onBlur={(e) => {
+                                                setFieldValue(`pointsAway[${index}]`, Number(e.target.value)).then(r => {});
+                                                handleChangeResult(values)
+                                            }}/>
+                                    </div>
 
                                 </div>
                                 <ErrorMessage name={`pointsHome[${index}]`}>

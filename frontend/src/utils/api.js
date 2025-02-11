@@ -292,3 +292,17 @@ export const confirmEmail = (token) => {
   }
 }
 
+export const changePassword = (changePasswordRequest) => {
+  try {
+     console.log(changePasswordRequest)
+    return axios.patch(`http://localhost:8080/auth/new_password`,
+        changePasswordRequest,
+        {withCredentials: true}
+    );
+  } catch(error) {
+    throw error;
+  }
+}
+
+
+

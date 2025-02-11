@@ -3,6 +3,7 @@ import {isMod, useAuth} from "../../providers/AuthProvider.jsx";
 import {deleteUser, editRole, loadUsers} from "../../utils/api.js";
 import User from "./User.jsx";
 import Profile from "./Profile.jsx";
+import {Button} from "@mui/material";
 
 function About() {
   const { user } = useAuth();
@@ -53,6 +54,7 @@ function About() {
                     onEditRole={handleEdit}
                 />)
         }
+
       </div>
   );
 }

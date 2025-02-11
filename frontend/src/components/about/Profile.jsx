@@ -1,6 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {Button} from "@mui/material";
+import Overlay from "../shared/Overlay.jsx";
+import ChangePasswordForm from "./ChangePasswordForm.jsx";
 
 function Profile({user}) {
+    const [isOverlay, setOverlay] = useState(false);
+
+    const handleShowOverlay = () => {
+        setOverlay(true);
+    }
+
+    const handleChangePassword = () => {
+
+    }
+
     return (
         <div className="d-flex justify-content-center flex-wrap">
             <div className="border rounded p-4 mt-2 shadow w-50">
@@ -22,8 +35,19 @@ function Profile({user}) {
                             </li>
                         </ul>
                     </div>
+                    <Button
+                        onClick={handleShowOverlay}
+                    >
+                        Change password
+                    </Button>
                 </div>
             </div>
+            <Overlay
+                isDisplayed={isOverlay}
+                setDisplay={setOverlay}
+            >
+                <ChangePasswordForm />
+            </Overlay>
         </div>
     );
 
