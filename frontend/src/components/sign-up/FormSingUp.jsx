@@ -4,7 +4,9 @@ import * as Yup from "yup";
 import axios from "axios";
 import Input from "../shared/Input.jsx";
 import Message from "../shared/Message.jsx";
+
 const SignUpForm = () => {
+
   const [message, setMessage] = useState({
     content: "",
     type: "",

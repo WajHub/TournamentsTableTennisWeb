@@ -8,8 +8,6 @@ import {changePassword} from "../../utils/api.js";
 
 function ChangePasswordForm() {
 
-    const[error, setError] = useState(null);
-
     const [message, setMessage] = useState({
         content: "",
         type: "",
@@ -30,7 +28,6 @@ function ChangePasswordForm() {
     const onSubmit = async (values, {resetForm}) => {
         changePassword(values).then((response) =>{
             if (response.status === 200) {
-                console.log(response)
                 setMessage({
                     content: response.data,
                     type: "success",

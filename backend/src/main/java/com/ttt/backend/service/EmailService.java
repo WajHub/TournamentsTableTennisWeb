@@ -16,11 +16,11 @@ public class EmailService {
 
     private final Email emailFrom = new Email("amdministator.ttt@gmail.com");
 
-    public void sendEmailVerification(String to, String subject, String userName, String token) throws IOException {
+    public void sendEmail(String to, String subject, String userName, String token) throws IOException {
         Email emailTo = new Email(to);
         Content emailContent = new Content(
                 "text/html",
-                getTemplate(userName, token));
+                getTemplate(userName, token, subject));
         Mail mail = new Mail(emailFrom, subject, emailTo, emailContent);
 
         SendGrid sg = new SendGrid(api_key);
@@ -32,7 +32,7 @@ public class EmailService {
         response.getStatusCode();
     }
 
-    private static String getTemplate(String userName, String confirmationToken) {
+    private static String getTemplate(String userName, String confirmationToken, String subject) {
         String verificationLink = "http://localhost:3000/confirm_email?token=" + confirmationToken;
         return "<html>"
                 + "<body style=\"font-family: Arial, sans-serif;\">"
@@ -40,7 +40,7 @@ public class EmailService {
                 + "<h2 style=\"color: #333;\">Welcome to our app "+userName+"!</h2>"
                 + "<p style=\"font-size: 16px;\">Please enter the verification code below to continue:</p>"
                 + "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
-                + "<p><a href=\"" + verificationLink + "\" style=\"font-size: 18px; font-weight: bold; color: #007bff; text-decoration: none;\">Verify Your Account</a></p>"
+                + "<p><a href=\"" + verificationLink + "\" style=\"font-size: 18px; font-weight: bold; color: #007bff; text-decoration: none;\">"+subject+"</a></p>"
                 + "<p style=\"font-size: 18px; font-weight: bold; color: #007bff;\">" + "</p>"
                 + "</div>"
                 + "</div>"

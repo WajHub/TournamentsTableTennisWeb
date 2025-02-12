@@ -2,13 +2,16 @@ package com.ttt.backend.controller.authentication;
 
 import com.ttt.backend.dto.LoginUserDto;
 import com.ttt.backend.dto.RegisterUserDto;
+import com.ttt.backend.dto.request.ChangePasswordByEmailRequest;
 import com.ttt.backend.dto.request.ChangePasswordRequest;
+import com.ttt.backend.dto.request.ResetPasswordRequest;
 import com.ttt.backend.dto.response.JwtResponse;
 import com.ttt.backend.dto.response.TokenRefreshResponse;
 import com.ttt.backend.model.entity.auth.ConfirmationToken;
 import com.ttt.backend.exception.TokenRefreshException;
 import com.ttt.backend.exception.UserNotFoundException;
 import com.ttt.backend.model.entity.auth.RefreshToken;
+import com.ttt.backend.model.entity.auth.ResetPasswordToken;
 import com.ttt.backend.model.entity.auth.User;
 import com.ttt.backend.service.*;
 import jakarta.servlet.http.Cookie;
@@ -32,6 +35,7 @@ public class AuthenticationControllerImpl implements AuthenticationController {
     private final AuthenticationService authenticationService;
     private final RefreshTokenService refreshTokenService;
     private final ConfirmationTokenService confirmationTokenService;
+    private final ResetPasswordTokenService resetPasswordTokenService;
     private final UserService userService;
     private final EmailService emailService;
 
@@ -41,11 +45,12 @@ public class AuthenticationControllerImpl implements AuthenticationController {
     @Value("${security.refresh_jwt.expiration-time}")
     private long refreshTokenExpiration;
 
-    public AuthenticationControllerImpl(JwtService jwtService, AuthenticationService authenticationService, RefreshTokenService refreshTokenService, ConfirmationTokenService confirmationTokenService, UserService userService, EmailService emailService) {
+    public AuthenticationControllerImpl(JwtService jwtService, AuthenticationService authenticationService, RefreshTokenService refreshTokenService, ConfirmationTokenService confirmationTokenService, ResetPasswordTokenService resetPasswordTokenService, UserService userService, EmailService emailService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
         this.refreshTokenService = refreshTokenService;
         this.confirmationTokenService = confirmationTokenService;
+        this.resetPasswordTokenService = resetPasswordTokenService;
         this.userService = userService;
         this.emailService = emailService;
     }
@@ -56,7 +61,7 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         User registeredUser = authenticationService.signup(registerUserDto);
         ConfirmationToken confirmationToken = confirmationTokenService.createConfirmationToken(registeredUser);
         try {
-            emailService.sendEmailVerification(
+            emailService.sendEmail(
                     registeredUser.getEmail(),
                     "Account Verification",
                     registeredUser.getFullName(),
@@ -145,6 +150,38 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         } else {
             return new ResponseEntity<>("User is not authenticated", HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @Override
+    public ResponseEntity<?> resetPassword(ResetPasswordRequest resetPasswordRequest) {
+        return userService.getByEmail(resetPasswordRequest.getEmail()).map((user)-> {
+            if(user.getIsActive()){
+                ResetPasswordToken resetPasswordToken = resetPasswordTokenService.createResetPasswordToken(user);
+                try {
+                    emailService.sendEmail(
+                            resetPasswordRequest.getEmail(),
+                            "Reset Password",
+                            resetPasswordRequest.getEmail(),
+                            resetPasswordToken.getToken()
+                    );
+                    return new ResponseEntity<>(resetPasswordToken.getToken(), HttpStatus.OK);
+                } catch (IOException e) {
+                    return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+                }
+            }
+           else return new ResponseEntity<>("User is not activated!", HttpStatus.BAD_REQUEST);
+        })
+        .orElse(new ResponseEntity<>("User doesn't exist!", HttpStatus.BAD_REQUEST));
+    }
+
+    @Override
+    public ResponseEntity<?> changePasswordByReset(String token, ChangePasswordByEmailRequest changePasswordByEmailRequest) {
+        return resetPasswordTokenService.activateToken(token)
+                .map((resetPasswordToken) -> {
+                    authenticationService.resetPassword(changePasswordByEmailRequest, resetPasswordToken.getUser());
+                    return new ResponseEntity<>("Password has been changed!", HttpStatus.OK);
+                }
+            ).orElse(new ResponseEntity<>("Token doesn't exist!", HttpStatus.BAD_REQUEST));
     }
 
     @Override

@@ -13,13 +13,13 @@ import java.util.UUID;
 @Service
 public class ConfirmationTokenService {
 
-    @Autowired
-    private ConfirmationTokenRepository confirmationTokenRepository;
-
     @Value("${security.confirmation_token.expiration-time}")
     private Long confirmationTokenDurationMs;
+
     @Autowired
     private UserService userService;
+    @Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
 
 
     public ConfirmationToken createConfirmationToken(User user){

@@ -3,7 +3,9 @@ package com.ttt.backend.service;
 
 import com.ttt.backend.dto.RegisterUserDto;
 import com.ttt.backend.dto.LoginUserDto;
+import com.ttt.backend.dto.request.ChangePasswordByEmailRequest;
 import com.ttt.backend.dto.request.ChangePasswordRequest;
+import com.ttt.backend.model.entity.auth.ResetPasswordToken;
 import com.ttt.backend.model.enums.Role;
 import com.ttt.backend.model.entity.auth.User;
 import com.ttt.backend.repository.UserRepository;
@@ -59,7 +61,6 @@ public class AuthenticationService {
     }
 
     public void changePassword(ChangePasswordRequest changePasswordRequest, User user) {
-        System.out.println(changePasswordRequest);
         if(passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword()) &&
             changePasswordRequest.getNewPassword().equals(changePasswordRequest.getConfirmationNewPassword())){
             user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
@@ -68,4 +69,11 @@ public class AuthenticationService {
         else throw new RuntimeException("Bad credentials!");
     }
 
+    public void resetPassword(ChangePasswordByEmailRequest changePasswordByEmailRequest, User user) {
+        if(changePasswordByEmailRequest.getNewPassword().equals(changePasswordByEmailRequest.getConfirmationNewPassword())){
+            user.setPassword(passwordEncoder.encode(changePasswordByEmailRequest.getNewPassword()));
+            userRepository.save(user);
+        }
+        else throw new RuntimeException("Bad credentials!");
+    }
 }

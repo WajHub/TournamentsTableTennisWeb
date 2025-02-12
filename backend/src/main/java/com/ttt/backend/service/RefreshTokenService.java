@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,6 +40,8 @@ public class RefreshTokenService {
         refreshToken.setUser(userRepository.findById(userId).get());
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
         refreshToken.setToken(UUID.randomUUID().toString());
+        refreshToken.setCreatedAt(LocalDateTime.now());
+        refreshToken.setExpiresAt(LocalDateTime.now().plusMinutes((refreshTokenDurationMs)/(60*60)) );
 
         refreshToken = refreshTokenRepository.save(refreshToken);
         return refreshToken;

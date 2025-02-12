@@ -2,7 +2,9 @@ package com.ttt.backend.controller.authentication;
 
 import com.ttt.backend.dto.LoginUserDto;
 import com.ttt.backend.dto.RegisterUserDto;
+import com.ttt.backend.dto.request.ChangePasswordByEmailRequest;
 import com.ttt.backend.dto.request.ChangePasswordRequest;
+import com.ttt.backend.dto.request.ResetPasswordRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,6 +41,14 @@ public interface AuthenticationController {
     @PatchMapping("/new_password")
     @ResponseStatus(HttpStatus.OK)
     ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest);
+
+    @PostMapping("/reset_password")
+    @ResponseStatus(HttpStatus.OK)
+    ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest);
+
+    @PatchMapping("/reset_password/confirm")
+    @ResponseStatus(HttpStatus.OK)
+    ResponseEntity<?> changePasswordByReset(@RequestParam String token, @RequestBody ChangePasswordByEmailRequest changePasswordByEmailRequest);
 
     Cookie saveToken(String nameOfToken, String token, String Path, int expirationTime);
 }
