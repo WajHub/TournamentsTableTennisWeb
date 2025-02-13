@@ -63,6 +63,10 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonBackReference
+    private ResetPasswordToken resetPasswordToken;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonBackReference
     private RefreshToken refreshToken;
 
 

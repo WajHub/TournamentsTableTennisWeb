@@ -294,9 +294,30 @@ export const confirmEmail = (token) => {
 
 export const changePassword = (changePasswordRequest) => {
   try {
-     console.log(changePasswordRequest)
     return axios.patch(`http://localhost:8080/auth/new_password`,
         changePasswordRequest,
+        {withCredentials: true}
+    );
+  } catch(error) {
+    throw error;
+  }
+}
+
+export const resetPassword = (email) => {
+  try {
+    return axios.post(`http://localhost:8080/auth/reset_password`,
+        {email},
+        {withCredentials: true}
+    );
+  } catch(error) {
+    throw error;
+  }
+}
+
+export const resetPassword_confirm = (changePasswordByEmailRequest, token) => {
+  try {
+    return axios.patch(`http://localhost:8080/auth/reset_password/confirm?token=${token}`,
+        changePasswordByEmailRequest,
         {withCredentials: true}
     );
   } catch(error) {

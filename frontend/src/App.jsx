@@ -11,6 +11,7 @@ import Players from "./components/players/Players.jsx";
 import TournamentsInEventProvider from "./providers/TournamentsInEventProvider.jsx";
 import PageNotFound from "./components/pageNotFound/pageNotFound.jsx";
 import ConfirmEmail from "./components/confirmEmail/ConfirmEmail.jsx";
+import ResetPassword from "./components/resetPassword/ResetPassword.jsx";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             }
           ></Route>
           <Route exact path="/confirm_email" element={<ConfirmEmail />}></Route>
+          <Route exact path="/reset_password" element={<ResetPassword />}></Route>
           <Route exatc path="/*" element={<PageNotFound />}></Route>
         </Routes>
       </Router>

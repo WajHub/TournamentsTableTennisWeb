@@ -22,12 +22,12 @@ public class ResetPasswordTokenService {
     private ResetPasswordTokenRepository resetPasswordTokenRepository;
 
     public ResetPasswordToken createResetPasswordToken (User user){
-        ResetPasswordToken resetPasswordToken =  ResetPasswordToken.builder()
-                .user(user)
-                .token(UUID.randomUUID().toString())
-                .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusMinutes((tokenDurationMs)/(60*60)) )
-                .build();
+        ResetPasswordToken resetPasswordToken = resetPasswordTokenRepository.findByUser(user)
+                .orElse(new ResetPasswordToken());
+        resetPasswordToken.setUser(user);
+        resetPasswordToken.setToken(UUID.randomUUID().toString());
+        resetPasswordToken.setCreatedAt(LocalDateTime.now());
+        resetPasswordToken.setExpiresAt(LocalDateTime.now().plusMinutes((tokenDurationMs)/(60*60)));
         return resetPasswordTokenRepository.save(resetPasswordToken);
     }
 

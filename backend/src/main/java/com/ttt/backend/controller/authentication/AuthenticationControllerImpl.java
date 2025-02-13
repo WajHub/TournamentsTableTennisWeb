@@ -61,9 +61,8 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         User registeredUser = authenticationService.signup(registerUserDto);
         ConfirmationToken confirmationToken = confirmationTokenService.createConfirmationToken(registeredUser);
         try {
-            emailService.sendEmail(
+            emailService.sendConfirmationEmail(
                     registeredUser.getEmail(),
-                    "Account Verification",
                     registeredUser.getFullName(),
                     confirmationToken.getToken()
             );
@@ -158,9 +157,8 @@ public class AuthenticationControllerImpl implements AuthenticationController {
             if(user.getIsActive()){
                 ResetPasswordToken resetPasswordToken = resetPasswordTokenService.createResetPasswordToken(user);
                 try {
-                    emailService.sendEmail(
+                    emailService.sendResetPassword(
                             resetPasswordRequest.getEmail(),
-                            "Reset Password",
                             resetPasswordRequest.getEmail(),
                             resetPasswordToken.getToken()
                     );

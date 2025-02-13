@@ -1,6 +1,7 @@
 package com.ttt.backend.repository;
 
 import com.ttt.backend.model.entity.auth.ResetPasswordToken;
+import com.ttt.backend.model.entity.auth.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,6 @@ public interface ResetPasswordTokenRepository extends JpaRepository<ResetPasswor
     Optional<ResetPasswordToken> findByToken (String token);
 
     Optional<ResetPasswordToken> deleteByToken (String token);
+
+    Optional<ResetPasswordToken> findByUser(User user);
 }
