@@ -23,18 +23,20 @@ import java.util.Objects;
 @Service
 public class GameService {
     private final MapperStructImpl mapperStructImpl;
-    private GameRepository gameRepository;
-    private TournamentRepository tournamentRepository;
-    private PlayerRepository playerRepository;
-    private MapperStructImpl mapperStruct;
+    private final GameRepository gameRepository;
+    private final TournamentRepository tournamentRepository;
+    private final PlayerRepository playerRepository;
+    private final MapperStructImpl mapperStruct;
+    private final EmailService emailService;
 
     @Autowired
-    public GameService(GameRepository gameRepository, TournamentRepository tournamentRepository, PlayerRepository playerRepository , MapperStructImpl mapperStruct, MapperStructImpl mapperStructImpl) {
+    public GameService(GameRepository gameRepository, TournamentRepository tournamentRepository, PlayerRepository playerRepository , MapperStructImpl mapperStruct, MapperStructImpl mapperStructImpl, EmailService emailService) {
         this.gameRepository = gameRepository;
         this.tournamentRepository = tournamentRepository;
         this.playerRepository = playerRepository;
         this.mapperStruct = mapperStruct;
         this.mapperStructImpl = mapperStructImpl;
+        this.emailService = emailService;
     }
 
     public GameDtoResponse save(GameDtoRequest gameDtoRequest){
@@ -92,8 +94,8 @@ public class GameService {
                 .forEach(playerCategory -> playerCategory
                         .setPoints(playerCategory.getPoints()-(game.getRound()/10*2))
                 );
-
         gameRepository.save(game);
+        emailService.sendNotifications(game);
         return mapperStructImpl.tournamentToTournamentDto(game.getTournament());
     }
 

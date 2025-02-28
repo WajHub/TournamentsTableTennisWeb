@@ -1,5 +1,6 @@
 package com.ttt.backend.model.entity;
 
+import com.ttt.backend.model.entity.auth.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.apache.commons.lang3.builder.HashCodeExclude;
@@ -32,5 +33,13 @@ public class Event {
     @ToString.Exclude
     @HashCodeExclude
     private List<Tournament> tournaments;
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name= "event_user",
+            joinColumns = @JoinColumn(name= "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> users;
 
 }

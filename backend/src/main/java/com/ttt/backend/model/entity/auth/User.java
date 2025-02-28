@@ -1,6 +1,7 @@
 package com.ttt.backend.model.entity.auth;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ttt.backend.model.entity.Event;
 import com.ttt.backend.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -56,6 +57,10 @@ public class User implements UserDetails {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonBackReference
+    private List<Event> events;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonBackReference

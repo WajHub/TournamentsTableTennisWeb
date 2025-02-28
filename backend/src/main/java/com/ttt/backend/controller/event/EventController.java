@@ -28,4 +28,13 @@ public interface EventController {
     @DeleteMapping("/manage/events/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable Long id);
+
+    @PatchMapping("/users/notifications/{event_id}/subscribe")
+    @ResponseStatus(HttpStatus.OK)
+    EventDto subscribeToNotifications(@PathVariable Long event_id);
+
+    @PatchMapping("/users/notifications/{event_id}/unsubscribe")
+    @ResponseStatus(HttpStatus.OK)
+    EventDto unsubscribeToNotifications(@PathVariable Long event_id);
+
 }
