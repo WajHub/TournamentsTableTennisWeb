@@ -28,14 +28,18 @@ function Draw({ tournament }) {
   return (
       <TransformWrapper
           initialScale={1}
-          maxPositionY={2}
-          maxPositionX={2}
           minScale={0.5}
           maxScale={2}
+          centerZoomedOut={true}
+          limitToBounds={true}
+          centered={true}
       >
         <TransformComponent
-            wrapperStyle={{ maxHeight: `${finalHeight}px`, overflow: 'hidden' }}
-            contentStyle={{ maxHeight: '100%', overflowY: 'auto' }}
+            wrapperStyle={{
+              maxHeight: `${finalHeight}px`,
+              maxWidth: `${finalWidth}px`,
+              overflow: "hidden",
+            }}
         >
           <SingleEliminationBracket
               matches={matches}
@@ -43,10 +47,6 @@ function Draw({ tournament }) {
           />
         </TransformComponent>
       </TransformWrapper>
-
-
-
-
   );
 }
 

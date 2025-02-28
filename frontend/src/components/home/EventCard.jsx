@@ -1,16 +1,39 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import {isMod, useAuth} from "../../providers/AuthProvider.jsx";
 import {motion} from "framer-motion";
-import {deleteEvent} from "../../utils/api.js";
 import {Button} from "@mui/material";
+import {subscribe, unsubscribe} from "../../utils/api.js";
 
 
 function EventCard({ event, handleDelete, handleEdit }) {
 
   const { user } = useAuth();
 
+  const [isSubscribed, setSubscription] = useState(false);
+
+    useEffect(() => {
+        if (user && user.events) {
+            console.log(user.events);
+            const isEventSubscribed = user.events.some((eventItem) => eventItem.id === event.id);
+            setSubscription(isEventSubscribed);
+        }
+    }, [user])
+
+  const onClickInfo = () => {
+    if(isSubscribed) {
+        unsubscribe(event.id);
+        setSubscription(false);
+    }
+    else {
+        subscribe(event.id);
+        setSubscription(true)
+    }
+  }
+
   const MotionLink = motion.create(Link);
+
+
 
   return (
     <MotionLink
@@ -23,6 +46,19 @@ function EventCard({ event, handleDelete, handleEdit }) {
       }
     >
       <div className="card-body">
+          {user && (
+              <Button
+                  size="small"
+                  variant={isSubscribed ? "contained" : "outlined"}
+                  className="m-1 rounded-pill"
+                  onClick={(e) => {
+                      e.preventDefault();
+                      onClickInfo()
+                  }}
+              >
+                  <i className="bi bi-info-circle"></i>
+              </Button>
+          )}
         <h5 className="card-title">{event.name}</h5>
         <p className="card-text">
           <small className="text-muted">

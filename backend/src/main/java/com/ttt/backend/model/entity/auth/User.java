@@ -25,7 +25,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Setter
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 
@@ -59,7 +59,6 @@ public class User implements UserDetails {
     private Date updatedAt;
 
     @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JsonBackReference
     private List<Event> events;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)

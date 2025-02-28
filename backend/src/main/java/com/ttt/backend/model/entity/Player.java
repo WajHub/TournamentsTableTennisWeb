@@ -43,6 +43,7 @@ public class Player {
 
     @ManyToMany(mappedBy = "playerList", cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonBackReference
     private List<Tournament> tournamentList;
 
     public int getAge(){

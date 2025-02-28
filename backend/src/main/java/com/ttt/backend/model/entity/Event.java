@@ -1,5 +1,6 @@
 package com.ttt.backend.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ttt.backend.model.entity.auth.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,6 +41,8 @@ public class Event {
             joinColumns = @JoinColumn(name= "event_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @JsonBackReference
+    @ToString.Exclude
     private List<User> users;
 
 }

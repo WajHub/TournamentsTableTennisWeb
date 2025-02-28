@@ -325,5 +325,27 @@ export const resetPassword_confirm = (changePasswordByEmailRequest, token) => {
   }
 }
 
+export const subscribe = (idEvent) => {
+  try {
+    return axios.patch(`http://localhost:8080/api/users/notifications/${idEvent}/subscribe`,
+        {},
+        {withCredentials: true}
+    );
+  } catch(error) {
+    throw error;
+  }
+}
+
+export const unsubscribe = (idEvent) => {
+  try {
+    return axios.patch(`http://localhost:8080/api/users/notifications/${idEvent}/unsubscribe`,
+        {},
+        {withCredentials: true}
+    );
+  } catch(error) {
+    throw error;
+  }
+}
+
 
 

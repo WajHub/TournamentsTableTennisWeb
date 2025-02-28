@@ -1,5 +1,6 @@
 package com.ttt.backend.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ttt.backend.model.enums.TournamentType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +36,8 @@ public class Tournament {
 
     @ManyToOne
     @JoinColumn(name = "event_id")
+    @JsonBackReference
+    @ToString.Exclude
     private Event event;
 
     @Enumerated(EnumType.STRING)
@@ -51,9 +54,13 @@ public class Tournament {
             joinColumns = @JoinColumn(name = "tournament_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id")
     )
+    @JsonBackReference
+    @ToString.Exclude
     private List<Player> playerList;
 
     @OneToMany(mappedBy = "tournament", orphanRemoval = true)
+    @JsonBackReference
+    @ToString.Exclude
     private List<Game> games = new ArrayList<>();
 
 }

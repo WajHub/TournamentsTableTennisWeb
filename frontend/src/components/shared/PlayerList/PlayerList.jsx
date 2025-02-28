@@ -25,7 +25,7 @@ function PlayerList({
 
     const [pagination, setPagination] = useState({
         size: useWindowSize(),
-        numberOfElementsPerPage: 10,
+        numberOfElementsPerPage: 8,
         numberOfPages: 10,
         page: 1
     })
