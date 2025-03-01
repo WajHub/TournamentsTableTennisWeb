@@ -1,14 +1,9 @@
 import {
   SingleEliminationBracket,
-  DoubleEliminationBracket,
   Match,
-  SVGViewer,
 } from "react-tournament-brackets";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-
-import { getGamesInTournament } from "../../../utils/api.js";
 import { useWindowSize } from "@uidotdev/usehooks";
-import { useState, useEffect } from "react";
 
 function Draw({ tournament }) {
   const size = useWindowSize();

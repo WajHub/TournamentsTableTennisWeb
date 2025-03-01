@@ -40,6 +40,10 @@ function Event() {
     fetchData().then(r => {});
   }, []);
 
+    useEffect(() => {
+        // console.log(tournaments)
+    }, [tournaments]);
+
   useEffect(() =>{
     const channel = `/topic/events/${id}`
 

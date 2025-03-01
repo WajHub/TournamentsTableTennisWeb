@@ -70,8 +70,7 @@ public class TournamentService {
     public List<TournamentDto> findAllByIdEvent(Long id){
         return tournamentRepository
                 .findAllByEvent(eventRepository.findAllById(id))
-                    .stream().map((tournament -> (
-                        mapperStruct.tournamentToTournamentDto(tournament))
+                    .stream().map((mapperStruct::tournamentToTournamentDto
                     ))
                     .toList();
     }

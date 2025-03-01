@@ -66,11 +66,43 @@ public class GameService {
         Player looserPlayer = playerRepository.findById(gameResultRequest.idLoser()).get();
         game.setState(GameState.DONE);
 
-        game.setPointsHome(gameResultRequest.getPointsHome());
-        game.setPointsAway(gameResultRequest.getPointsAway());
+        Player playerHomeInGame = game.getPlayerHome();
+        Player playerAwayInGame = game.getPlayerAway();
 
-        game.setSetsHome(gameResultRequest.setsHome());
-        game.setSetsAway(gameResultRequest.setsAway());
+        game.setPointsHome(
+           (playerHomeInGame.getId().equals(gameResultRequest.getHomeId())
+                ?
+           gameResultRequest.getPointsHome()
+                :
+           gameResultRequest.getPointsAway()
+           )
+        );
+
+        game.setPointsAway(
+            (playerAwayInGame.getId().equals(gameResultRequest.getAwayId())
+                    ?
+                    gameResultRequest.getPointsAway()
+                    :
+                    gameResultRequest.getPointsHome()
+            )
+        );
+
+        game.setSetsHome(
+            (playerHomeInGame.getId().equals(gameResultRequest.getHomeId())
+                    ?
+                    gameResultRequest.setsHome()
+                    :
+                    gameResultRequest.setsAway()
+            )
+        );
+        game.setSetsAway(
+            (playerAwayInGame.getId().equals(gameResultRequest.getAwayId())
+                ?
+                gameResultRequest.setsAway()
+                :
+                gameResultRequest.setsHome()
+            )
+        );
 
         game.setPlayerWinner(winnerPlayer);
         if(game.getNextMatchId()!=null){
