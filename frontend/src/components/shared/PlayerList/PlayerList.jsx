@@ -91,13 +91,6 @@ function PlayerList({
         })
       }, [players]);
 
-    useEffect(()=>{
-        setPagination({
-            ...pagination,
-            numberOfPages: countNumberOfPages(filteredPlayers.length, pagination.numberOfElementsPerPage)
-        })
-    }, [useWindowSize().height])
-
   return (
     <div className="container">
       <div className="d-flex justify-content-center flex-wrap align-items-center">

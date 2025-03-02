@@ -55,8 +55,8 @@ function AuthProvider({ children }) {
           withCredentials: true,
         }
       );
-      const { username, email, role, fullName } = response.data.user;
-      setUser({ username, email, role, fullName });
+      const { username, email, role, fullName, events } = response.data.user;
+      setUser({ username, email, role, fullName, events });
       return {
         isCorrect: true,
         message: ""
