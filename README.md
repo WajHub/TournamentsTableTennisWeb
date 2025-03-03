@@ -1,6 +1,5 @@
 # TTT - Table Tennis Tournaments
 
-
 ## 
 1. [Preview](#preview)
 2. [Description](#description)
