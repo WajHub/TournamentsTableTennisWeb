@@ -1,6 +1,5 @@
 # TTT - Table Tennis Tournaments
 
----
 
 ## 
 1. [Preview](#preview)
@@ -15,18 +14,15 @@
 
 ## Preview
 
----
 [![Preview](https://img.youtube.com/vi/NyZq1Duw8SI/0.jpg)](https://www.youtube.com/watch?v=NyZq1Duw8SI)
 
 ## Description
 
----
 TTT is a web application that allows the creation of tournaments and players. Unauthorized users can follow live results through the use of WebSocket technology. Authorized users can subscribe to an event to get notifications of all game results in tournaments within the subscribed event. A moderator can manage (CRUD operations): players, events, and tournaments. Sending match results is thoroughly validated on the client side and server side. An administrator can manage other users (change permissions and delete accounts). Creating a player automatically assigns the appropriate age category. Tournaments are Single-Elimination (the application is designed in a way that allows further expansion with further tournament forms such as Double-Elimination and with different types of matches, such as doubles games). To seed players in tournament brackets, I used the algorithm of the "Serpentine System"(https://en.wikipedia.org/wiki/Serpentine_system). The players are ranked based on points in the proper category.
 
 
 ## Technologies
 
----
 
 ### Backend
 - **Spring Boot**: Framework for building Java applications.
@@ -59,7 +55,6 @@ TTT is a web application that allows the creation of tournaments and players. Un
 
 ## How to run
 
----
 
 1. **Navigate to the main directory**
     ```bash
@@ -112,7 +107,6 @@ Api: http://localhost:8080/swagger-ui.html
 
 ## Schema Database
 
----
 
 ![Schema](/SchemaDB.png)
  
