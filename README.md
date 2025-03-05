@@ -1,15 +1,6 @@
 # TTT - Table Tennis Tournaments
 
-## 
-1. [Preview](#preview)
-2. [Description](#description)
-3. [Technologies](#technologies)
-   - [Backend](#backend)
-   - [Frontend](#frontend)
-4. [Feature](#features)
-5. [How to run](#how-to-run)
-6. [Schema](#schema-database)
-
+Web app for managing table tennis tournaments, featuring real-time updates, user roles, CRUD operations and validation, built with Spring Boot and React.
 
 ## Preview
 
@@ -99,7 +90,7 @@ To get access default Admin account:
 - Email: `admin@admin.com`, 
 - Password: `admin`
 
-Application: http://localhost:3000/
+Client: http://localhost:3000/
 
 Api: http://localhost:8080/swagger-ui.html
 
