@@ -68,17 +68,11 @@ TTT is a web application that allows the creation of tournaments and players. Un
     JWT_SECRET_KEY=
     ```
 
-    -  How to get JWT_SECRET_KEY
   
-   Generate random 256-bit key
+   >  **How to get JWT_SECRET_KEY?** You can Generate random 256-bit key here: [Generator]( https://generate-random.org/encryption-key-generator?count=1&bytes=32&cipher=aes-256-cbc&string=&password=)
+   
+   >   **How to get SENDGRID_API_KEY?** You can Generate api key here: [SendGrid](https://sendgrid.com/en-us). [Tutorial](https://www.youtube.com/watch?v=Waty-a586hk)
 
-   https://generate-random.org/encryption-key-generator?count=1&bytes=32&cipher=aes-256-cbc&string=&password=    
-
-   - How to get SENDGRID_API_KEY
-
-   Generate api key in SendGrid (https://sendgrid.com/en-us)
-
-   https://www.youtube.com/watch?v=Waty-a586hk
 
 3. **Run docker**
 
