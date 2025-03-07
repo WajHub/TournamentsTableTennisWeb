@@ -22,12 +22,11 @@ services:
       dockerfile: Dockerfile
     env_file: ./.env
     volumes:
-    - ./backend/src:/app/src
+      - ./backend/src:/app/src
     ports:
       - "8080:8080"
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql  # Simplified to an array
     networks:
       - app-network
 
@@ -46,5 +45,6 @@ services:
 
 volumes:
   mysql-data:
+
 networks:
   app-network:
