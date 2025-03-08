@@ -43,7 +43,7 @@ TTT is a web application that allows the creation of tournaments and players. Un
 - Validation forms
 - Error handling
 
-## 🚀 How to run
+## 🚀 How to run (locally)
 
 
 1. **Navigate to the main directory**
@@ -51,7 +51,7 @@ TTT is a web application that allows the creation of tournaments and players. Un
     cd backend
     ```
 
-2. **Create .env file and complete content**
+2. **Create .env.dev file and complete content**
 
    - .env
    
@@ -77,7 +77,7 @@ TTT is a web application that allows the creation of tournaments and players. Un
 3. **Run docker**
 
     ```bash
-    docker-compose up --build
+    docker-compose -f docker-compose-dev.yml up --build
     ```
    
 To get access default Admin account:
