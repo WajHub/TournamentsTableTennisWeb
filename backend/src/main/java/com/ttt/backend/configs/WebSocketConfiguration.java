@@ -20,6 +20,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * We do not use @EnableWebSocketSecurity because CSRF is not configurable at the moment,
@@ -33,6 +34,9 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     private final ApplicationContext applicationContext;
 
     private final AuthorizationManager<Message<?>> authorizationManager;
+
+    @Value("${app.client.baseurl}")
+    private String clientBaseUrl;
 
     public WebSocketConfiguration(ApplicationContext applicationContext, AuthorizationManager<Message<?>> authorizationManager) {
         this.applicationContext = applicationContext;
@@ -61,6 +65,6 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:3000", "http://localhost");
+                .setAllowedOrigins("http://localhost:3000", "http://localhost", clientBaseUrl);
     }
 }

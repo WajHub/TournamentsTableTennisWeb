@@ -14,6 +14,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +25,9 @@ public class SecurityConfiguration {
     private static final String[] BLACK_LIST_MOD_URL = {"/api/manage/**"};
 
     private static final String[] BLACK_LIST_ADMIN_URL = {"/auth/admin_manage/**"};
+
+    @Value("${app.client.baseurl}")
+    private String clientBaseUrl;
 
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -59,7 +63,7 @@ public class SecurityConfiguration {
                 logout.logoutUrl("http://localhost:8080/auth/signout")
                     .invalidateHttpSession(true)
                     .clearAuthentication(true)
-                    .logoutSuccessUrl("http://localhost:3000")
+                    .logoutSuccessUrl(clientBaseUrl)
                     .permitAll());
         return http.build();
     }
@@ -68,7 +72,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost", clientBaseUrl));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
