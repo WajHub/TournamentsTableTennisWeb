@@ -8,6 +8,7 @@ services:
     env_file: .env.prod
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       retries: 10
