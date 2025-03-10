@@ -20,11 +20,12 @@ const AuthContext = createContext(
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     async function fetchUser() {
       try {
-        const response = await axios.get("http://localhost:8080/auth/details", {
+        const response = await axios.get(`${apiUrl}/auth/details`, {
           withCredentials: true,
         });
         const { username, email, role, fullName, events } = response.data;
@@ -49,7 +50,7 @@ function AuthProvider({ children }) {
   async function handleSignIn(dtoUser) {
     try {
       const response = await axios.post(
-        "http://localhost:8080/auth/signin",
+          `${apiUrl}/auth/signin`,
         dtoUser,
         {
           withCredentials: true,
@@ -74,7 +75,7 @@ function AuthProvider({ children }) {
     try {
       await axios
         .post(
-          "http://localhost:8080/auth/signout",
+            `${apiUrl}/auth/signout`,
           {},
           {
             withCredentials: true,

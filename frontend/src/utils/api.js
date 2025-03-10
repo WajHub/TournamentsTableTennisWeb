@@ -1,5 +1,5 @@
 import axios from "axios";
-const apiUrl = import.meta.env.VITE_API_URL;ć
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export const loadEvent = async (id) => {
   try {
