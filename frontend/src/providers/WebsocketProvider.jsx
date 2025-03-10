@@ -4,13 +4,14 @@ import {Client} from '@stomp/stompjs';
 const WebsocketContext = createContext(undefined);
 
 function WebsocketProvider({children}) {
+    const wsUrl = import.meta.env.VITE_WS_URL;
     let stompClient = useRef({});
     const subscriptionsRef = useRef([]);
 
 
     useEffect(() => {
         stompClient.current = new Client({
-            brokerURL: 'ws://localhost:8080/ws',
+            brokerURL: `${wsUrl}/ws`,
             reconnectDelay: 5000,
             onConnect: () => {
                 console.log('Connected to WebSocket!');

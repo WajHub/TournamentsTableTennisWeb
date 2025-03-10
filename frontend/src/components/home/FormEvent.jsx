@@ -8,7 +8,7 @@ import {updateEvent} from "../../utils/api.js";
 import {Button} from "@mui/material";
 
 function FormEvent({ setDisplay, updateSavedEvent, updateUpdatedEvent, eventToUpdate }) {
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   const initialValues = eventToUpdate===null ?
       {name: "", date: formatDate(new Date())}
       :
@@ -25,7 +25,7 @@ function FormEvent({ setDisplay, updateSavedEvent, updateUpdatedEvent, eventToUp
       if(eventToUpdate===null){
         await axios
             .post(
-                "http://localhost:8080/api/manage/events",
+                `${apiUrl}/api/manage/events`,
                 { name: values.name, date: values.date },
                 {
                   withCredentials: true,

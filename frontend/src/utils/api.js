@@ -1,8 +1,10 @@
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log("TEEEEST", import.meta.env)
 
 export const loadEvent = async (id) => {
   try {
-    const result = await axios.get(`http://localhost:8080/api/events/${id}`);
+    const result = await axios.get(`${apiUrl}/api/events/${id}`);
     return result.data;
   } catch (error) {
     console.error("Error loading event:", error);
@@ -12,7 +14,7 @@ export const loadEvent = async (id) => {
 
 export const loadEvents = async () => {
   try {
-    const result = await axios.get("http://localhost:8080/api/events");
+    const result = await axios.get(`${apiUrl}/api/events`);
     return result.data;
   } catch (error) {
     console.error("Error loading event:", error);
@@ -23,7 +25,7 @@ export const loadEvents = async () => {
 export const loadTournament = async (id) => {
   try {
     const result = await axios.get(
-        `http://localhost:8080/api/tournaments/${id}`
+        `${apiUrl}/api/tournaments/${id}`
     );
     return result.data;
   } catch (error) {
@@ -35,7 +37,7 @@ export const loadTournament = async (id) => {
 export const loadTournaments = async (id) => {
   try {
     const result = await axios.get(
-        `http://localhost:8080/api/events/${id}/tournaments`
+        `${apiUrl}/api/events/${id}/tournaments`
     );
     return result.data;
   } catch (error) {
@@ -57,7 +59,7 @@ export const submitTournament = async (values) => {
   try {
     return await axios
         .post(
-            "http://localhost:8080/api/manage/tournaments",
+            `${apiUrl}/api/manage/tournaments`,
             {
               name: values.name,
               category: values.category,
@@ -75,7 +77,7 @@ export const submitTournament = async (values) => {
 
 export const loadPlayers = async () => {
   try {
-    const result = await axios.get("http://localhost:8080/api/players");
+    const result = await axios.get(`${apiUrl}/api/players`);
     return result.data;
   } catch (error) {
     throw error;
@@ -85,7 +87,7 @@ export const loadPlayers = async () => {
 export const loadEligiblePlayers = async (id) => {
   try {
     const result = await axios.get(
-      `http://localhost:8080/api/tournaments/player/eligible/${id}`
+      `${apiUrl}/api/tournaments/player/eligible/${id}`
     );
     return result.data;
   } catch (error) {
@@ -96,7 +98,7 @@ export const loadEligiblePlayers = async (id) => {
 export const loadCategories = async () => {
   try {
     const result = await axios.get(
-        `http://localhost:8080/api/categories`
+        `${apiUrl}/api/categories`
     );
     return result.data;
   } catch (error) {
@@ -107,7 +109,7 @@ export const loadCategories = async () => {
 export const addPlayerToTournament = async (playerId, tournamentId) => {
   try {
     const result = await axios.patch(
-      `http://localhost:8080/api/manage/tournaments/${tournamentId}/players/${playerId}`,
+      `${apiUrl}/api/manage/tournaments/${tournamentId}/players/${playerId}`,
       {},
       {
         withCredentials: true,
@@ -122,7 +124,7 @@ export const addPlayerToTournament = async (playerId, tournamentId) => {
 export const startTournament = async (tournamentId) => {
   try {
     const result = axios.patch(
-      `http://localhost:8080/api/manage/tournaments/${tournamentId}/start`,
+      `${apiUrl}/api/manage/tournaments/${tournamentId}/start`,
       {},
       {
         withCredentials: true,
@@ -137,7 +139,7 @@ export const startTournament = async (tournamentId) => {
 export const getGamesInTournament = async (tournamentId) => {
   try {
     const result = await axios.get(
-      `http://localhost:8080/api/tournaments/${tournamentId}/games`
+      `${apiUrl}/api/tournaments/${tournamentId}/games`
     );
     return result;
   } catch (error) {
@@ -148,7 +150,7 @@ export const getGamesInTournament = async (tournamentId) => {
 export const loadScheduledMatches = async(tournamentId) => {
   try {
     return await axios.get(
-        `http://localhost:8080/api/tournaments/${tournamentId}/games?state=SCHEDULED`
+        `${apiUrl}/api/tournaments/${tournamentId}/games?state=SCHEDULED`
     );
   } catch (error) {
     throw error;
@@ -158,7 +160,7 @@ export const loadScheduledMatches = async(tournamentId) => {
 export const loadRunningMatches = async (tournamentId) =>{
   try {
     return await axios.get(
-        `http://localhost:8080/api/tournaments/${tournamentId}/games?state=RUNNING`
+        `${apiUrl}/api/tournaments/${tournamentId}/games?state=RUNNING`
     );
   } catch (error) {
     throw error;
@@ -168,7 +170,7 @@ export const loadRunningMatches = async (tournamentId) =>{
 export const setStateGame = async (gameId, state) => {
   try {
     return await axios.patch(
-        `http://localhost:8080/api/manage/games/${gameId}?state=${state}`,{},{
+        `${apiUrl}/api/manage/games/${gameId}?state=${state}`,{},{
           withCredentials: true
         }
     );
@@ -180,7 +182,7 @@ export const setStateGame = async (gameId, state) => {
 export const setResultGame = async(gameId, gameResultRequest) => {
   try {
     return await axios.patch(
-        `http://localhost:8080/api/manage/games/${gameId}/results`,gameResultRequest,{
+        `${apiUrl}/api/manage/games/${gameId}/results`,gameResultRequest,{
           withCredentials: true
         }
     );
@@ -193,7 +195,7 @@ export const updatePlayer = (idPlayer, playerDto) => {
   try {
     const result =  axios
         .patch(
-            `http://localhost:8080/api/manage/players/${idPlayer}`,
+            `${apiUrl}/api/manage/players/${idPlayer}`,
             playerDto,
             {withCredentials: true}
           );
@@ -206,7 +208,7 @@ export const updatePlayer = (idPlayer, playerDto) => {
 export const deletePlayer = (idPlayer) =>{
   try {
     const result =  axios
-        .delete(`http://localhost:8080/api/manage/players/${idPlayer}`, {
+        .delete(`${apiUrl}/api/manage/players/${idPlayer}`, {
           withCredentials: true,
         });
     return result;
@@ -219,7 +221,7 @@ export const updateEvent = async (idEvent, event) => {
   try{
     console.log(event)
     const result =
-        axios.patch(`http://localhost:8080/api/manage/events/${idEvent}`,
+        axios.patch(`${apiUrl}/api/manage/events/${idEvent}`,
             event,
             {withCredentials: true}
         )
@@ -230,7 +232,7 @@ export const updateEvent = async (idEvent, event) => {
 export const deleteEvent = (idEvent) => {
   try{
     const result =
-        axios.delete(`http://localhost:8080/api/manage/events/${idEvent}`,{
+        axios.delete(`${apiUrl}/api/manage/events/${idEvent}`,{
           withCredentials: true
         })
     return result
@@ -242,7 +244,7 @@ export const deleteEvent = (idEvent) => {
 export const loadUsers = () => {
   try{
     const result =
-        axios.get(`http://localhost:8080/api/admin_manage/users`,{
+        axios.get(`${apiUrl}/api/admin_manage/users`,{
           withCredentials: true
         })
     return result
@@ -253,7 +255,7 @@ export const loadUsers = () => {
 export const deleteUser = (idUser) => {
   try{
     const result =
-        axios.delete(`http://localhost:8080/api/admin_manage/users/${idUser}`,{
+        axios.delete(`${apiUrl}/api/admin_manage/users/${idUser}`,{
           withCredentials: true
         })
     return result
@@ -264,7 +266,7 @@ export const deleteUser = (idUser) => {
 export const editRole = (idUser, newRole) => {
   try{
     const result =
-        axios.patch(`http://localhost:8080/api/admin_manage/users/${idUser}/${newRole}`,
+        axios.patch(`${apiUrl}/api/admin_manage/users/${idUser}/${newRole}`,
             {withCredentials: true})
     return result
   }catch(error){
@@ -274,7 +276,7 @@ export const editRole = (idUser, newRole) => {
 // Auth
 export const refreshToken = () => {
   try {
-      axios.post(`http://localhost:8080/auth/refreshtoken`, {},{
+      axios.post(`${apiUrl}/auth/refreshtoken`, {},{
         withCredentials: true,
       }).then(r => {})
   } catch(error) {
@@ -284,7 +286,7 @@ export const refreshToken = () => {
 
 export const confirmEmail = (token) => {
   try {
-    return axios.post(`http://localhost:8080/auth/confirm_email?token=${token}`, {}, {
+    return axios.post(`${apiUrl}/auth/confirm_email?token=${token}`, {}, {
       withCredentials: true
     });
   } catch(error) {
@@ -294,7 +296,7 @@ export const confirmEmail = (token) => {
 
 export const changePassword = (changePasswordRequest) => {
   try {
-    return axios.patch(`http://localhost:8080/auth/new_password`,
+    return axios.patch(`${apiUrl}/auth/new_password`,
         changePasswordRequest,
         {withCredentials: true}
     );
@@ -305,7 +307,7 @@ export const changePassword = (changePasswordRequest) => {
 
 export const resetPassword = (email) => {
   try {
-    return axios.post(`http://localhost:8080/auth/reset_password`,
+    return axios.post(`${apiUrl}/auth/reset_password`,
         {email},
         {withCredentials: true}
     );
@@ -316,7 +318,7 @@ export const resetPassword = (email) => {
 
 export const resetPassword_confirm = (changePasswordByEmailRequest, token) => {
   try {
-    return axios.patch(`http://localhost:8080/auth/reset_password/confirm?token=${token}`,
+    return axios.patch(`${apiUrl}/auth/reset_password/confirm?token=${token}`,
         changePasswordByEmailRequest,
         {withCredentials: true}
     );
@@ -327,7 +329,7 @@ export const resetPassword_confirm = (changePasswordByEmailRequest, token) => {
 
 export const subscribe = (idEvent) => {
   try {
-    return axios.patch(`http://localhost:8080/api/users/notifications/${idEvent}/subscribe`,
+    return axios.patch(`${apiUrl}/api/users/notifications/${idEvent}/subscribe`,
         {},
         {withCredentials: true}
     );
@@ -338,7 +340,7 @@ export const subscribe = (idEvent) => {
 
 export const unsubscribe = (idEvent) => {
   try {
-    return axios.patch(`http://localhost:8080/api/users/notifications/${idEvent}/unsubscribe`,
+    return axios.patch(`${apiUrl}/api/users/notifications/${idEvent}/unsubscribe`,
         {},
         {withCredentials: true}
     );

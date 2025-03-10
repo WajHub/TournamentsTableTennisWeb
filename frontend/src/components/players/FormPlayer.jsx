@@ -8,7 +8,7 @@ import {updatePlayer} from "../../utils/api.js";
 import {Button} from "@mui/material";
 
 function FormPlayer({ setDisplay, updateData, playerToUpdate }) {
-
+    const apiUrl = import.meta.env.VITE_API_URL;
   const initialValues = playerToUpdate===null ?
       {
         firstname: "",
@@ -36,7 +36,7 @@ function FormPlayer({ setDisplay, updateData, playerToUpdate }) {
       if(playerToUpdate=== null) {
         await axios
             .post(
-                "http://localhost:8080/api/manage/players",
+                `${apiUrl}/api/manage/players`,
                 {
                   firstname: values.firstname,
                   lastname: values.lastname,

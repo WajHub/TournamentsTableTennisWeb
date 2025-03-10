@@ -6,7 +6,7 @@ import Input from "../shared/Input.jsx";
 import Message from "../shared/Message.jsx";
 
 const SignUpForm = () => {
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [message, setMessage] = useState({
     content: "",
     type: "",
@@ -32,7 +32,7 @@ const SignUpForm = () => {
   const onSubmit = async (values, { resetForm }) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/auth/signup",
+        `${apiUrl}/auth/signup`,
         values
       );
       if (response.status === 200) {

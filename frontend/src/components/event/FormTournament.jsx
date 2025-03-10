@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import {loadCategories} from "../../utils/api.js";
 import { Formik, Form, Field } from "formik";
 import Input from "../shared/Input.jsx";
 import * as Yup from "yup";
@@ -25,14 +25,13 @@ function FormTournament({ setDisplay }) {
   const {dispatch} = useContext(TournamentsContext)
 
   useEffect(() => {
-    loadCategories();
+    loadDataCategories();
   }, []);
 
-  const loadCategories = async (setFieldValue) => {
-    try {
-      const result = await axios.get(`http://localhost:8080/api/categories`);
-      setCategories(result.data);
-    } catch (err) {}
+  const loadDataCategories = () => {
+     loadCategories().then((r) =>{
+       setCategories(r);
+     });
   };
 
   const onSubmit = async (values) => {
