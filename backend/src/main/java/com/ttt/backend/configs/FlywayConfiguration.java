@@ -2,6 +2,7 @@ package com.ttt.backend.configs;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
@@ -10,7 +11,10 @@ import javax.sql.DataSource;
 public class FlywayConfiguration {
 
     @Autowired
-    public FlywayConfiguration(DataSource dataSource) {
-        Flyway.configure().baselineOnMigrate(true).dataSource(dataSource).load().migrate();
+    public FlywayConfiguration(DataSource dataSource,
+                               @Value("${migration.db.location}") String location) {
+        Flyway.configure()
+                .locations(location)
+                .baselineOnMigrate(true).dataSource(dataSource).load().migrate();
     }
 }

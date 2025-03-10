@@ -1,7 +1,5 @@
 INSERT INTO users (email, fullname, password, role, is_active)
-VALUES ('hubwaj7@gmail.com', 'WajHub', '$2a$12$XyObMPQaVXaBqzCI2kCe1uv9Bs5G6WGtdv7eSYr1uNhRU4ghLv3D2', 0, true);
-INSERT INTO users (email, fullname, password, role, is_active)
-VALUES ('test@test.com', 'test', '$2a$12$GT2s70BrrLLdCXIl3WsBx.NDbDx2aZUHeiPgjwPs3EKn0d45QHj7y', 2, true);
+VALUES ('hubwaj7@gmail.com', 'WajHub-Admin', '$2a$12$PQYIuKIjRNPTN5inJNfwOO0sRekUaoJwJpw.utBkk1mMasRdet9.e', 0, true);
 INSERT INTO categories (name, type, age_limit, gender)
 VALUES ('Senior - man', 'SINGLE', 999, 'MAN');
 INSERT INTO categories (name, type, age_limit, gender)
