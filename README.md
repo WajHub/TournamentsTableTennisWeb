@@ -2,6 +2,12 @@
 
 Web app for managing table tennis tournaments, featuring real-time updates, user roles, CRUD operations and validation, built with Spring Boot and React.
 
+🌐 LIVE Demo: http://141.144.247.230/
+
+Todo:
+- Change domain name
+- Add SSL certificate
+
 ## 🎥 Preview
 
 [![Preview](https://img.youtube.com/vi/NyZq1Duw8SI/0.jpg)](https://www.youtube.com/watch?v=NyZq1Duw8SI)
@@ -48,7 +54,7 @@ TTT is a web application that allows the creation of tournaments and players. Un
 
 1. **Navigate to the main directory**
     ```bash
-    cd backend
+    cd TournamentsTableTennisWeb
     ```
 
 2. **Create .env.dev file and complete content**
