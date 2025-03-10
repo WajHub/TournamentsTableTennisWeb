@@ -4,6 +4,8 @@ Web app for managing table tennis tournaments, featuring real-time updates, user
 
 🌐 LIVE Demo: http://141.144.247.230/
 
+   > **Note**: You do not have permissions to manage tournaments, if you want to see full use of the app, you can watch [Preview](#-preview) or run app locally [How to run](#-how-to-run-locally).
+
 Todo:
 - Change domain name
 - Add SSL certificate
