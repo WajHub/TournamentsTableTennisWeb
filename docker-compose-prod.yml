@@ -5,13 +5,14 @@ services:
     image: mysql:8.0
     ports:
       - "3306:3306"
-    env_file: ./.env
+    env_file: .env.production
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      retries: 10
-      interval: 3s
+      interval: 10s
+      retries: 20
       timeout: 30s
     networks:
       - app-network
@@ -20,9 +21,9 @@ services:
     build:
       context: "./backend"
       dockerfile: Dockerfile
-    env_file: ./.env
+    env_file: .env.production
     volumes:
-    - ./backend/src:/app/src
+      - ./backend/src:/app/src
     ports:
       - "8080:8080"
     depends_on:
@@ -34,17 +35,19 @@ services:
   frontend:
     build:
       context: "./frontend"
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
+      args:
+        - VITE_API_URL=http://141.144.247.230:8080
+        - VITE_WS_URL=ws://141.144.247.230:8080
     volumes:
       - ./frontend/src:/react-app/src
     ports:
-      - "3000:3000"
-    environment:
-      - FLASK_ENV=development
+      - "80:80"
     networks:
       - app-network
 
 volumes:
   mysql-data:
+
 networks:
   app-network:

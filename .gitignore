@@ -176,4 +176,5 @@ yarn-error.log
 *.flow.js
 *.tsbuildinfo
 
-.env
+.env.development
+.env.production

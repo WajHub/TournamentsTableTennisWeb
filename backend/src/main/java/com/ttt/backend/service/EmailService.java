@@ -15,11 +15,14 @@ public class EmailService {
     @Value("${security.sendgrid.api-key}")
     private String api_key;
 
+    @Value("${app.client.baseurl}")
+    private String baseUrl;
+
     private final Email emailFrom = new Email("amdministator.ttt@gmail.com");
 
     public void sendConfirmationEmail(String to, String userName, String token) throws IOException {
         Email emailTo = new Email(to);
-        String link = "http://localhost:3000/confirm_email?token=" + token;
+        String link = baseUrl+"/confirm_email?token=" + token;
         Content emailContent = new Content(
                 "text/html",
                 getTemplateToken(userName, link, "Confirm email"));
@@ -29,7 +32,7 @@ public class EmailService {
 
     public void sendResetPassword(String to, String userName, String token) throws IOException {
         Email emailTo = new Email(to);
-        String link = "http://localhost:3000/reset_password?token=" + token;
+        String link = baseUrl+"/reset_password?token=" + token;
         Content emailContent = new Content(
                 "text/html",
                 getTemplateToken(userName, link, "Reset Password"));

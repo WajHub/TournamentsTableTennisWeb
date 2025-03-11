@@ -13,7 +13,6 @@ function EventCard({ event, handleDelete, handleEdit }) {
   const [isSubscribed, setSubscription] = useState(false);
 
     useEffect(() => {
-        console.log("TESt", user)
         if (user && user.events) {
             console.log(user.events);
             const isEventSubscribed = user.events.some((eventItem) => eventItem.id === event.id);

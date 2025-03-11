@@ -87,7 +87,7 @@ function PlayerList({
         setFilteredPlayers(players);
         setPagination({
             ...pagination,
-            numberOfPages: countNumberOfPages(filteredPlayers.length, pagination.numberOfElementsPerPage)
+            numberOfPages: countNumberOfPages(players.length, pagination.numberOfElementsPerPage)
         })
       }, [players]);
 
