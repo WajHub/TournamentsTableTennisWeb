@@ -11,7 +11,7 @@ function WebsocketProvider({children}) {
 
     useEffect(() => {
         stompClient.current = new Client({
-            brokerURL: `${wsUrl}/ws`,
+            brokerURL: `${wsUrl}/api/ws`,
             reconnectDelay: 5000,
             onConnect: () => {
                 console.log('Connected to WebSocket!');

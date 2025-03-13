@@ -32,7 +32,7 @@ const SignUpForm = () => {
   const onSubmit = async (values, { resetForm }) => {
     try {
       const response = await axios.post(
-        `${apiUrl}/auth/signup`,
+        `${apiUrl}/api/auth/signup`,
         values
       );
       if (response.status === 200) {

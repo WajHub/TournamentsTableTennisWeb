@@ -25,7 +25,7 @@ function AuthProvider({ children }) {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const response = await axios.get(`${apiUrl}/auth/details`, {
+        const response = await axios.get(`${apiUrl}/api/auth/details`, {
           withCredentials: true,
         });
         const { username, email, role, fullName, events } = response.data;
@@ -50,7 +50,7 @@ function AuthProvider({ children }) {
   async function handleSignIn(dtoUser) {
     try {
       const response = await axios.post(
-          `${apiUrl}/auth/signin`,
+          `${apiUrl}/api/auth/signin`,
         dtoUser,
         {
           withCredentials: true,
@@ -75,7 +75,7 @@ function AuthProvider({ children }) {
     try {
       await axios
         .post(
-            `${apiUrl}/auth/signout`,
+            `${apiUrl}/api/auth/signout`,
           {},
           {
             withCredentials: true,

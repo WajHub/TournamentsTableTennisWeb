@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   mysql:
     image: mysql:8.0
     ports:
@@ -37,14 +38,17 @@ services:
       context: "./frontend"
       dockerfile: Dockerfile.prod
       args:
-        - VITE_API_URL=http://localhost:8080
-        - VITE_WS_URL=ws://localhost:8080
+        - VITE_API_URL=http://localhost:80
+        - VITE_WS_URL=ws://localhost:80
     volumes:
       - ./frontend/src:/react-app/src
     ports:
       - "80:80"
+    depends_on:
+      - backend
     networks:
       - app-network
+
 
 volumes:
   mysql-data:

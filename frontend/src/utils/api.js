@@ -275,7 +275,7 @@ export const editRole = (idUser, newRole) => {
 // Auth
 export const refreshToken = () => {
   try {
-      axios.post(`${apiUrl}/auth/refreshtoken`, {},{
+      axios.post(`${apiUrl}/api/auth/refreshtoken`, {},{
         withCredentials: true,
       }).then(r => {})
   } catch(error) {
@@ -285,7 +285,7 @@ export const refreshToken = () => {
 
 export const confirmEmail = (token) => {
   try {
-    return axios.post(`${apiUrl}/auth/confirm_email?token=${token}`, {}, {
+    return axios.post(`${apiUrl}/api/auth/confirm_email?token=${token}`, {}, {
       withCredentials: true
     });
   } catch(error) {
@@ -295,7 +295,7 @@ export const confirmEmail = (token) => {
 
 export const changePassword = (changePasswordRequest) => {
   try {
-    return axios.patch(`${apiUrl}/auth/new_password`,
+    return axios.patch(`${apiUrl}/api/auth/new_password`,
         changePasswordRequest,
         {withCredentials: true}
     );
@@ -306,7 +306,7 @@ export const changePassword = (changePasswordRequest) => {
 
 export const resetPassword = (email) => {
   try {
-    return axios.post(`${apiUrl}/auth/reset_password`,
+    return axios.post(`${apiUrl}/api/auth/reset_password`,
         {email},
         {withCredentials: true}
     );
@@ -317,7 +317,7 @@ export const resetPassword = (email) => {
 
 export const resetPassword_confirm = (changePasswordByEmailRequest, token) => {
   try {
-    return axios.patch(`${apiUrl}/auth/reset_password/confirm?token=${token}`,
+    return axios.patch(`${apiUrl}/api/auth/reset_password/confirm?token=${token}`,
         changePasswordByEmailRequest,
         {withCredentials: true}
     );

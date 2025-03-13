@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Optional;
 
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RestController
 public class AuthenticationControllerImpl implements AuthenticationController {
 
@@ -188,6 +188,7 @@ public class AuthenticationControllerImpl implements AuthenticationController {
         cookieToken.setHttpOnly(true);
         cookieToken.setPath(path);
         cookieToken.setMaxAge(expirationTime);
+        cookieToken.setSecure(true);
         return cookieToken;
     }
 }
