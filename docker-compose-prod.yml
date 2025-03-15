@@ -38,12 +38,13 @@ services:
       context: "./frontend"
       dockerfile: Dockerfile.prod
       args:
-        - VITE_API_URL=http://localhost:80
-        - VITE_WS_URL=ws://localhost:80
+        - VITE_API_URL=https://wajhub-ttt.online:443
+        - VITE_WS_URL=wss://wajhub-ttt.online:443
     volumes:
       - ./frontend/src:/react-app/src
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - backend
     networks:

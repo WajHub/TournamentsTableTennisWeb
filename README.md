@@ -2,11 +2,6 @@
 
 Web app for managing table tennis tournaments, featuring real-time updates, user roles, CRUD operations and validation, built with Spring Boot and React.
 
-🌐 LIVE Demo: https://wajhub-ttt.online/
-
-   > **Note**: You do not have permissions to manage tournaments, if you want to see full use of the app, you can watch [Preview](#-preview) or run app locally [How to run](#-how-to-run-locally).
-
-
 ## 🎥 Preview
 
 [![Preview](https://img.youtube.com/vi/NyZq1Duw8SI/0.jpg)](https://www.youtube.com/watch?v=NyZq1Duw8SI)
@@ -53,7 +48,7 @@ TTT is a web application that allows the creation of tournaments and players. Un
 
 1. **Navigate to the main directory**
     ```bash
-    cd TournamentsTableTennisWeb
+    cd backend
     ```
 
 2. **Create .env.dev file and complete content**
