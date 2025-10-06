@@ -30,6 +30,8 @@ services:
         condition: service_healthy
     networks:
       - app-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=development
 
   frontend:
     build:
