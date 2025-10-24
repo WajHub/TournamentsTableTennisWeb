@@ -1,9 +1,9 @@
-name: test
+name: build-backend
 
 on: [push]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -16,6 +16,11 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - run: mvn --batch-mode --update-snapshots  verify
+      - run: mkdir staging && cp target/*.jar staging
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Package
+          path: stagin g
 
 
 
