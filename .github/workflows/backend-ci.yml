@@ -19,8 +19,8 @@ jobs:
       - run: mkdir staging && cp target/*.jar staging
       - uses: actions/upload-artifact@v4
         with:
-          name: Package
-          path: staging
+          name: Backend-artifact
+          path: prod
 
 
 
