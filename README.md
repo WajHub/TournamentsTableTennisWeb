@@ -1,6 +1,5 @@
 # <img src="./icon.png" alt="Table Tennis Icon" width="30" /> TTT - Table Tennis Tournaments
 
-Web app for managing table tennis tournaments, featuring real-time updates, user roles, CRUD operations and validation, built with Spring Boot and React.
 
 🌐 LIVE Demo: https://wajhub-ttt.online/
 
