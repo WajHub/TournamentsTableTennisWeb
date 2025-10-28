@@ -1,8 +1,8 @@
-version: '3'
-
 services:
   mysql:
     image: mysql:8.0
+    container_name: ttt.mysql
+    restart: always
     ports:
       - "3306:3306"
     env_file: .env.production
@@ -19,9 +19,9 @@ services:
 
   backend:
     image: ghcr.io/wajhub/tournamentstabletennisweb/backend:latest
+    container_name: ttt.backend
+    restart: always
     env_file: .env.production
-    volumes:
-      - ./backend/src:/app/src
     ports:
       - "8080:8080"
     depends_on:
@@ -32,14 +32,14 @@ services:
 
   frontend:
     image: ghcr.io/wajhub/tournamentstabletennisweb/frontend:latest
-    volumes:
-      - ./frontend/src:/react-app/src
+    container_name: ttt.frontend
+    restart: always
     ports:
       - "80:80"
     depends_on:
       - backend
     networks:
-      - app-networ
+      - app-network
 
 volumes:
   mysql-data:
