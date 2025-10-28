@@ -2,8 +2,8 @@ name: Create and publish docker images
 
 on:
   push:
-    branches:
-      - "v**"
+#    branches:
+#      - "v**"
   workflow_run:
     workflows: ["build-backend", "build-frontend"]
     types:
