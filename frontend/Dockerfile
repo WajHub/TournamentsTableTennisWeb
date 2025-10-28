@@ -1,4 +1,5 @@
-FROM node:23-alpine
+# Stage 1
+FROM node:23-alpine AS build
 
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
@@ -16,4 +17,13 @@ COPY . /react-app/
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+RUN npm run build
+
+# Stage 2
+FROM nginx:1.27.2 AS ngi
+
+COPY --from=build /react-app/dist /usr/share/nginx/html
+
+COPY /nginx.conf  /etc/nginx/conf.d/default.conf
+
+EXPOSE 80

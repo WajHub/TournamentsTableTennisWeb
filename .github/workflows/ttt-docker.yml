@@ -2,14 +2,12 @@ name: Create and publish docker image
 
 on:
   push:
+    branches:
+      - "v**"
   workflow_run:
-    workflows: ["build-backend"]
+    workflows: ["build-backend", "build-frontend"]
     types:
       - completed
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: backend
 
 jobs:
   build-and-push-image:
@@ -18,12 +16,23 @@ jobs:
       contents: read
       packages: write
 
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        registry: [ghcr.io]
+        include:
+          - image-name: backend
+            context: ./backend/
+          - image-name: frontend
+            context: ./frontend/
+
     steps:
       - uses: actions/checkout@v4
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ matrix.registry }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -31,7 +40,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
+          images: ${{ matrix.registry }}/${{ github.repository }}/${{ matrix.image-name }}
           tags: |
             type=ref,event=branch
             type=sha
@@ -39,8 +48,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./backend/
-          file: ./backend/Dockerfile
+          context: ${{matrix.context}}
+          file: ${{matrix.context}}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
