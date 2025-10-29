@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: ttt.mysql
+    container_name: mysql
     restart: always
     ports:
       - "3306:3306"
@@ -19,7 +19,7 @@ services:
 
   backend:
     image: ghcr.io/wajhub/tournamentstabletennisweb/backend:latest
-    container_name: ttt.backend
+    container_name: backend
     restart: always
     env_file: .env.production
     ports:
@@ -32,7 +32,7 @@ services:
 
   frontend:
     image: ghcr.io/wajhub/tournamentstabletennisweb/frontend:latest
-    container_name: ttt.frontend
+    container_name: frontend
     restart: always
     ports:
       - "80:80"
