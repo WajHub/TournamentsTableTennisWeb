@@ -178,3 +178,5 @@ yarn-error.log
 
 .env.development
 .env.production
+
+!frontend/.env.production

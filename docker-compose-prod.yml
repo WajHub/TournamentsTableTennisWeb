@@ -1,9 +1,8 @@
-version: '3'
-
 services:
-
   mysql:
     image: mysql:8.0
+    container_name: mysql
+    restart: always
     ports:
       - "3306:3306"
     env_file: .env.production
@@ -19,12 +18,10 @@ services:
       - app-network
 
   backend:
-    build:
-      context: "./backend"
-      dockerfile: Dockerfile
+    image: ghcr.io/wajhub/tournamentstabletennisweb/backend:latest
+    container_name: backend
+    restart: always
     env_file: .env.production
-    volumes:
-      - ./backend/src:/app/src
     ports:
       - "8080:8080"
     depends_on:
@@ -34,14 +31,9 @@ services:
       - app-network
 
   frontend:
-    build:
-      context: "./frontend"
-      dockerfile: frontend/Dockerfile.dev
-      args:
-        - VITE_API_URL=http://localhost:80
-        - VITE_WS_URL=ws://localhost:80
-    volumes:
-      - ./frontend/src:/react-app/src
+    image: ghcr.io/wajhub/tournamentstabletennisweb/frontend:latest
+    container_name: frontend
+    restart: always
     ports:
       - "80:80"
     depends_on:
@@ -49,9 +41,7 @@ services:
     networks:
       - app-network
 
-
 volumes:
   mysql-data:
-
 networks:
   app-network:

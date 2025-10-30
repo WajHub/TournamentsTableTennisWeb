@@ -1,4 +1,4 @@
-name: Create and publish docker image
+name: Create and publish docker images
 
 on:
   push:
@@ -18,13 +18,13 @@ jobs:
 
     strategy:
       fail-fast: true
-      max-parallel: 2
       matrix:
-        registry: [ghcr.io]
         include:
-          - image-name: backend
+          - registry: ghcr.io
+            image-name: backend
             context: ./backend/
-          - image-name: frontend
+          - registry: ghcr.io
+            image-name: frontend
             context: ./frontend/
 
     steps:
@@ -42,7 +42,7 @@ jobs:
         with:
           images: ${{ matrix.registry }}/${{ github.repository }}/${{ matrix.image-name }}
           tags: |
-            type=ref,event=branch
+            type=raw,value=latest
             type=sha
 
       - name: Build and push Docker image
@@ -53,3 +53,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+  deploy:
+    needs: [build-and-push-image]
+    uses: ./.github/workflows/ttt-deploy.yml
+    secrets: inherit
+

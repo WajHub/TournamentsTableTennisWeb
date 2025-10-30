@@ -1,11 +1,7 @@
 # Stage 1
 FROM node:23-alpine AS build
 
-ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
-
-ARG VITE_WS_URL
-ENV VITE_WS_URL=$VITE_WS_URL
+ENV VITE_MODE=production
 
 WORKDIR /react-app/
 

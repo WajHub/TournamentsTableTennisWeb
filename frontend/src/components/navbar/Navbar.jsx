@@ -33,7 +33,7 @@ function Navbar() {
     }, [useLocation().pathname]);
 
   return (
-      <motion.nav className=" navbar-light bg-light p-2c d-flex flex-wrap justify-content-between p-2 position-sticky sticky-top"
+      <motion.nav className="navbar-light bg-light p-2c d-flex flex-wrap justify-content-between p-2 position-sticky sticky-top"
         initial={{y: -50}} animate={{y:0}}
       >
           <NavItems navigationItems={navigation.slice(0,2)} />
